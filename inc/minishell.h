@@ -22,5 +22,5 @@ typedef struct s_mini
 	char	**newenvp;
 }		t_mini;
 
-
+int	ft_strcmp(char *str1, char *str2);
 #endif

@@ -52,6 +52,48 @@ char	*ft_add(char **newenvp, char *ag)
 	}
 	return (free(str),free(args), NULL);
 }
+// char	**withoutquotes(char *str)
+// {
+// 	int		i;
+// 	char	**newstr;
+
+// 	i = 0;
+// 	newstr = (char *)malloc((ft_strlen(str) - 1) * sizeof(char));
+// 	while(str[i])
+// 	{
+// 		if(str[i] == '"')
+// 			i++;
+// 		else
+// 		newstr[i] = str[i];
+// 		i++;
+// 	}
+// 	newstr[i] = '\0';
+// 	return (newstr);
+// }
+int	ft_strcmp(char *str1, char *str2)
+{
+	int	i;
+
+	i = 0;
+	while (str1[i] || str2[i])
+	{
+		if (str1[i] == str2[i])
+			i++;
+		else
+			return (str1[i] - str2[i]);
+	}
+	return (0);
+}
+void	get_commands(char *args)
+{
+	char *home_dir;
+	home_dir = getenv("HOME");
+	if (args == NULL)
+		chdir(home_dir);
+	else
+		if(chdir(args))
+			printf("error with cd\n");
+}
 
 void	get_wd( t_mini *mini, char *str)
 {
@@ -59,24 +101,35 @@ void	get_wd( t_mini *mini, char *str)
 	char	**args;
 
 	args = ft_split(str, ' ');
-	fo = fork();
-	if (fo == 0)
+	if(ft_strcmp(args[0], "cd") == 0)
+		get_commands(args[1]);
+	else if (ft_strcmp(args[0], "exit") == 0)
 	{
-		if (!mini->cmd)
-			print(COMMAND_NOT_FOUND, args[0]);
-		if (execve(mini->cmd, args, mini->newenvp) == -1)
-			exit(2);
+        free(args);
+        exit(0);
 	}
 	else
-		waitpid(-1, NULL, 0);
+	{
+		fo = fork();
+		if (fo == 0)
+		{
+			if (!mini->cmd)
+				print(COMMAND_NOT_FOUND, args[0]);
+			if (execve(mini->cmd, args, mini->newenvp) == -1)
+				exit(2);
+		}
+		else
+			waitpid(-1, NULL, 0);
+	}
 }
 
 char	**get_newenvp(char **envp)
 {
 	char	**newenvp;
-	auto int	i = 0;
+	int		i;
 	int		j;
 
+	i = 0;
 	while(envp[i])
 		i++;
 	newenvp = (char **)malloc((i + 1) * sizeof(char *));
@@ -96,24 +149,27 @@ char	**get_newenvp(char **envp)
 		newenvp[i][j] = '\0';
 		i++;
 	}
-	newenvp[i] = NULL;
-	return (newenvp);
+	return (newenvp[i] = NULL, newenvp);
 }
 
 int	main(int ac, char **av, char **envp)
 {
 	t_mini	mini;
 	char	*str;
+
 	mini.newenvp = get_newenvp(envp);
 	(void)av;
 	if (ac >= 2)
 		return (ft_printf("pls do not use arguments :(\n"));
 	while (1)
 	{
-		str = readline("minishell ");
-		add_history(str);
-		mini.cmd = ft_add(mini.newenvp, str);
-		get_wd(&mini, str);
+		str = readline("\033[0;34mminishell \033[0m");
+		if (str[0])
+		{
+			add_history(str);
+			mini.cmd = ft_add(mini.newenvp, str);
+			get_wd(&mini, str);
+		}
 		free(str);
 	}
 }
