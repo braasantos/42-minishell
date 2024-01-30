@@ -52,24 +52,7 @@ char	*ft_add(char **newenvp, char *ag)
 	}
 	return (free(str),free(args), NULL);
 }
-// char	**withoutquotes(char *str)
-// {
-// 	int		i;
-// 	char	**newstr;
 
-// 	i = 0;
-// 	newstr = (char *)malloc((ft_strlen(str) - 1) * sizeof(char));
-// 	while(str[i])
-// 	{
-// 		if(str[i] == '"')
-// 			i++;
-// 		else
-// 		newstr[i] = str[i];
-// 		i++;
-// 	}
-// 	newstr[i] = '\0';
-// 	return (newstr);
-// }
 int	ft_strcmp(char *str1, char *str2)
 {
 	int	i;
@@ -99,7 +82,6 @@ void	get_wd( t_mini *mini, char *str)
 {
 	pid_t	fo;
 	char	**args;
-
 	args = ft_split(str, ' ');
 	if(ft_strcmp(args[0], "cd") == 0)
 		get_commands(args[1]);
