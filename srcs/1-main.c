@@ -28,7 +28,6 @@ char	**get_path(char **newenv)
 	return (newstr);
 }
 
-
 char	*ft_add(char **newenvp, char *ag)
 {
 	char	*cmd1;
@@ -118,12 +117,13 @@ void	new_string(char *str, t_mini *mini)
 	}
 	else
 		mini->new_str = ft_strdup(str);
-		
 }
 void get_wd(t_mini *mini, char *str)
 {
 	new_string(str, mini);
     mini->args = ft_split(mini->new_str, ' ');
+	if (mini->args[0]== NULL)
+		return ;
     if (ft_strchr(mini->args[0], '/'))
         mini->cmd = ft_strdup(mini->args[0]);
     else
@@ -176,14 +176,14 @@ char	**get_newenvp(char **envp)
 	}
 	return (newenvp[i] = NULL, newenvp);
 }
-int	main(int ac, char **av, char **envp)
+int	main(int ac, char **av)
 {
 	t_mini	mini;
 	char	*str;
+	extern char **environ;
 
-	mini.newenvp = get_newenvp(envp);
-	(void)av;
-	if (ac >= 2)
+	mini.newenvp = get_newenvp(environ);
+	if (ac >= 2 && av)
 		return (ft_printf("pls do not use arguments :(\n"));
 	while (1)
 	{
