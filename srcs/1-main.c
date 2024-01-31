@@ -27,6 +27,8 @@ char	**get_path(char **newenv)
 	free(str);
 	return (newstr);
 }
+
+
 char	*ft_add(char **newenvp, char *ag)
 {
 	char	*cmd1;
@@ -78,32 +80,73 @@ void	get_commands(char *args)
 			printf("error with cd\n");
 }
 
-void	get_wd( t_mini *mini, char *str)
+int	check_args(char *str)
 {
-	pid_t	fo;
-	char	**args;
-	args = ft_split(str, ' ');
-	if(ft_strcmp(args[0], "cd") == 0)
-		get_commands(args[1]);
-	else if (ft_strcmp(args[0], "exit") == 0)
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
 	{
-        free(args);
-        exit(0);
+		if (str[i] == '\'' || str[i] == '\"')
+			j++;
+		i++;
+	}
+	if (j >= 1)
+		return (1);
+	else
+		return (0);
+}
+void	new_string(char *str, t_mini *mini)
+{
+	int	i;
+	int	j;
+
+	mini->new_str = ft_calloc((ft_strlen(str) - 1), sizeof(char));
+	i = 0;
+	j = 0;
+	if(check_args(str) == 1)
+	{
+		while (str[i])
+		{
+			if (str[i] != '\'' && str[i] != '\"')
+				mini->new_str[j++] = str[i];
+			i++;
+		}
+		mini->new_str[j] = '\0';
 	}
 	else
-	{
-		fo = fork();
-		if (fo == 0)
-		{
-			if (!mini->cmd)
-				print(COMMAND_NOT_FOUND, args[0]);
-			if (execve(mini->cmd, args, mini->newenvp) == -1)
-				exit(2);
-		}
-		else
-			waitpid(-1, NULL, 0);
-	}
+		mini->new_str = ft_strdup(str);
+		
 }
+void get_wd(t_mini *mini, char *str)
+{
+	new_string(str, mini);
+    mini->args = ft_split(mini->new_str, ' ');
+    if (ft_strchr(mini->args[0], '/'))
+        mini->cmd = ft_strdup(mini->args[0]);
+    else
+        mini->cmd = ft_add(mini->newenvp, mini->new_str);
+    if (ft_strcmp(mini->args[0], "cd") == 0)
+        get_commands(mini->args[1]);
+	else if (ft_strcmp(mini->args[0], "exit") == 0) 
+		  exit(0);
+	else
+	{
+        mini->newpro = fork();
+        if (mini->newpro == 0)
+		{
+            if (!mini->cmd)
+                print(COMMAND_NOT_FOUND, mini->args[0]);
+            if (execve(mini->cmd, mini->args, mini->newenvp) == -1)
+                exit(EXIT_FAILURE);
+		}
+        else
+            waitpid(-1, NULL, 0);
+    }
+}
+
 
 char	**get_newenvp(char **envp)
 {
@@ -133,7 +176,6 @@ char	**get_newenvp(char **envp)
 	}
 	return (newenvp[i] = NULL, newenvp);
 }
-
 int	main(int ac, char **av, char **envp)
 {
 	t_mini	mini;
@@ -149,7 +191,6 @@ int	main(int ac, char **av, char **envp)
 		if (str[0])
 		{
 			add_history(str);
-			mini.cmd = ft_add(mini.newenvp, str);
 			get_wd(&mini, str);
 		}
 		free(str);

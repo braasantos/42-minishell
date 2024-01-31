@@ -20,6 +20,9 @@ typedef struct s_mini
 {
 	char	*cmd;
 	char	**newenvp;
+	char	**args;
+	pid_t	newpro;
+	char	*new_str;
 }		t_mini;
 
 int	ft_strcmp(char *str1, char *str2);
