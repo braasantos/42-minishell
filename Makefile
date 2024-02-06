@@ -31,4 +31,9 @@ fclean: clean
 	$(MAKE) -C includes/LIBFT fclean
 
 re: fclean all
+
+leak: all
+	valgrind --leak-check=full --show-leak-kinds=all \
+		--suppressions=readline_leaks ./$(NAME)
+
 .PHONY: all clean fclean re
