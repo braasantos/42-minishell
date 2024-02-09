@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pabernar <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 13:54:36 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/01 15:29:24 by pabernar         ###   ########.fr       */
+/*   Updated: 2024/02/06 13:33:20 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "../inc/minishell.h"
+
 
 void	ft_handle_eof(void)
 {
 	rl_replace_line("exit", 0);
 	rl_redisplay();
 	printf("\n");
-	ft_exit();
+	exit(0);
 }
 
 void	ft_handle_sigint(int sig)
