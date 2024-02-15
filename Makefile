@@ -1,5 +1,5 @@
 NAME = minishell
-SRCS = srcs/1-main.c srcs/2-parsing.c srcs/3-utils.c srcs/signal_handlers.c srcs/signal.c
+SRCS = srcs/1-main.c srcs/2-parsing.c srcs/3-utils.c srcs/signal_handlers.c srcs/signal.c srcs/builtins.c
 HEADER = ../inc/minishell.h
 LIBFTDIR = includes/LIBFT/libft.a
 CC = cc

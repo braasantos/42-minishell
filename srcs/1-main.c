@@ -8,22 +8,6 @@ void print(t_op op, char *ag)
 		ft_printf("%s: command not found\n", ag);
 }
 
-void get_cd(char *args, t_mini *mini)
-{
-	char *home_dir;
-
-	home_dir = getenv("HOME");
-	if (args == NULL || ft_strcmp(args, "~") == 0)
-		chdir(home_dir);
-	else if (args[0] == '$')
-		chdir(getenv(args + 1));
-	else if (chdir(args))
-	{
-		printf("error with cd\n");
-		ft_exit(mini);
-	}
-}
-
 int check_args(char *str)
 {
 	int i;
@@ -53,7 +37,6 @@ void	init_all(t_mini *mini)
 int main(int ac, char **av)
 {
 	t_mini mini;
-	// char *str;
 	extern char **environ;
 
 	init_all(&mini);

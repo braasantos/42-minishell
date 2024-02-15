@@ -27,6 +27,7 @@ typedef struct s_mini
 	char **newenvp;
 	char **args;
 	pid_t newpro;
+	pid_t child1;
 	pid_t child2; // new_process - for the fork
 	char *new_str;
 	int end[2];
@@ -51,11 +52,12 @@ void ft_exit(t_mini *mini);
 // void ft_close1(t_mini *mini);
 // void ft_close2(t_mini *mini);
 // void ft_closefinal(t_mini *mini);
-void first_c(t_mini *mini);
-void second_c(t_mini *mini);
+void second_c(t_mini *mini, int i, int count);
 void ft_child1(t_mini *mini);
 void ft_child2(t_mini *mini);
 int exec_pipes(t_mini *mini);
 void put_cmd(t_mini *mini);
+void builtins(t_mini *mini);
+void get_cd(char *args, t_mini *mini);
 
 #endif
