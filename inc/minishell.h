@@ -31,11 +31,13 @@ typedef struct s_mini
 	pid_t child2; // new_process - for the fork
 	char *new_str;
 	int end[2];
+	int	fd1;
+	int	fd0;
 } t_mini;
 
 int ft_strcmp(char *str1, char *str2);
 void parsing(t_mini *mini);
-// void new_string(char *str, t_mini *mini);
+void new_string(char *str, t_mini *mini);
 void print(t_op op, char *ag);
 void get_cd(char *args, t_mini *mini);
 int check_args(char *str);
@@ -57,7 +59,13 @@ void ft_child1(t_mini *mini);
 void ft_child2(t_mini *mini);
 int exec_pipes(t_mini *mini);
 void put_cmd(t_mini *mini);
-void builtins(t_mini *mini);
+int builtins(t_mini *mini);
 void get_cd(char *args, t_mini *mini);
-
+int	redirect_cmd(t_mini *mini);
+int execute_rd_one(t_mini *mini);
+int check_commands(t_mini *mini);
+int count_pipes(t_mini *mini);
+int str_len(char **str);
+int check_red(t_mini *mini);
+void	close_fd(int fd);
 #endif

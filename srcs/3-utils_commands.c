@@ -29,7 +29,7 @@ void put_cmd(t_mini *mini)
 	int i;
 	int j;
 
-	args = ft_split(mini->str, ' ');
+	args = ft_split(mini->new_str, ' ');
 	j = 0;
 	while (args[j])
 		j++;
@@ -70,44 +70,31 @@ char **get_path(char **newenv)
 	return (newstr);
 }
 
-int ft_strcmp(char *str1, char *str2)
-{
-	int i;
 
-	i = 0;
-	while (str1[i] || str2[i])
-	{
-		if (str1[i] == str2[i])
-			i++;
-		else
-			return (str1[i] - str2[i]);
-	}
-	return (0);
-}
 /*
 Faz uma copia da str devolvida pela readline
 */
-// void new_string(char *str, t_mini *mini)
-// {
-// 	int i;
-// 	int j;
+void new_string(char *str, t_mini *mini)
+{
+	int i;
+	int j;
 
-// 	mini->new_str = ft_calloc((ft_strlen(str) - 1), sizeof(char));
-// 	i = 0;
-// 	j = 0;
-// 	if (check_args(str) == 1)
-// 	{
-// 		while (str[i])
-// 		{
-// 			if (str[i] != '\'' && str[i] != '\"')
-// 				mini->new_str[j++] = str[i];
-// 			i++;
-// 		}
-// 		mini->new_str[j] = '\0';
-// 	}
-// 	else
-// 		mini->new_str = ft_strdup(str);
-// }
+	mini->new_str = ft_calloc((ft_strlen(str) + 1), sizeof(char));
+	i = 0;
+	j = 0;
+	if (check_args(str) == 1)
+	{
+		while (str[i])
+		{
+			if (str[i] != '\'' && str[i] != '\"')
+				mini->new_str[j++] = str[i];
+			i++;
+		}
+		mini->new_str[j] = '\0';
+	}
+	else
+		mini->new_str = ft_strdup(str);
+}
 
 /*
  * Function to copy the envp
