@@ -21,89 +21,117 @@ typedef enum e_op
 
 typedef struct s_mini
 {
-	char *path_to_cmd;
-	char **exec_args;
-	char **cmd1;
+	char *path_to_cmd; // for execve
+	char **exec_args;  // for execve
+	char **cmd1;	   // all the commands
 	char *cmd;
-	char *str;
 	char **newenvp;
-	char **args;
+	char **args; // all the args
 	pid_t newpro;
-	pid_t child1;
-	pid_t child2; // new_process - for the fork
 	char *new_str;
 	int end[2];
 	int fd1;
 	int fd0;
+	int STDOUT;
+	int flag;
 } t_mini;
 
-int ft_strcmp(char *str1, char *str2);
-void parsing(t_mini *mini, char *str);
-// void new_string(char *str, t_mini *mini);
-void print(t_op op, char *ag);
-int get_cd(t_mini *mini);
-int check_args(char *str);
-char **get_newenvp(char **envp);
-char **get_path(char **newenv);
-char *ft_add(t_mini *mini, char *ag);
-void ft_handle_sigint(int sig);
-void ft_handle_sigint_ign(int sig);
-void ft_handle_sigquit(int sig);
-void ft_restore_signals(void);
-void ft_ignore_signals(void);
-void ft_init_signals(void);
-void ft_exit(t_mini *mini);
-// void ft_close1(t_mini *mini);
-// void ft_close2(t_mini *mini);
-// void ft_closefinal(t_mini *mini);
-void second_c(t_mini *mini);
-void ft_child1(t_mini *mini);
-void ft_child2(t_mini *mini);
-int exec_pipes(t_mini *mini);
-void put_cmd(t_mini *mini, char *str);
-int builtins(t_mini *mini);
-int redirect_cmd(t_mini *mini);
-int execute_rd_one(t_mini *mini);
-int check_commands(t_mini *mini);
-int count_pipes(t_mini *mini);
+/* ************************************************************************** */
+/*			                    builtins	                   				   */
+/* ************************************************************************** */
 int str_len(char **str);
-int check_red(t_mini *mini);
-// void close_fd(int fd);
-int ft_check_open_quotes(char *str);
-int redirect_basic_check(char *str);
-int quotes_open(char *str, int target_index);
-int pipe_check(char *str);
-int padding_needed(char *str, int i, int pad);
-int find_char(char c, char *find);
-char *pad_central(char *str);
-void pad(char *src, char *dest, int i, int j);
-
-int ft_strstartswith(char *s1, char *s2);
-// char *get_env(char *var, t_mini *mini);
-// char *parse_home_path(char *path, int reverse_parse, t_mini *mini);
-// void print_pth(char *path, t_mini *mini);
-void change_dir(char *path, t_mini *mini);
-char *ft_pathjoin(char *p1, char *p2);
-int ft_strendswith(char *s1, char *s2);
-void set_env_var(char *key, char *value, t_mini *mini);
-char **realloc_envv(int new_size, t_mini *mini);
+int have_redirect(t_mini *mini);
+int builtins(t_mini *mini);
 int find_env_var(char *var, t_mini *mini);
-
-int echo_cmd(char **args);
-int ft_check_echo_arguments(char *args);
+char **realloc_envv(int new_size, t_mini *mini);
+void set_env_var(char *key, char *value, t_mini *mini);
+int ft_strendswith(char *s1, char *s2);
+char *ft_pathjoin(char *p1, char *p2);
+char *get_env(char *var, t_mini *mini);
+void change_dir(char *path, t_mini *mini);
+int get_cd(t_mini *mini);
+int ft_strstartswith(char *s1, char *s2);
+int echo_cmd(char **tokens);
+int ft_check_echo_arguments(char *array_args);
 void ft_print_echo_space(char **aux);
 void ft_print_new_line(int flag_nl);
 
+/* ************************************************************************** */
+/*				execution					   */
+/* ************************************************************************** */
 void execute(t_mini *mini);
+void first_pipe(t_mini *mini, char *s);
+void second_pipe(t_mini *mini);
+void create_flow(t_mini *mini, char *s);
+
+/* ************************************************************************** */
+/*				parser.c					   */
+/* ************************************************************************** */
+
+bool is_a_option(char *s, t_mini *mini);
+bool is_a_file(char *s);
+bool is_a_cmd(char *s, t_mini *mini);
+bool is_a_red(char *s);
+bool is_a_pipe(char *s);
+char **split_to_split(t_mini *mini, char *s);
+void create_file(t_mini *mini);
+bool is_a_file_to_create(char *s, t_mini *mini);
+void update_path(t_mini *mini, char *s);
+void delete_path(t_mini *mini);
+void pad(char *src, char *dest, int i, int j);
+int find_char(char c, char *find);
+int padding_needed(char *str, int i, int pad);
+char *pad_central(char *str);
+int quotes_open(char *str, int target_index);
+int pipe_check(char *str);
+int redirect_basic_check(char *str);
+int ft_check_open_quotes(char *str);
+int count_pipes(t_mini *mini);
+void print(t_op op, char *ag);
+int check_args(char *str);
+int ft_strcmp(char *str1, char *str2);
+char **get_newenvp(char **envp);
+char **get_path(char **newenv);
+void put_cmd(t_mini *mini, char *str);
+char *ft_add(t_mini *mini, char *ag);
+void ft_free_arr(char **str);
+
+/* ************************************************************************** */
+/*				parser.c					   */
+/* ************************************************************************** */
+void create_child(t_mini *mini, char *s);
+void parsing(t_mini *mini, char *str);
+void ft_exit(t_mini *mini);
+
+/* ************************************************************************** */
+/*				                 pipes                              	      */
+/* ************************************************************************** */
+
+void ft_child2(t_mini *mini);
+void ft_child1(t_mini *mini, char *s);
+void firs_pipe(t_mini *mini, char *s);
+void second_c(t_mini *mini, int j, int count, char *s);
+void close_final(t_mini *mini);
+void middle_pipe(t_mini *mini);
+
+/* ************************************************************************** */
+/*				checker					   */
+/* ************************************************************************** */
 int check_position(t_mini *mini, char *to_find);
-int change_ends_red(t_mini *mini, int flag);
-void create_child(t_mini *mini);
-int have_redirect(t_mini *mini);
-void close_fd(t_mini *mini, int fd, int flag);
+/* ************************************************************************** */
+/*				                      signal	             				  */
+/* ************************************************************************** */
+void ft_init_signals(void);
+void ft_ignore_signals(void);
+void ft_restore_signals(void);
+void ft_handle_eof(void);
+void ft_handle_sigint(int sig);
+void ft_handle_sigint_ign(int sig);
+void ft_handle_sigquit(int sig);
+/* ************************************************************************** */
+/*				parser.c					   */
+/* ************************************************************************** */
 
-void execute_second(t_mini *mini);
-void red_pipes(t_mini *mini, int i);
-
-void create_flow(t_mini *mini);
-
+int isPipeOpen(int fd);
+int isPipeOpenForWriting(int fd);
 #endif

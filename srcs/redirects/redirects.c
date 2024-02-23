@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int change_ends_red(t_mini *mini, int flag)
 {
@@ -64,7 +64,7 @@ void execute_first(t_mini *mini)
 			fd = change_ends_red(mini, 1);
 			// set_args(mini);
 			// set_cmd(mini);
-			create_child(mini);
+			// create_child(mini);
 			close_fd(mini, fd, 1);
 		}
 		else // <
@@ -72,7 +72,7 @@ void execute_first(t_mini *mini)
 			fd = change_ends_red(mini, 2);
 			// set_args(mini);
 			// set_cmd(mini);
-			create_child(mini);
+			// create_child(mini);
 			close_fd(mini, fd, 2);
 		}
 	}

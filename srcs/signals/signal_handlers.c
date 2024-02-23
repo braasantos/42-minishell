@@ -6,11 +6,11 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 13:54:36 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/06 13:33:20 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/02/23 19:01:04 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 
 void	ft_handle_eof(void)

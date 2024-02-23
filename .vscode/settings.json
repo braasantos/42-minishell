@@ -8,6 +8,7 @@
 		"string_view": "c",
 		"initializer_list": "c",
 		"unistd.h": "c",
-		"algorithm": "c"
+		"algorithm": "c",
+		"minishell.h": "c"
 	}
 }

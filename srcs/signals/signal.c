@@ -6,11 +6,11 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 09:42:17 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/06 13:36:23 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/02/23 19:01:09 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void ft_init_signals(void)
 {

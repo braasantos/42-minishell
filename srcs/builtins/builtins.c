@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 int str_len(char **str)
 {
@@ -25,11 +25,8 @@ int have_redirect(t_mini *mini)
 	return (0);
 }
 
-
 int builtins(t_mini *mini)
 {
-	if (mini->args == NULL)
-		return (1);
 	if (!ft_strcmp(mini->args[0], "exit"))
 		ft_exit(mini);
 	if (!ft_strcmp(mini->args[0], "echo"))

@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 char *ft_add(t_mini *mini, char *ag)
 {
@@ -6,7 +6,6 @@ char *ft_add(t_mini *mini, char *ag)
 	char **str;
 	char *tmp;
 	int i;
-
 
 	str = get_path(mini->newenvp);
 	if (!*str)
@@ -46,6 +45,7 @@ void put_cmd(t_mini *mini, char *str)
 		free(mini->cmd);
 		i++;
 	}
+	ft_free_arr(args);
 	mini->cmd1[i] = NULL;
 }
 
@@ -70,7 +70,6 @@ char **get_path(char **newenv)
 	free(str);
 	return (newstr);
 }
-
 
 /*
 Faz uma copia da str devolvida pela readline
@@ -106,17 +105,15 @@ char **get_newenvp(char **envp)
 	int i;
 	int j;
 
-	i = 0;
-	while (envp[i])
-		i++;
+	i = str_len(envp);
 	newenvp = (char **)malloc((i + 1) * sizeof(char *));
 	i = 0;
 	while (envp[i])
 	{
-		j = 0;
-		while (envp[i][j])
-			j++;
+		j = ft_strlen(envp[i]);
 		newenvp[i] = (char *)malloc((j + 1) * sizeof(char));
+		if (newenvp[i] == NULL)
+			return (ft_free_arr(newenvp), NULL);
 		j = 0;
 		while (envp[i][j])
 		{
@@ -126,5 +123,6 @@ char **get_newenvp(char **envp)
 		newenvp[i][j] = '\0';
 		i++;
 	}
-	return (newenvp[i] = NULL, newenvp);
+	newenvp[i] = NULL;
+	return (newenvp);
 }

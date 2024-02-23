@@ -2,28 +2,33 @@
 
 int g_signal;
 
-void	ft_free_arr(char **str)
+void ft_free_arr(char **str)
 {
 	int i;
 
 	if (!str)
-		return ;
+		return;
 	i = -1;
 	while (str[++i])
 	{
-		free(str[i]);
+		if (str[i])
+			free(str[i]);
 	}
 	free(str);
 	str = NULL;
 }
-void	init_all(t_mini *mini)
+static void init_all(t_mini *mini)
 {
 	mini->cmd = NULL;
 	mini->newenvp = NULL;
-	mini->args= NULL;
+	mini->args = NULL;
 	mini->new_str = NULL;
 	mini->fd1 = 0;
 	mini->fd0 = 0;
+	mini->flag = 0;
+	mini->STDOUT = dup(STDOUT_FILENO);
+	mini->end[0]= 0;
+	mini->end[1]= 0;
 }
 int main(int ac, char **av)
 {

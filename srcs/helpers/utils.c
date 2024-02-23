@@ -1,4 +1,4 @@
-#include "../inc/minishell.h"
+#include "../../inc/minishell.h"
 
 void	pad(char *src, char *dest, int i, int j)
 {
