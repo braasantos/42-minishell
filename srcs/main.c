@@ -19,16 +19,14 @@ void ft_free_arr(char **str)
 }
 static void init_all(t_mini *mini)
 {
-	mini->cmd = NULL;
 	mini->newenvp = NULL;
 	mini->args = NULL;
 	mini->new_str = NULL;
 	mini->fd1 = 0;
 	mini->fd0 = 0;
-	mini->flag = 0;
-	mini->STDOUT = dup(STDOUT_FILENO);
-	mini->end[0]= 0;
-	mini->end[1]= 0;
+	mini->STDIN = 0;
+	mini->STDOUT = 1;;
+	mini->exit_flag = 0;
 }
 int main(int ac, char **av)
 {
@@ -44,13 +42,14 @@ int main(int ac, char **av)
 	while (1)
 	{
 		str = readline("\033[0;34mminishell \033[0m");
-		// new_string(str, &mini);
-		// free(str);
-		if (str[0])
-		{
-			add_history(str);
-			parsing(&mini, str);
-		}
+
+		mini.new_str = pad_central(str);
+		mini.args = ft_split(mini.new_str, ' ');
+		if (!mini.args)
+			break;
+		add_history(str);
+		parsing(&mini, str);
+		// ft_free_arr(mini.newenvp);
 		free(str);
 	}
 }

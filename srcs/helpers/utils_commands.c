@@ -23,31 +23,6 @@ char *ft_add(t_mini *mini, char *ag)
 	}
 	return (free(str), NULL);
 }
-void put_cmd(t_mini *mini, char *str)
-{
-	char **args;
-	int i;
-	int j;
-
-	args = ft_split(str, ' ');
-	j = 0;
-	while (args[j])
-		j++;
-	mini->cmd1 = malloc(sizeof(char *) * (j + 1));
-	i = 0;
-	while (args[i])
-	{
-		mini->cmd = ft_add(mini, args[i]);
-		if (!mini->cmd)
-			mini->cmd1[i] = mini->cmd;
-		else
-			mini->cmd1[i] = ft_strdup(mini->cmd);
-		free(mini->cmd);
-		i++;
-	}
-	ft_free_arr(args);
-	mini->cmd1[i] = NULL;
-}
 
 char **get_path(char **newenv)
 {
@@ -70,32 +45,6 @@ char **get_path(char **newenv)
 	free(str);
 	return (newstr);
 }
-
-/*
-Faz uma copia da str devolvida pela readline
-*/
-// void new_string(char *str, t_mini *mini)
-// {
-// 	int i;
-// 	int j;
-
-// 	mini->new_str = ft_calloc((ft_strlen(str) + 1), sizeof(char));
-// 	i = 0;
-// 	j = 0;
-// 	if (check_args(str) == 1)
-// 	{
-// 		while (str[i])
-// 		{
-// 			if (str[i] != '\'' && str[i] != '\"')
-// 				mini->new_str[j++] = str[i];
-// 			i++;
-// 		}
-// 		mini->new_str[j] = '\0';
-// 	}
-// 	else
-// 		mini->new_str = ft_strdup(str);
-// }
-
 /*
  * Function to copy the envp
  */

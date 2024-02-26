@@ -23,17 +23,17 @@ typedef struct s_mini
 {
 	char *path_to_cmd; // for execve
 	char **exec_args;  // for execve
-	char **cmd1;	   // all the commands
-	char *cmd;
 	char **newenvp;
-	char **args; // all the args
-	pid_t newpro;
+	char **args;	 // all the args
+	char **new_args; // args splitted without the pipes
+	pid_t *newpro;
 	char *new_str;
-	int end[2];
+	int *pipes_fd;
 	int fd1;
 	int fd0;
+	int STDIN;
 	int STDOUT;
-	int flag;
+	int exit_flag;
 } t_mini;
 
 /* ************************************************************************** */
@@ -62,7 +62,7 @@ void ft_print_new_line(int flag_nl);
 void execute(t_mini *mini);
 void first_pipe(t_mini *mini, char *s);
 void second_pipe(t_mini *mini);
-void create_flow(t_mini *mini, char *s);
+void create_flow(t_mini *mini);
 
 /* ************************************************************************** */
 /*				parser.c					   */
@@ -76,7 +76,7 @@ bool is_a_pipe(char *s);
 char **split_to_split(t_mini *mini, char *s);
 void create_file(t_mini *mini);
 bool is_a_file_to_create(char *s, t_mini *mini);
-void update_path(t_mini *mini, char *s);
+void update_path(t_mini *mini, int i);
 void delete_path(t_mini *mini);
 void pad(char *src, char *dest, int i, int j);
 int find_char(char c, char *find);
@@ -92,14 +92,13 @@ int check_args(char *str);
 int ft_strcmp(char *str1, char *str2);
 char **get_newenvp(char **envp);
 char **get_path(char **newenv);
-void put_cmd(t_mini *mini, char *str);
 char *ft_add(t_mini *mini, char *ag);
 void ft_free_arr(char **str);
 
 /* ************************************************************************** */
 /*				parser.c					   */
 /* ************************************************************************** */
-void create_child(t_mini *mini, char *s);
+void create_child(t_mini *mini, int i, int flag, int j);
 void parsing(t_mini *mini, char *str);
 void ft_exit(t_mini *mini);
 
@@ -117,7 +116,7 @@ void middle_pipe(t_mini *mini);
 /* ************************************************************************** */
 /*				checker					   */
 /* ************************************************************************** */
-int check_position(t_mini *mini, char *to_find);
+int check_position(t_mini *mini, int j);
 /* ************************************************************************** */
 /*				                      signal	             				  */
 /* ************************************************************************** */
@@ -134,4 +133,9 @@ void ft_handle_sigquit(int sig);
 
 int isPipeOpen(int fd);
 int isPipeOpenForWriting(int fd);
+int check_position_bool(t_mini *mini, char *to_find);
+void for_loop(char **s);
+void through_pipes(t_mini *mini, int i);
+void close_pipes(t_mini *mini);
+void get_exit_status(t_mini *mini);
 #endif

@@ -3,7 +3,7 @@ bool is_a_file_to_create(char *s, t_mini *mini)
 {
 	int pos;
 
-	pos = check_position(mini, ">");
+	pos = check_position_bool(mini, ">");
 	if ((is_a_red(mini->args[pos])))
 	{
 		if (is_a_option(s, mini))
@@ -16,7 +16,7 @@ void create_file(t_mini *mini)
 {
 	int file;
 
-	file = check_position(mini, "<");
+	file = check_position_bool(mini, "<");
 	printf("%d\n", file);
 	mini->STDOUT = dup(STDOUT_FILENO);
 	if ((mini->fd0 = open(mini->args[file + 1], O_RDONLY)) < 0)
@@ -34,7 +34,7 @@ char **split_to_split(t_mini *mini, char *s)
 	char *str = NULL;
 	char **new_str = NULL;
 
-	pos = check_position(mini, s);
+	pos = check_position_bool(mini, s);
 	if (mini->args[pos + 1])
 	{
 		if (is_a_option(mini->args[pos + 1], mini))
@@ -55,20 +55,17 @@ char **split_to_split(t_mini *mini, char *s)
 	return (ft_split(s, ' '));
 }
 
-void update_path(t_mini *mini, char *s)
+void update_path(t_mini *mini, int i)
 {
-	int pos;
-
-	pos = check_position(mini, s);
-	mini->path_to_cmd = ft_add(mini, s);
+	mini->path_to_cmd = ft_add(mini, mini->args[i]);
 	if (str_len(mini->args) == 2)
 	{
-		if (mini->args[pos + 1])
-			if (is_a_option(mini->args[pos + 1], mini))
+		if (mini->args[i + 1])
+			if (is_a_option(mini->args[i + 1], mini))
 				mini->exec_args = get_newenvp(mini->args);
 	}
 	else
-		mini->exec_args = split_to_split(mini, s);
+		mini->exec_args = split_to_split(mini, mini->args[i]);
 }
 
 void delete_path(t_mini *mini)

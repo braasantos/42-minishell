@@ -2,67 +2,19 @@
 
 void execute(t_mini *mini)
 {
-	int i;
+	int n_pipes;
 
-	i = 0;
-	if (is_a_cmd(mini->args[i], mini) == false)
+	n_pipes = count_pipes(mini);
+	if ((n_pipes == 0))
 	{
-		print(COMMAND_NOT_FOUND, mini->args[i]);
-		return;
+		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
+		create_child(mini, 0, 0, 0);
 	}
-	while (mini->args[i])
+	else if ((n_pipes > 0))
 	{
-		// if (is_a_red(mini->args[i]))
-		// printf("%d redirect\n", i);
-		if (is_a_cmd(mini->args[i], mini))
-			create_flow(mini, mini->args[i]);
-		// if (is_a_file(mini->args[i]))
-		// 	printf("%d file\n", i);
-		// create_file(mini);
-		// if (is_a_file_to_create(mini->args[i], mini))
-		// 	printf("%d file to create\n", i);
-		i++;
-		mini->flag = 1;
-		// close(mini->end[0]);
-		// close(mini->end[1]);
+		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
+		create_flow(mini);
 	}
-}
-
-void first_pipe(t_mini *mini, char *s)
-{
-	pid_t newpro;
-
-	newpro = fork();
-	if (newpro < 0)
-		exit(1);
-	if (newpro == 0)
-		firs_pipe(mini, s);
-	else
-		waitpid(-1, NULL, 0);
-}
-
-void second_pipe(t_mini *mini)
-{
-	int count;
-	pid_t newpro;
-
-	count = count_pipes(mini);
-	newpro = fork();
-	if (newpro < 0)
-		exit(1);
-	if (newpro != 0)
-	{
-		if (count == 1)
-		{
-			close_final(mini);
-			ft_child2(mini);
-		}
-		// else
-		// middle_pipe(mini);
-	}
-	else
-		waitpid(-1, NULL, 0);
-	mini->flag = 0;
 }
 
 void for_loop(char **s)
@@ -70,24 +22,60 @@ void for_loop(char **s)
 	for (int i = 0; s[i]; i++)
 		ft_printf("%s\n", s[i]);
 }
-
-void create_flow(t_mini *mini, char *s)
+int pipe_creation(t_mini *mini)
 {
-	update_path(mini, s);
-	if ((count_pipes(mini) == 0) && (have_redirect(mini) == 0))
-		create_child(mini, s);
-	else if (count_pipes(mini) > 0)
+	int i;
+	int n_pipes;
+
+	n_pipes = count_pipes(mini);
+	mini->pipes_fd = malloc(sizeof(int) * (n_pipes * 2));
+	i = 0;
+	while (i < n_pipes)
 	{
-		if (mini->flag == 0)
-			if (pipe(mini->end) == -1)
-			{
-				printf("error with pipe\n");
-				ft_exit(mini);
-			}
-		if (mini->flag == 0 && (check_position(mini, s) == 0))
-			first_pipe(mini, s);
-		if (mini->flag == 1)
-			second_pipe(mini);
+		if (pipe(mini->pipes_fd + (2 * i)) < 0)
+		{
+			ft_putstr_fd("Error while creating pipes", 2);
+			return (1);
+		}
+		i++;
 	}
-	delete_path(mini);
+	return (0);
+}
+
+void close_pipes(t_mini *mini)
+{
+	int i;
+	int n_pipes;
+
+	i = 0;
+	n_pipes = count_pipes(mini);
+	while (i < n_pipes * 2)
+	{
+		close(mini->pipes_fd[i]);
+		i++;
+	}
+	free(mini->pipes_fd);
+}
+
+void create_flow(t_mini *mini)
+{
+	int i;
+	int j;
+
+	mini->STDIN = STDIN_FILENO;
+	mini->STDOUT = STDOUT_FILENO;
+	i = 0;
+	j = 0;
+	pipe_creation(mini);
+	while (mini->args[i])
+	{
+		if (is_a_cmd(mini->args[i], mini))
+		{
+			create_child(mini, i, 1, j);
+			j++;
+		}
+		i++;
+	}
+	close_pipes(mini);
+	get_exit_status(mini);
 }

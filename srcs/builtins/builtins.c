@@ -28,7 +28,10 @@ int have_redirect(t_mini *mini)
 int builtins(t_mini *mini)
 {
 	if (!ft_strcmp(mini->args[0], "exit"))
+	{
+		mini->exit_flag = 1;
 		ft_exit(mini);
+	}
 	if (!ft_strcmp(mini->args[0], "echo"))
 		return (echo_cmd(mini->args));
 	if ((!ft_strcmp(mini->args[0], "cd")) || (!ft_strcmp(mini->args[0], "~")))
