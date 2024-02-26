@@ -5,15 +5,19 @@ void execute(t_mini *mini)
 	int n_pipes;
 
 	n_pipes = count_pipes(mini);
+	if (builtins(mini) == 1)
+		return;
 	if ((n_pipes == 0))
 	{
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
 		create_child(mini, 0, 0, 0);
+		free(mini->newpro);
 	}
 	else if ((n_pipes > 0))
 	{
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
 		create_flow(mini);
+		free(mini->newpro);
 	}
 }
 

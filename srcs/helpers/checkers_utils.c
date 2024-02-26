@@ -70,7 +70,6 @@ void update_path(t_mini *mini, int i)
 
 void delete_path(t_mini *mini)
 {
-	if (mini->path_to_cmd)
-		free(mini->path_to_cmd);
+	free(mini->path_to_cmd);
 	ft_free_arr(mini->exec_args);
 }

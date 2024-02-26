@@ -16,8 +16,6 @@ void parsing(t_mini *mini, char *str)
 		ft_printf("invalid redirect\n");
 	if (!pipe_check(str))
 		ft_printf("Unexpected near '|'\n");
-	if (builtins(mini) == 1)
-		return;
 	execute(mini);
 }
 void sigint_on_child(int signal)
@@ -62,9 +60,35 @@ void through_pipes(t_mini *mini, int i)
 	close_pipes(mini);
 }
 
+int count_red(t_mini *mini)
+{
+		int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (mini->args[i])
+	{
+		if (ft_strcmp(mini->args[i], "<") == 0 || ft_strcmp(mini->args[i], ">") == 0)
+			count++;
+		i++;
+	}
+	return (count);
+}
+// void	hanlde_redirects(t_mini *mini)
+// {
+// 	if (count_red(mini) == 0)
+// 		return ;
+// 	else
+// 	{
+// 		if (is_)
+// 	}
+// }
+
 void create_child(t_mini *mini, int i, int flag, int j)
 {
 	update_path(mini, i);
+	// hanlde_redirects(mini);
 	if (is_a_cmd(mini->args[i], mini) == false)
 	{
 		print(COMMAND_NOT_FOUND, mini->args[i]);

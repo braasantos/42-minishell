@@ -17,11 +17,11 @@ char *ft_add(t_mini *mini, char *ag)
 		cmd1 = ft_strjoin(tmp, ag);
 		free(tmp);
 		if (access(cmd1, X_OK) == 0)
-			return (free(str), cmd1);
+			return (ft_free_arr(str), cmd1);
 		free(cmd1);
 		i++;
 	}
-	return (free(str), NULL);
+	return (ft_free_arr(str), NULL);
 }
 
 char **get_path(char **newenv)

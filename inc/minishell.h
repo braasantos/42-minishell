@@ -25,8 +25,8 @@ typedef struct s_mini
 	char **exec_args;  // for execve
 	char **newenvp;
 	char **args;	 // all the args
-	char **new_args; // args splitted without the pipes
 	pid_t *newpro;
+	char *str;
 	char *new_str;
 	int *pipes_fd;
 	int fd1;
@@ -138,4 +138,7 @@ void for_loop(char **s);
 void through_pipes(t_mini *mini, int i);
 void close_pipes(t_mini *mini);
 void get_exit_status(t_mini *mini);
+void ft_handle_eof(void);
+void free_struct(t_mini *mini);
+void free_struct_2(t_mini *mini);
 #endif

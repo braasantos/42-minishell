@@ -67,11 +67,6 @@ int get_cd(t_mini *mini)
 	}
 	if (has_two_args(mini->args, mini))
 		return (1);
-	else if (mini->args[0][0] == '-')
-	{
-		change_dir(get_env("OLDPWD", mini), mini);
-		return (1);
-	}
 	return (0);
 }
 
