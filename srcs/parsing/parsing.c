@@ -12,10 +12,12 @@ void parsing(t_mini *mini, char *str)
 {
 	if (!ft_check_open_quotes(str))
 		return;
+	if (check_inutils(mini))
+		return ;
 	if (!redirect_basic_check(str))
 		ft_printf("invalid redirect\n");
 	if (!pipe_check(str))
-		ft_printf("Unexpected near '|'\n");
+		ft_printf("Minishell: syntax error near unexpected token ``|'\n");
 	execute(mini);
 }
 void sigint_on_child(int signal)
@@ -75,20 +77,71 @@ int count_red(t_mini *mini)
 	}
 	return (count);
 }
-// void	hanlde_redirects(t_mini *mini)
-// {
-// 	if (count_red(mini) == 0)
-// 		return ;
-// 	else
-// 	{
-// 		if (is_)
-// 	}
-// }
+
+int	redirect_output(int i, t_mini *mini)
+{
+	int		file_fd;
+
+	if (!mini->args[i + 1])
+		return (1);
+	file_fd = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (!file_fd)
+	{
+		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
+		return (1);
+	}
+	dup2(file_fd, STDOUT_FILENO);
+	close(file_fd);
+	return (0);
+}
+
+int	redirect_input(int i, t_mini *mini)
+{
+	int		file_fd;
+
+	file_fd = open(mini->args[i + 1], O_RDONLY);
+	if (!file_fd)
+	{
+		ft_putstr_fd("Minishell: no file specified in redirect '<'.\n", 2);
+		return (1);
+	}
+	dup2(file_fd, STDIN_FILENO);
+	close(file_fd);
+	return (0);
+}
+void	hanlde_redirects(t_mini *mini)
+{
+	int j;
+	int count;
+
+	j = 0;
+	count = count_red(mini);
+	if (count == 0)
+		return ;
+	else
+	{
+		while (mini->args[j])
+		{
+			if (!ft_strcmp(mini->args[j], ">"))
+				redirect_output(j, mini);
+			if (!ft_strcmp(mini->args[j], "<"))
+				redirect_input(j, mini);
+			if (!mini->args[j])
+				return ;
+			j++;
+		}
+	}
+}
+
+void	redirect(t_mini *mini)
+{
+	dup2(mini->stdin_fd, STDIN_FILENO);
+	dup2(mini->stdout_fd, STDOUT_FILENO);
+}
 
 void create_child(t_mini *mini, int i, int flag, int j)
 {
 	update_path(mini, i);
-	// hanlde_redirects(mini);
 	if (is_a_cmd(mini->args[i], mini) == false)
 	{
 		print(COMMAND_NOT_FOUND, mini->args[i]);
@@ -97,8 +150,10 @@ void create_child(t_mini *mini, int i, int flag, int j)
 	mini->newpro[j] = fork();
 	if (!mini->newpro[j])
 	{
+		hanlde_redirects(mini);
 		if (flag == 1)
 			through_pipes(mini, j);
+		redirect(mini);
 		if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
 			ft_exit(mini);
 	}

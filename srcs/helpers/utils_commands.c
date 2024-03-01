@@ -8,6 +8,11 @@ char *ft_add(t_mini *mini, char *ag)
 	int i;
 
 	str = get_path(mini->newenvp);
+	if (access(ag, X_OK) == 0)
+	{
+		mini->flag = 1;
+		return (ft_free_arr(str), ag);
+	}
 	if (!*str)
 		return (NULL);
 	i = 0;

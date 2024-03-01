@@ -21,19 +21,22 @@ typedef enum e_op
 
 typedef struct s_mini
 {
-	char *path_to_cmd; // for execve
-	char **exec_args;  // for execve
-	char **newenvp;
-	char **args;	 // all the args
-	pid_t *newpro;
-	char *str;
-	char *new_str;
-	int *pipes_fd;
-	int fd1;
-	int fd0;
-	int STDIN;
-	int STDOUT;
-	int exit_flag;
+	char	*path_to_cmd; // for execve
+	char	**exec_args;  // for execve
+	char	**newenvp;
+	char	**args;	 // all the args
+	pid_t	*newpro;
+	char	*str;
+	char	*new_str;
+	int	*pipes_fd;
+	int	fd1;
+	int	fd0;
+	int	STDIN;
+	int	STDOUT;
+	int	stdin_fd;
+	int	stdout_fd;
+	int	flag;
+	int	exit_flag;
 } t_mini;
 
 /* ************************************************************************** */
@@ -141,4 +144,5 @@ void get_exit_status(t_mini *mini);
 void ft_handle_eof(void);
 void free_struct(t_mini *mini);
 void free_struct_2(t_mini *mini);
+int check_inutils(t_mini *mini);
 #endif

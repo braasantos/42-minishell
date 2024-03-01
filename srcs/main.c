@@ -8,6 +8,7 @@ void ft_free_arr(char **str)
 
 	if (!str)
 		return;
+	// for_loop(str);
 	i = -1;
 	while (str[++i])
 	{
@@ -49,6 +50,8 @@ static void init_all(t_mini *mini)
 	mini->fd0 = 0;
 	mini->STDIN = 0;
 	mini->STDOUT = 1;
+	mini->stdin_fd = 0;
+	mini->stdout_fd = 1;
 	mini->exit_flag = 0;
 }
 int main(int ac, char **av)
