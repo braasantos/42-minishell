@@ -8,7 +8,7 @@ void ft_free_arr(char **str)
 
 	if (!str)
 		return;
-	// for_loop(str);
+	
 	i = -1;
 	while (str[++i])
 	{
@@ -54,6 +54,8 @@ static void init_all(t_mini *mini)
 	mini->stdout_fd = 1;
 	mini->exit_flag = 0;
 }
+
+
 int main(int ac, char **av)
 {
 	t_mini mini;

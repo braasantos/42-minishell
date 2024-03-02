@@ -28,6 +28,7 @@ typedef struct s_mini
 	pid_t	*newpro;
 	char	*str;
 	char	*new_str;
+	char	*prompt;
 	int	*pipes_fd;
 	int	fd1;
 	int	fd0;
@@ -76,7 +77,7 @@ bool is_a_file(char *s);
 bool is_a_cmd(char *s, t_mini *mini);
 bool is_a_red(char *s);
 bool is_a_pipe(char *s);
-char **split_to_split(t_mini *mini, char *s);
+char **split_to_split(t_mini *mini, int i);
 void create_file(t_mini *mini);
 bool is_a_file_to_create(char *s, t_mini *mini);
 void update_path(t_mini *mini, int i);
@@ -145,4 +146,7 @@ void ft_handle_eof(void);
 void free_struct(t_mini *mini);
 void free_struct_2(t_mini *mini);
 int check_inutils(t_mini *mini);
+char	*ft_remove_quotes(char *str);
+int count_quotes(char *str);
+char	*ft_remove_quotes(char *str);
 #endif

@@ -7,12 +7,10 @@ char *ft_add(t_mini *mini, char *ag)
 	char *tmp;
 	int i;
 
+	tmp = NULL;
 	str = get_path(mini->newenvp);
 	if (access(ag, X_OK) == 0)
-	{
-		mini->flag = 1;
-		return (ft_free_arr(str), ag);
-	}
+		return (ft_free_arr(str), ft_strdup(ag));
 	if (!*str)
 		return (NULL);
 	i = 0;

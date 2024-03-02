@@ -27,23 +27,34 @@ void create_file(t_mini *mini)
 	dup2(mini->fd0, STDIN_FILENO);
 }
 
-char **split_to_split(t_mini *mini, char *s)
+char *do_sum(t_mini *mini, int i)
 {
-	int pos;
-	char *temp = NULL;
-	char *str = NULL;
-	char **new_str = NULL;
+	char *s;
 
-	pos = check_position_bool(mini, s);
-	if (mini->args[pos + 1])
+	if (count_quotes(mini->args[i + 1]) > 1)
+		s = ft_remove_quotes(mini->args[i + 1]);
+	else
+		s = ft_strdup(mini->args[i + 1]);
+	return (s);
+}
+char **split_to_split(t_mini *mini, int i)
+{
+	char *temp;
+	char *str;
+	char **new_str;
+	char *no_quotes;
+
+	if (mini->args[i + 1])
 	{
-		if (is_a_option(mini->args[pos + 1], mini))
+		if (is_a_option(mini->args[i + 1], mini))
 		{
-			str = ft_strdup(mini->args[pos]);
+			no_quotes = do_sum(mini, i);
+			str = ft_strdup(mini->args[i]);
 			temp = ft_strjoin(str, " ");
 			free(str);
-			str = ft_strjoin(temp, mini->args[pos + 1]);
+			str = ft_strjoin(temp, no_quotes);
 			free(temp);
+			free(no_quotes);
 			new_str = ft_split(str, ' ');
 			free(str);
 			if (!new_str)
@@ -52,7 +63,7 @@ char **split_to_split(t_mini *mini, char *s)
 				return (new_str);
 		}
 	}
-	return (ft_split(s, ' '));
+	return (ft_split(mini->args[i], ' '));
 }
 int count_quotes(char *str)
 {
@@ -70,36 +81,35 @@ int count_quotes(char *str)
     return count;
 }
 
-
-char *no_quote(char *str)
+char	*ft_remove_quotes(char *str)
 {
-	int i;
-	int j;
-	char *s;
+	char	*new;
+	int	count;
+	int	i;
+	int	j;
 
-	i = ft_strlen(str);
-	i--;
-	j = count_quotes(str);
-	s = malloc(sizeof(char) * (i + 1 - j));
+	count = count_quotes(str);
+	i = ft_strlen(str) - count;
+	new = (char *)malloc(sizeof(char) * (i + 1));
+	if (new == NULL)
+		return NULL;
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
-		if (str[i] == '\"' || str[i] == '\'')
-            i++;
-		s[j] = str[i];
+		if (str[i] != '\'' && str[i] != '\"')
+		{
+			new[j] = str[i];
+			j++;
+		}
 		i++;
-		j++;
 	}
-	s[j] = '\0';
-	printf("%s\n", str);
-	printf("%s\n", s);
-	return (s);
+	new[j] = '\0';
+	return (new);
 }
 
 void update_path(t_mini *mini, int i)
 {
-	int j = 0;
 	mini->flag = 0;
 	mini->path_to_cmd = ft_add(mini, mini->args[i]);
 	if (str_len(mini->args) == 2)
@@ -109,16 +119,7 @@ void update_path(t_mini *mini, int i)
 				mini->exec_args = get_newenvp(mini->args);
 	}
 	else
-		mini->exec_args = split_to_split(mini, mini->args[i]);
-	while (mini->exec_args[j])
-	{
-		if (!ft_strcmp(mini->exec_args[j], "\'") || !ft_strcmp(mini->exec_args[j], "\""))
-		{
-			free(mini->exec_args[j]);
-			mini->exec_args[j] = ft_strdup(no_quote(mini->exec_args[j]));
-		}
-		j++;
-	}
+		mini->exec_args = split_to_split(mini, i);
 }
 
 void delete_path(t_mini *mini)
