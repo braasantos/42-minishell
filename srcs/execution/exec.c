@@ -5,8 +5,10 @@ void execute(t_mini *mini)
 	int n_pipes;
 
 	n_pipes = count_pipes(mini);
+	if (check_parser(mini) == 1)
+		return ;
 	if (builtins(mini) == 1)
-		return;
+		return ;
 	if ((n_pipes == 0))
 	{
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
@@ -21,11 +23,6 @@ void execute(t_mini *mini)
 	}
 }
 
-void for_loop(char **s)
-{
-	for (int i = 0; s[i]; i++)
-		ft_printf("%s\n", s[i]);
-}
 int pipe_creation(t_mini *mini)
 {
 	int i;
@@ -44,21 +41,6 @@ int pipe_creation(t_mini *mini)
 		i++;
 	}
 	return (0);
-}
-
-void close_pipes(t_mini *mini)
-{
-	int i;
-	int n_pipes;
-
-	i = 0;
-	n_pipes = count_pipes(mini);
-	while (i < n_pipes * 2)
-	{
-		close(mini->pipes_fd[i]);
-		i++;
-	}
-	free(mini->pipes_fd);
 }
 
 void create_flow(t_mini *mini)
@@ -82,4 +64,27 @@ void create_flow(t_mini *mini)
 	}
 	close_pipes(mini);
 	get_exit_status(mini);
+}
+
+void create_child(t_mini *mini, int i, int flag, int j)
+{
+	update_path(mini, i);
+	if (is_a_cmd(mini->args[i], mini) == false)
+	{
+		print(COMMAND_NOT_FOUND, mini->args[i]);
+		return;
+	}
+	mini->newpro[j] = fork();
+	if (!mini->newpro[j])
+	{
+		hanlde_redirects(mini);
+		if (flag == 1)
+			through_pipes(mini, j);
+		redirect(mini);
+		if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
+			ft_exit(mini);
+	}
+	if (mini->exit_flag != 1 && flag == 0)
+		get_exit_status(mini);
+	delete_path(mini);
 }

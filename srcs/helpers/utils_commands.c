@@ -78,3 +78,15 @@ char **get_newenvp(char **envp)
 	newenvp[i] = NULL;
 	return (newenvp);
 }
+
+void while_loop(char **s)
+{
+	int i;
+
+	i = 0;
+	while (s[i])
+	{
+		ft_printf("%s\n", s[i]);
+		i++;
+	}
+}

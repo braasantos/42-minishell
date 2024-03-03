@@ -6,14 +6,19 @@ redirects/redirects.c \
 signals/signal.c \
 signals/signal_handlers.c \
 helpers/utils.c \
+helpers/utils2.c \
 helpers/checkers_utils.c \
 helpers/utils_commands.c \
 helpers/checkers.c \
+helpers/parser_helpers.c \
+helpers/path_helpers.c \
 execution/exec.c \
 builtins/builtins.c \
 builtins/cd.c \
 builtins/cd_util.c \
-builtins/echo.c
+builtins/echo.c \
+clean_exit/clean_all.c \
+
 HEADER = ../inc/minishell.h
 LIBFTDIR = includes/LIBFT/libft.a
 CC = cc
@@ -43,13 +48,14 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 
 $(OBJS_DIR):
 	mkdir -p objs
-	mkdir -p objs/signals/
-	mkdir -p objs/helpers/
 	mkdir -p objs/builtins/
-	mkdir -p objs/redirects/
+	mkdir -p objs/clean_exit/
 	mkdir -p objs/execution/
+	mkdir -p objs/helpers/
 	mkdir -p objs/parsing/
 	mkdir -p objs/pipes/
+	mkdir -p objs/redirects/
+	mkdir -p objs/signals/
 
 clean :
 	$(RM) $(OBJS)

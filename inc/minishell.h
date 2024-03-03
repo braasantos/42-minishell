@@ -23,13 +23,12 @@ typedef struct s_mini
 {
 	char	*path_to_cmd; // for execve
 	char	**exec_args;  // for execve
-	char	**newenvp;
-	char	**args;	 // all the args
-	pid_t	*newpro;
-	char	*str;
-	char	*new_str;
-	char	*prompt;
-	int	*pipes_fd;
+	char	**newenvp; // the copy of the env variable
+	char	**args;	 // the new_str splitted
+	pid_t	*newpro; // for fork
+	char	*str; // str with the initial string
+	char	*new_str; // worked string
+	int	*pipes_fd; // for pipes
 	int	fd1;
 	int	fd0;
 	int	STDIN;
@@ -64,8 +63,6 @@ void ft_print_new_line(int flag_nl);
 /*				execution					   */
 /* ************************************************************************** */
 void execute(t_mini *mini);
-void first_pipe(t_mini *mini, char *s);
-void second_pipe(t_mini *mini);
 void create_flow(t_mini *mini);
 
 /* ************************************************************************** */
@@ -110,12 +107,6 @@ void ft_exit(t_mini *mini);
 /*				                 pipes                              	      */
 /* ************************************************************************** */
 
-void ft_child2(t_mini *mini);
-void ft_child1(t_mini *mini, char *s);
-void firs_pipe(t_mini *mini, char *s);
-void second_c(t_mini *mini, int j, int count, char *s);
-void close_final(t_mini *mini);
-void middle_pipe(t_mini *mini);
 
 /* ************************************************************************** */
 /*				checker					   */
@@ -135,10 +126,7 @@ void ft_handle_sigquit(int sig);
 /*				parser.c					   */
 /* ************************************************************************** */
 
-int isPipeOpen(int fd);
-int isPipeOpenForWriting(int fd);
 int check_position_bool(t_mini *mini, char *to_find);
-void for_loop(char **s);
 void through_pipes(t_mini *mini, int i);
 void close_pipes(t_mini *mini);
 void get_exit_status(t_mini *mini);
@@ -149,4 +137,12 @@ int check_inutils(t_mini *mini);
 char	*ft_remove_quotes(char *str);
 int count_quotes(char *str);
 char	*ft_remove_quotes(char *str);
+int check_parser2(t_mini *mini, int i);
+int	check_parser(t_mini *mini);
+void while_loop(char **s);
+void	hanlde_redirects(t_mini *mini);
+void	redirect(t_mini *mini);
+void	parser(t_mini *mini);
+char *do_sum(t_mini *mini, int i);
+int	check_parser3(t_mini *mini, int i);
 #endif
