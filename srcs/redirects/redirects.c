@@ -49,25 +49,17 @@ int	redirect_input(int i, t_mini *mini)
 }
 void	hanlde_redirects(t_mini *mini)
 {
-	int j;
-	int count;
+	int i;
 
-	j = 0;
-	count = count_red(mini);
-	if (count == 0)
-		return ;
-	else
+	i = 0;
+	while (mini->args[i])
 	{
-		while (mini->args[j])
-		{
-			if (!ft_strcmp(mini->args[j], ">"))
-				redirect_output(j, mini);
-			if (!ft_strcmp(mini->args[j], "<"))
-				redirect_input(j, mini);
-			if (!mini->args[j])
-				return ;
-			j++;
-		}
+		if (!ft_strcmp(mini->args[i], ">"))
+			redirect_output(i, mini);
+		if (!ft_strcmp(mini->args[i], "<"))
+			redirect_input(i, mini);
+		handle_red(mini, i);
+		i++;
 	}
 }
 

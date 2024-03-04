@@ -30,6 +30,7 @@ int builtins(t_mini *mini)
 	if (!ft_strcmp(mini->args[0], "exit"))
 	{
 		mini->exit_flag = 1;
+		unlink(".heredoc");
 		free_struct_2(mini);
 	}
 	if (!ft_strcmp(mini->args[0], "echo"))
@@ -70,10 +71,7 @@ int	check_parser(t_mini *mini)
 		if (!ft_strcmp(mini->args[i], ">"))
 		{
 			if (mini->args[i + 1])
-			{
-				if (check_parser2(mini, (i + 1)) == 1)
-					return (1);
-			}
+				return (check_parser2(mini, (i + 1)));
 			else
 			{
 				printf("minishell: syntax error near unexpected token `newline'\n");
@@ -81,8 +79,9 @@ int	check_parser(t_mini *mini)
 			}
 		}
 		if (!ft_strcmp(mini->args[i], "<"))
-			if (check_parser3(mini, i) == 1)
-				return (1);
+			return (check_parser3(mini, i));
+		if (do_redirects(mini, i) == 1)
+			return (1);
 		i++;
 	}
 	return (0);
@@ -105,6 +104,31 @@ int	check_parser3(t_mini *mini, int i)
 	{
 		printf("minishell: syntax error near unexpected token `newline'\n");
 		return (1);
+	}
+	return (0);
+}
+
+int do_redirects(t_mini *mini, int  i)
+{
+	if (!ft_strcmp(mini->args[i], "<<"))
+	{
+		if (mini->args[i + 1])
+			return (0);
+		else
+		{
+			printf("minishell: syntax error near unexpected token `newline'\n");
+			return (1);
+		}
+	}
+	if (!ft_strcmp(mini->args[i], ">>"))
+	{
+		if (mini->args[i + 1])
+			return (0);
+		else
+		{
+			printf("minishell: syntax error near unexpected token `newline'\n");
+			return (1);
+		}
 	}
 	return (0);
 }

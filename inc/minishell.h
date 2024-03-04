@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/wait.h>
+# include <sys/stat.h>
 #include <fcntl.h>
 #include <stdbool.h>
 #include <signal.h>
@@ -145,4 +146,11 @@ void	redirect(t_mini *mini);
 void	parser(t_mini *mini);
 char *do_sum(t_mini *mini, int i);
 int	check_parser3(t_mini *mini, int i);
+void	handle_red(t_mini *mini, int i);
+void	handle_append(t_mini *mini, int i);
+void	handle_heredoc(t_mini *mini, int i);
+int	free_child_p(t_mini *mini);
+int	handle_heredoc2(char *delimiter);
+void unlink_all(void);
+int do_redirects(t_mini *mini, int  i);
 #endif

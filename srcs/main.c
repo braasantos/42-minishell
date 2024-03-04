@@ -33,8 +33,8 @@ void	parser(t_mini *mini)
 	while (1)
 	{
 		mini->str = readline("\033[0;34mminishell \033[0m");
-		mini->new_str = pad_central(mini->str);
-		mini->args = ft_split(mini->new_str, ' ');
+		// mini->new_str = pad_central(mini->str);
+		mini->args = ft_split(mini->str, ' ');
 		if (!mini->str)
 		{
 			free_struct(mini);

@@ -3,6 +3,7 @@ SRCS = main.c \
 parsing/parsing.c \
 pipes/pipes.c \
 redirects/redirects.c \
+redirects/append_heredoc.c \
 signals/signal.c \
 signals/signal_handlers.c \
 helpers/utils.c \

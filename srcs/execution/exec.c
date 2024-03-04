@@ -55,7 +55,7 @@ void create_flow(t_mini *mini)
 	pipe_creation(mini);
 	while (mini->args[i])
 	{
-		if (is_a_cmd(mini->args[i], mini))
+		if (is_a_cmd(mini->args[i], mini) || is_a_option(mini->args[i], mini))
 		{
 			create_child(mini, i, 1, j);
 			j++;
@@ -69,15 +69,16 @@ void create_flow(t_mini *mini)
 void create_child(t_mini *mini, int i, int flag, int j)
 {
 	update_path(mini, i);
-	if (is_a_cmd(mini->args[i], mini) == false)
-	{
-		print(COMMAND_NOT_FOUND, mini->args[i]);
-		return;
-	}
 	mini->newpro[j] = fork();
 	if (!mini->newpro[j])
 	{
 		hanlde_redirects(mini);
+		if (is_a_cmd(mini->args[i], mini) == false)
+		{
+			print(COMMAND_NOT_FOUND, mini->args[i]);
+			delete_path(mini);
+			return;
+		}
 		if (flag == 1)
 			through_pipes(mini, j);
 		redirect(mini);

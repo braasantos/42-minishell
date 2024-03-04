@@ -25,6 +25,8 @@ bool is_a_red(char *s)
 			return (true);
 		i++;
 	}
+	if (!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
+		return (true);
 	return (false);
 }
 bool is_a_cmd(char *s, t_mini *mini)
