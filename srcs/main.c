@@ -30,7 +30,7 @@ int main(int ac, char **av)
 	ft_init_signals();
 	parser(&mini);
 }
-void	parser(t_mini *mini)
+void parser(t_mini *mini)
 {
 	while (1)
 	{
@@ -45,7 +45,7 @@ void	parser(t_mini *mini)
 		}
 		if (!mini->args[0])
 			continue;
-		add_history(mini->new_str);
+		add_history(mini->str);
 		parsing(mini, mini->new_str);
 		free_struct(mini);
 	}

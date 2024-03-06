@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/wait.h>
-# include <sys/stat.h>
+#include <sys/stat.h>
 #include <fcntl.h>
 #include <stdbool.h>
 #include <signal.h>
@@ -22,22 +22,22 @@ typedef enum e_op
 
 typedef struct s_mini
 {
-	char	*path_to_cmd; // for execve
-	char	**exec_args;  // for execve
-	char	**newenvp; // the copy of the env variable
-	char	**args;	 // the new_str splitted
-	pid_t	*newpro; // for fork
-	char	*str; // str with the initial string
-	char	*new_str; // worked string
-	int	*pipes_fd; // for pipes
-	int	fd1;
-	int	fd0;
-	int	STDIN;
-	int	STDOUT;
-	int	stdin_fd;
-	int	stdout_fd;
-	int	flag;
-	int	exit_flag;
+	char *path_to_cmd; // for execve
+	char **exec_args;  // for execve
+	char **newenvp;	   // the copy of the env variable
+	char **args;	   // the new_str splitted
+	pid_t *newpro;	   // for fork
+	char *str;		   // str with the initial string
+	char *new_str;	   // worked string
+	int *pipes_fd;	   // for pipes
+	int fd1;
+	int fd0;
+	int STDIN;
+	int STDOUT;
+	int stdin_fd;
+	int stdout_fd;
+	int flag;
+	int exit_flag;
 } t_mini;
 
 /* ************************************************************************** */
@@ -108,7 +108,6 @@ void ft_exit(t_mini *mini);
 /*				                 pipes                              	      */
 /* ************************************************************************** */
 
-
 /* ************************************************************************** */
 /*				checker					   */
 /* ************************************************************************** */
@@ -135,22 +134,25 @@ void ft_handle_eof(void);
 void free_struct(t_mini *mini);
 void free_struct_2(t_mini *mini);
 int check_inutils(t_mini *mini);
-char	*ft_remove_quotes(char *str);
+char *ft_remove_quotes(char *str);
 int count_quotes(char *str);
-char	*ft_remove_quotes(char *str);
+char *ft_remove_quotes(char *str);
 int check_parser2(t_mini *mini, int i);
-int	check_parser(t_mini *mini);
+int check_parser(t_mini *mini);
 void while_loop(char **s);
-void	hanlde_redirects(t_mini *mini);
-void	redirect(t_mini *mini);
-void	parser(t_mini *mini);
+void hanlde_redirects(t_mini *mini);
+void redirect(t_mini *mini);
+void parser(t_mini *mini);
 char *do_sum(t_mini *mini, int i);
-int	check_parser3(t_mini *mini, int i);
-void	handle_red(t_mini *mini, int i);
-void	handle_append(t_mini *mini, int i);
-void	handle_heredoc(t_mini *mini, int i);
-int	free_child_p(t_mini *mini);
-int	handle_heredoc2(char *delimiter);
+int check_parser3(t_mini *mini, int i);
+void handle_red(t_mini *mini, int i);
+void handle_append(t_mini *mini, int i);
+void handle_heredoc(t_mini *mini, int i);
+int free_child_p(t_mini *mini);
+int handle_heredoc2(char *delimiter);
 void unlink_all(void);
-int do_redirects(t_mini *mini, int  i);
+int do_redirects(t_mini *mini, int i);
+int count_red(t_mini *mini);
+char **add_option(t_mini *mini);
+
 #endif

@@ -9,6 +9,8 @@
 		"initializer_list": "c",
 		"unistd.h": "c",
 		"algorithm": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"stdlib.h": "c",
+		"stdio.h": "c"
 	}
 }
