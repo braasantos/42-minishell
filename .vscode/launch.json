@@ -5,10 +5,10 @@
             "name": "C/C++ Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/braasantos/last/minishell", // Path to your executable
+            "program": "/home/braasantos/backupminishell/minishell", // Path to your executable
             "args": [],
             "stopAtEntry": false,
-            "cwd": "/home/braasantos/last",
+            "cwd": "/home/braasantos/backupminishell",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",

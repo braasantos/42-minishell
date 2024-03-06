@@ -40,28 +40,20 @@ int builtins(t_mini *mini)
 	return (0);
 }
 
-int	check_parser2(t_mini *mini, int i)
+int check_parser2(t_mini *mini, int i)
 {
 	int file_fd;
 
 	file_fd = 0;
-	if (is_a_option(mini->args[i], mini))
+	file_fd = open(mini->args[i], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (!file_fd)
 	{
-		file_fd = open(mini->args[i], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-		if (!file_fd)
-		{
-			ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
-			return (1);
-		}
-	}
-	else
-	{
-		printf("minishell: syntax error near unexpected token `%s'\n", mini->args[i]);
+		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
 		return (1);
 	}
 	return (0);
 }
-int	check_parser(t_mini *mini)
+int check_parser(t_mini *mini)
 {
 	int i;
 
@@ -86,11 +78,11 @@ int	check_parser(t_mini *mini)
 	}
 	return (0);
 }
-int	check_parser3(t_mini *mini, int i)
+int check_parser3(t_mini *mini, int i)
 {
 	if (mini->args[i + 1])
 	{
-		if (!ft_strcmp(mini->args[i +1], ">"))
+		if (!ft_strcmp(mini->args[i + 1], ">"))
 			return (0);
 		if (is_a_file(mini->args[i + 1]))
 			return (0);
@@ -108,7 +100,7 @@ int	check_parser3(t_mini *mini, int i)
 	return (0);
 }
 
-int do_redirects(t_mini *mini, int  i)
+int do_redirects(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "<<"))
 	{
