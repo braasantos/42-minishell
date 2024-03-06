@@ -1,11 +1,28 @@
 #include "../../inc/minishell.h"
 
+void	print_arg(char *str, int total, int current)
+{
+	int	i = 0;
+
+	while(str[i])
+	{
+		if (str[i] != '"')
+			write(1, &str[i], 1);
+		i++;
+	}
+	if (total > current)
+		write(1, " ", 1);
+}
+
 int echo_cmd(char **tokens)
 {
-	int flag_nl = 1;
-	int option = 1;
-	int i = 0;
+	int 	flag_nl = 1;
+	int 	option = 1;
+	int 	i = 1;
+	int		argcnt = 1;
 
+	while (tokens[argcnt])
+		argcnt++;
 	while (tokens[i])
 	{
 		if (ft_check_echo_arguments(tokens[i]) && option)
@@ -14,13 +31,10 @@ int echo_cmd(char **tokens)
 			i++;
 		}
 		else
-		{
 			option = 0;
-		}
 		if (!option)
 		{
-			printf("%s", tokens[i]);
-			ft_print_echo_space(&tokens[i]);
+			print_arg(tokens[i], argcnt, i);
 			i++;
 		}
 	}
@@ -38,13 +52,16 @@ int ft_check_echo_arguments(char *array_args)
 		return 0;
 	while (array_args[i] == 'n')
 		i++;
-	return array_args[i] == '\0';
+	return (array_args[i] == '\0');
 }
 
 void ft_print_echo_space(char **aux)
 {
 	if (*(aux + 1))
+	{
+		//printf("-%s-", *(aux + 1));
 		printf(" ");
+	}
 }
 
 void ft_print_new_line(int flag_nl)
