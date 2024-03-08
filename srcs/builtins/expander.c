@@ -25,7 +25,7 @@ char *get_expand(char *s)
 	j = 0;
 	len = ft_strlen(s) - 1;
 	str = malloc(sizeof(char) * (len + 2));
-	while(s[i] != '$')
+	while (s[i] != '$')
 		i++;
 	while (s[i])
 	{
@@ -74,6 +74,5 @@ void do_strdup(int i, char *env, t_mini *mini, int flag)
 		mini->args[i] = ft_strjoin(mini->before, env);
 	else
 		mini->args[i] = ft_strdup(" ");
+	free(mini->before);
 }
-
-
