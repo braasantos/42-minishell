@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-void	print_arg(char *str, int total, int current, int flag)
+void print_arg(char *str, int total, int current, int flag)
 {
 	int i;
 
@@ -61,10 +61,8 @@ int ft_check_echo_arguments(char *args)
 	return (args[i] == '\0');
 }
 
-
 void ft_print_new_line(int flag_nl)
 {
 	if (flag_nl)
 		printf("\n");
 }
-
