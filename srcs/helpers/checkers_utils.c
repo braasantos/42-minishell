@@ -70,31 +70,3 @@ int count_dquotes(char *str)
     }
     return count;
 }
-
-
-char	*ft_remove_quotes(char *str)
-{
-	char	*new;
-	int	count;
-	int	i;
-	int	j;
-
-	count = count_quotes(str);
-	i = ft_strlen(str) - count;
-	new = (char *)malloc(sizeof(char) * (i + 1));
-	if (new == NULL)
-		return NULL;
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] != '\'' && str[i] != '\"')
-		{
-			new[j] = str[i];
-			j++;
-		}
-		i++;
-	}
-	new[j] = '\0';
-	return (new);
-}

@@ -8,6 +8,7 @@ signals/signal.c \
 signals/signal_handlers.c \
 helpers/utils.c \
 helpers/utils2.c \
+helpers/utils3.c \
 helpers/checkers_utils.c \
 helpers/utils_commands.c \
 helpers/checkers.c \
@@ -19,6 +20,9 @@ builtins/expander.c \
 builtins/expander2.c \
 builtins/pwd.c \
 builtins/env.c \
+builtins/export.c \
+builtins/export_utils.c \
+builtins/unset.c \
 builtins/cd.c \
 builtins/cd_util.c \
 builtins/echo.c \

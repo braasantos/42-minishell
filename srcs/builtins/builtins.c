@@ -26,7 +26,6 @@ int have_redirect(t_mini *mini)
 	return (0);
 }
 
-
 int builtins(t_mini *mini)
 {
 	if (!ft_strcmp(mini->args[0], "exit"))
@@ -43,9 +42,12 @@ int builtins(t_mini *mini)
 		return (get_cd(mini));
 	if ((!ft_strcmp(mini->args[0], "env")))
 		return (get_envp(mini));
+	if ((!ft_strcmp(mini->args[0], "export")))
+		return (get_export(mini));
+	if ((!ft_strcmp(mini->args[0], "unset")))
+		return (get_unset(mini));
 	return (0);
 }
-
 
 int check_parser2(t_mini *mini, int i)
 {
@@ -57,77 +59,6 @@ int check_parser2(t_mini *mini, int i)
 	{
 		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
 		return (1);
-	}
-	return (0);
-}
-int check_parser(t_mini *mini)
-{
-	int i;
-
-	i = 0;
-	while (mini->args[i])
-	{
-		if (!ft_strcmp(mini->args[i], ">"))
-		{
-			if (mini->args[i + 1])
-				return (check_parser2(mini, (i + 1)));
-			else
-			{
-				printf("minishell: syntax error near unexpected token `newline'\n");
-				return (1);
-			}
-		}
-		if (!ft_strcmp(mini->args[i], "<"))
-			return (check_parser3(mini, i));
-		if (do_redirects(mini, i) == 1)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-int check_parser3(t_mini *mini, int i)
-{
-	if (mini->args[i + 1])
-	{
-		if (!ft_strcmp(mini->args[i + 1], ">"))
-			return (0);
-		if (is_a_file(mini->args[i + 1]))
-			return (0);
-		else
-		{
-			printf("minishell: %s: No such file or directory\n", mini->args[i + 1]);
-			return (1);
-		}
-	}
-	else
-	{
-		printf("minishell: syntax error near unexpected token `newline'\n");
-		return (1);
-	}
-	return (0);
-}
-
-int do_redirects(t_mini *mini, int i)
-{
-	if (!ft_strcmp(mini->args[i], "<<"))
-	{
-		if (mini->args[i + 1])
-			return (0);
-		else
-		{
-			printf("minishell: syntax error near unexpected token `newline'\n");
-			return (1);
-		}
-	}
-	if (!ft_strcmp(mini->args[i], ">>"))
-	{
-		if (mini->args[i + 1])
-			return (0);
-		else
-		{
-			printf("minishell: syntax error near unexpected token `newline'\n");
-			return (1);
-		}
 	}
 	return (0);
 }

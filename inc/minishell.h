@@ -170,4 +170,14 @@ bool is_a_append_here(char *s);
 bool is_a_folder(char *s);
 int count_dquotes(char *str);
 int get_envp(t_mini *mini);
+int get_export(t_mini *mini);
+char **add_var(char **newenvp, char *new_var);
+void	export_woquotes(char **newvar, t_mini *mini);
+void	export_quotes(char **newvar, t_mini *mini);
+char *ft_strcpy(char *dest, char *src);
+int fore(char *s);
+int afta(char *s);
+char *help(char *str);
+int get_unset(t_mini *mini);
+int check_next(t_mini *mini, int i);
 #endif
