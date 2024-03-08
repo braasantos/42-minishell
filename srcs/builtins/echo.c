@@ -1,6 +1,10 @@
 #include "../../inc/minishell.h"
 
+<<<<<<< HEAD
 void print_arg(char *str, int total, int current)
+=======
+void	print_arg(char *str, int total, int current, int flag)
+>>>>>>> refs/remotes/origin/master
 {
 	int i;
 
@@ -11,11 +15,16 @@ void print_arg(char *str, int total, int current)
 			write(1, &str[i], 1);
 		i++;
 	}
-	if (total > current)
-		write(1, " ", 1);
+	if (flag == 0)
+		if (total > current)
+			write(1, " ", 1);
 }
 
+<<<<<<< HEAD
 int echo_cmd(t_mini *mini)
+=======
+int echo_cmd(char **tokens, t_mini *mini)
+>>>>>>> refs/remotes/origin/master
 {
 	int flag_nl;
 	int option;
@@ -38,7 +47,11 @@ int echo_cmd(t_mini *mini)
 			option = 0;
 		if (!option)
 		{
+<<<<<<< HEAD
 			print_arg(mini->args[i], argcnt, i);
+=======
+			print_arg(tokens[i], argcnt, i, mini->echo_flag);
+>>>>>>> refs/remotes/origin/master
 			i++;
 		}
 	}
@@ -60,6 +73,7 @@ int ft_check_echo_arguments(char *args)
 	return (args[i] == '\0');
 }
 
+<<<<<<< HEAD
 void ft_print_echo_space(char **aux)
 {
 	if (*(aux + 1))
@@ -68,6 +82,8 @@ void ft_print_echo_space(char **aux)
 		printf(" ");
 	}
 }
+=======
+>>>>>>> refs/remotes/origin/master
 
 void ft_print_new_line(int flag_nl)
 {

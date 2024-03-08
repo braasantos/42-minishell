@@ -16,6 +16,7 @@ static void init_all(t_mini *mini)
 	mini->stdin_fd = 0;
 	mini->stdout_fd = 1;
 	mini->exit_flag = 0;
+	mini->echo_flag = 0;
 	mini->STDIN = STDIN_FILENO;
 	mini->STDOUT = STDOUT_FILENO;
 }
@@ -38,7 +39,8 @@ void parser(t_mini *mini)
 	{
 		mini->str = readline("\033[0;34mminishell \033[0m");
 		mini->new_str = pad_central(mini->str);
-		mini->args = ft_split(mini->new_str, ' ');
+		mini->args = which_split(mini->new_str, mini);
+		//mini->args = ft_split(mini->new_str, ' ');
 		if (!mini->new_str)
 		{
 			free_struct(mini);

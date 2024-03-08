@@ -26,6 +26,8 @@ builtins/unset.c \
 builtins/cd.c \
 builtins/cd_util.c \
 builtins/echo.c \
+builtins/echo_split.c \
+builtins/echo_utils.c \
 clean_exit/clean_all.c \
 
 HEADER = ../inc/minishell.h
