@@ -34,7 +34,7 @@ int builtins(t_mini *mini)
 		free_struct_2(mini);
 	}
 	if (!ft_strcmp(mini->args[0], "echo"))
-		return (echo_cmd(mini->args));
+		return (echo_cmd(mini->args, mini));
 	if ((!ft_strcmp(mini->args[0], "cd")) || (!ft_strcmp(mini->args[0], "~")))
 		return (get_cd(mini));
 	return (0);

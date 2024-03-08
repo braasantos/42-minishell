@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-void	print_arg(char *str, int total, int current)
+void	print_arg(char *str, int total, int current, int flag)
 {
 	int	i = 0;
 
@@ -10,11 +10,12 @@ void	print_arg(char *str, int total, int current)
 			write(1, &str[i], 1);
 		i++;
 	}
-	if (total > current)
-		write(1, " ", 1);
+	if (flag == 0)
+		if (total > current)
+			write(1, " ", 1);
 }
 
-int echo_cmd(char **tokens)
+int echo_cmd(char **tokens, t_mini *mini)
 {
 	int 	flag_nl = 1;
 	int 	option = 1;
@@ -34,7 +35,7 @@ int echo_cmd(char **tokens)
 			option = 0;
 		if (!option)
 		{
-			print_arg(tokens[i], argcnt, i);
+			print_arg(tokens[i], argcnt, i, mini->echo_flag);
 			i++;
 		}
 	}
@@ -55,14 +56,6 @@ int ft_check_echo_arguments(char *array_args)
 	return (array_args[i] == '\0');
 }
 
-void ft_print_echo_space(char **aux)
-{
-	if (*(aux + 1))
-	{
-		//printf("-%s-", *(aux + 1));
-		printf(" ");
-	}
-}
 
 void ft_print_new_line(int flag_nl)
 {

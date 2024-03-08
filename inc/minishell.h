@@ -37,6 +37,7 @@ typedef struct s_mini
 	int stdin_fd;
 	int stdout_fd;
 	int flag;
+	int	echo_flag;
 	int exit_flag;
 } t_mini;
 
@@ -55,9 +56,8 @@ char *get_env(char *var, t_mini *mini);
 void change_dir(char *path, t_mini *mini);
 int get_cd(t_mini *mini);
 int ft_strstartswith(char *s1, char *s2);
-int echo_cmd(char **tokens);
+int echo_cmd(char **tokens, t_mini *mini);
 int ft_check_echo_arguments(char *array_args);
-void ft_print_echo_space(char **aux);
 void ft_print_new_line(int flag_nl);
 
 /* ************************************************************************** */
@@ -154,5 +154,8 @@ void unlink_all(void);
 int do_redirects(t_mini *mini, int i);
 int count_red(t_mini *mini);
 char **add_option(t_mini *mini);
+
+char	**which_split(char *str, t_mini *mini);
+char	**echo_split(char const *s, char c);
 
 #endif
