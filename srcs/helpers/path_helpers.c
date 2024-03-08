@@ -27,9 +27,9 @@ char **add_option(t_mini *mini)
 	char **ret;
 	int i;
 
-	result = NULL;
-	i = 0;
-	while (mini->args[i])
+	result = NULL; 
+	i = -1;
+	while (mini->args[++i])
 	{
 		temp = ft_strjoin(mini->args[i], " ");
 		if (result == NULL)
@@ -42,7 +42,6 @@ char **add_option(t_mini *mini)
 			free(new_result);
 		}
 		free(temp);
-		i++;
 	}
 	ret = ft_split(result, ' ');
 	free(result);
@@ -64,7 +63,7 @@ char **split_to_split(t_mini *mini, int i)
 
 	if (mini->args[i + 1])
 	{
-		if (is_a_option(mini->args[i + 1], mini))
+		if (is_a_option(mini->args[i + 1], mini) || is_a_folder(mini->args[i + 1]))
 		{
 			no_quotes = do_sum(mini, i);
 			str = ft_strdup(mini->args[i]);
@@ -82,4 +81,17 @@ char **split_to_split(t_mini *mini, int i)
 		}
 	}
 	return (ft_split(mini->args[i], ' '));
+}
+char *ft_touppercase(char *s)
+{
+    int i;
+	
+	i = 0;
+    while (s[i])
+	{
+        if (s[i] >= 'a' && s[i] <= 'z')
+            s[i] = s[i] - ('a' - 'A');
+        i++;
+    }
+    return (s);
 }

@@ -15,6 +15,10 @@ helpers/parser_helpers.c \
 helpers/path_helpers.c \
 execution/exec.c \
 builtins/builtins.c \
+builtins/expander.c \
+builtins/expander2.c \
+builtins/pwd.c \
+builtins/env.c \
 builtins/cd.c \
 builtins/cd_util.c \
 builtins/echo.c \

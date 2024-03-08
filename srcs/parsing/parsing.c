@@ -13,9 +13,9 @@ void parsing(t_mini *mini, char *str)
 	if (!ft_check_open_quotes(str))
 		return;
 	if (check_inutils(mini))
-		return ;
-	// if (!redirect_basic_check(str))
-	//  	ft_printf("invalid redirect\n");
+		return;
+	if (!redirect_basic_check(str))
+	 	ft_printf("invalid redirect\n");
 	if (!pipe_check(str))
 		ft_printf("Minishell: syntax error near unexpected token ``|'\n");
 	execute(mini);

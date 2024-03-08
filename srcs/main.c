@@ -7,6 +7,8 @@ static void init_all(t_mini *mini)
 	mini->newenvp = NULL;
 	mini->args = NULL;
 	mini->new_str = NULL;
+	mini->before = NULL;
+	mini->after = NULL;
 	mini->fd1 = 0;
 	mini->fd0 = 0;
 	mini->STDIN = 0;

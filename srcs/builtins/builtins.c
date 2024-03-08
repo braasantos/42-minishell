@@ -2,8 +2,9 @@
 
 int str_len(char **str)
 {
-	int i = 0;
+	int i;
 
+	i = 0;
 	while (str[i] != NULL)
 		i++;
 	return (i);
@@ -25,6 +26,7 @@ int have_redirect(t_mini *mini)
 	return (0);
 }
 
+
 int builtins(t_mini *mini)
 {
 	if (!ft_strcmp(mini->args[0], "exit"))
@@ -33,12 +35,17 @@ int builtins(t_mini *mini)
 		unlink(".heredoc");
 		free_struct_2(mini);
 	}
+	if (!ft_strcmp(mini->args[0], "pwd"))
+		return (print_pwd());
 	if (!ft_strcmp(mini->args[0], "echo"))
-		return (echo_cmd(mini->args));
-	if ((!ft_strcmp(mini->args[0], "cd")) || (!ft_strcmp(mini->args[0], "~")))
+		return (echo_cmd(mini));
+	if ((!ft_strcmp(mini->args[0], "cd")))
 		return (get_cd(mini));
+	if ((!ft_strcmp(mini->args[0], "env")))
+		return (get_envp(mini));
 	return (0);
 }
+
 
 int check_parser2(t_mini *mini, int i)
 {

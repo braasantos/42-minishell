@@ -58,3 +58,4 @@ bool is_a_option(char *s, t_mini *mini)
 	else
 		return (free(str), false);
 }
+

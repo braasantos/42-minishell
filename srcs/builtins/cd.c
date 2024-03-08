@@ -4,18 +4,22 @@ char *get_env(char *var, t_mini *mini)
 {
 	int i;
 	char *tmp;
+	char *str;
 
 	i = -1;
+	str = ft_remove_quotes(var);
 	while (mini->newenvp[++i])
 	{
-		tmp = ft_strjoin(var, "=");
+		tmp = ft_strjoin(str, "=");
 		if (ft_strstartswith(mini->newenvp[i], tmp))
 		{
 			free(tmp);
+			free(str);
 			return (ft_strchr(mini->newenvp[i], '=') + 1);
 		}
 		free(tmp);
 	}
+	free(str);
 	return (NULL);
 }
 
@@ -60,7 +64,7 @@ int get_cd(t_mini *mini)
 	char *home_dir;
 
 	home_dir = get_env("HOME", mini);
-	if ((!mini->args[1]) || (!ft_strcmp(mini->args[0], "~")))
+	if ((!mini->args[1]))
 	{
 		change_dir(home_dir, mini);
 		return (1);

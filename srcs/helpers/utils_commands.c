@@ -90,3 +90,9 @@ void while_loop(char **s)
 		i++;
 	}
 }
+bool is_a_append_here(char *s)
+{
+	if (!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
+			return (true);
+	return (false);
+}

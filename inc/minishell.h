@@ -38,6 +38,8 @@ typedef struct s_mini
 	int stdout_fd;
 	int flag;
 	int exit_flag;
+	char *before;
+	char *after;
 } t_mini;
 
 /* ************************************************************************** */
@@ -55,8 +57,8 @@ char *get_env(char *var, t_mini *mini);
 void change_dir(char *path, t_mini *mini);
 int get_cd(t_mini *mini);
 int ft_strstartswith(char *s1, char *s2);
-int echo_cmd(char **tokens);
-int ft_check_echo_arguments(char *array_args);
+int echo_cmd(t_mini *mini);
+int ft_check_echo_arguments(char *args);
 void ft_print_echo_space(char **aux);
 void ft_print_new_line(int flag_nl);
 
@@ -154,5 +156,18 @@ void unlink_all(void);
 int do_redirects(t_mini *mini, int i);
 int count_red(t_mini *mini);
 char **add_option(t_mini *mini);
-
+int print_pwd(void);
+char *get_expand(char *s);
+int check_expand(t_mini *mini);
+int bingo(char *s, char c);
+char *ft_before(char *);
+char *ft_after(char *);
+void free_expand(char *s1, char *s2, char *s3, int flag);
+void do_strjoin(int i, char *env, t_mini *mini);
+char *ft_touppercase(char *s);
+void do_strdup(int i, char *env, t_mini *mini, int flag);
+bool is_a_append_here(char *s);
+bool is_a_folder(char *s);
+int count_dquotes(char *str);
+int get_envp(t_mini *mini);
 #endif

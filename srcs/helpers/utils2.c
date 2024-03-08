@@ -61,3 +61,10 @@ int ft_strcmp(char *str1, char *str2)
 	}
 	return (0);
 }
+
+bool is_a_folder(char *s)
+{
+	if (access(s, F_OK) == -1)
+		return (false);
+	return (true);
+}

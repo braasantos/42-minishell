@@ -9,7 +9,8 @@ int count_red(t_mini *mini)
 	count = 0;
 	while (mini->args[i])
 	{
-		if (ft_strcmp(mini->args[i], "<") == 0 || ft_strcmp(mini->args[i], ">") == 0)
+		if (ft_strcmp(mini->args[i], "<") == 0 || ft_strcmp(mini->args[i], ">") == 0 || 
+			!ft_strcmp(mini->args[i], ">>") ||! ft_strcmp(mini->args[i], ">>"))
 			count++;
 		i++;
 	}
