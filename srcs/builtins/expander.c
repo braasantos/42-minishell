@@ -49,7 +49,7 @@ int check_expand(t_mini *mini)
 	{
 		if (bingo(mini->args[i], '$'))
 		{
-			if (ft_strstartswith(mini->args[i], "\'"))
+			if (ft_strstartswith(mini->args[i], "\'")) // esta linha impede que --echo "'$HOME'"-- funcione
 				return (0);
 			str = get_expand(mini->args[i]);
 			env = get_env(str, mini);
