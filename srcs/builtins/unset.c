@@ -2,41 +2,43 @@
 
 char **remove_var(char **newenvp, char *var_name)
 {
-    int num_vars;
-    int i;
+	int num_vars;
+	int i;
 	int j;
-    char **newenvp_new;
+	char **newenvp_new;
 
 	num_vars = 0;
+	while (newenvp[num_vars])
+		num_vars++;
+	newenvp_new = (char **)malloc((num_vars + 1) * sizeof(char *));
+	if (newenvp_new == NULL)
+		return NULL;
 	i = 0;
-    while (newenvp[num_vars])
+	j = 0;
+	while (i < num_vars)
 	{
-        num_vars++;
-	}
-    newenvp_new = (char **)malloc((num_vars + 1) * sizeof(char *));
-    j = 0;
-    while (newenvp[i])
-	{
-        if (ft_strncmp(newenvp[i], var_name, ft_strlen(var_name)) != 0)
+		if (ft_strncmp(newenvp[i], var_name, ft_strlen(var_name)) != 0)
 		{
-            newenvp_new[j] = (char *)malloc((ft_strlen(newenvp[i]) + 1) * sizeof(char));
-            ft_strcpy(newenvp_new[j], newenvp[i]);
-            j++;
-        }
-        i++;
-    }
-    newenvp_new[j] = NULL;
-    return (newenvp_new);
+			newenvp_new[j] = ft_strdup(newenvp[i]);
+			j++;
+		}
+		i++;
+	}
+	newenvp_new[j] = NULL;
+	return newenvp_new;
 }
 
 int get_unset(t_mini *mini)
 {
 	char *var_name;
 	char **newvar;
+	char *temp;
 
 	if (mini->args[1])
 	{
-		var_name = ft_strdup(mini->args[1]);
+		temp = ft_strdup(mini->args[1]);
+		var_name = ft_strjoin(temp, "=");
+		free(temp);
 		newvar = remove_var(mini->newenvp, var_name);
 		ft_free_arr(mini->newenvp);
 		mini->newenvp = get_newenvp(newvar);

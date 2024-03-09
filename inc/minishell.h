@@ -37,7 +37,7 @@ typedef struct s_mini
 	int stdin_fd;
 	int stdout_fd;
 	int flag;
-	int	echo_flag;
+	int echo_flag;
 	int exit_flag;
 	char *before;
 	char *after;
@@ -172,16 +172,19 @@ int count_dquotes(char *str);
 int get_envp(t_mini *mini);
 int get_export(t_mini *mini);
 char **add_var(char **newenvp, char *new_var);
-void	export_woquotes(char **newvar, t_mini *mini);
-void	export_quotes(char **newvar, t_mini *mini);
+void export_woquotes(char **newvar, t_mini *mini);
+void export_quotes(char **newvar, t_mini *mini);
 char *ft_strcpy(char *dest, char *src);
 int fore(char *s);
 int afta(char *s);
 char *help(char *str);
 int get_unset(t_mini *mini);
 int check_next(t_mini *mini, int i);
-
-char	**which_split(char *str, t_mini *mini);
-char	**echo_split(char const *s, char c);
+int var_exists(t_mini *mini, char *var);
+char **which_split(char *str, t_mini *mini);
+char **echo_split(char const *s, char c);
+void delete_replace(t_mini *mini, char **str);
+char *get_var(char *s);
+char **remove_var(char **newenvp, char *var_name);
 
 #endif
