@@ -37,6 +37,31 @@ char *get_expand(char *s)
 	str[j] = '\0';
 	return (str);
 }
+int expander_squotes(t_mini *mini, int i)
+{
+	char **split;
+
+	split = ft_split(mini->new_str, '\"');
+	if (count_dquotes(mini->new_str) > 0)
+	{
+		if (ft_strstartswith(split[1], "\'"))
+		{
+			ft_free_arr(split);
+			return (0);
+		}
+	}
+	else
+	{
+		if (ft_strstartswith(mini->args[i], "\'"))
+		{
+			ft_free_arr(split);
+			return (1);
+		}
+	}
+	ft_free_arr(split);
+	return (0);
+}
+
 
 int check_expand(t_mini *mini)
 {
@@ -49,7 +74,7 @@ int check_expand(t_mini *mini)
 	{
 		if (bingo(mini->args[i], '$'))
 		{
-			if (ft_strstartswith(mini->args[i], "\'"))
+			if (expander_squotes(mini, i))
 				return (0);
 			str = get_expand(mini->args[i]);
 			env = get_env(str, mini);

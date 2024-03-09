@@ -1,10 +1,12 @@
 #include "../../inc/minishell.h"
 
-void print_arg(char *str, int total, int current, int flag)
+void print_arg(char *str, t_mini *mini, int current, int flag)
 {
 	int i;
+	int total;
 
 	i = 0;
+	total = str_len(mini->args);
 	while (str[i])
 	{
 		if (str[i] != '"')
@@ -21,10 +23,8 @@ int echo_cmd(char **tokens, t_mini *mini)
 	int flag_nl;
 	int option;
 	int i;
-	int argcnt;
 
 	i = 1;
-	argcnt = str_len(mini->args);
 	flag_nl = 1;
 	option = 1;
 	check_expand(mini);
@@ -39,7 +39,7 @@ int echo_cmd(char **tokens, t_mini *mini)
 			option = 0;
 		if (!option)
 		{
-			print_arg(tokens[i], argcnt, i, mini->echo_flag);
+			print_arg(tokens[i], mini, i, mini->echo_flag);
 			i++;
 		}
 	}

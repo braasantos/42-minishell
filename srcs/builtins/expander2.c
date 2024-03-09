@@ -34,9 +34,8 @@ char *ft_before(char *s)
 	i = ft_before_exp(s);
 	if (i == 0)
 	{
-		space = malloc(2 * sizeof(char));
-    	space[0] = ' ';
-    	space[1] = '\0';
+		space = malloc(1 * sizeof(char));
+    	space[0] = '\0';
     	return (space);
 	}
 	before_quo = malloc(sizeof(char) * (i + 1));
