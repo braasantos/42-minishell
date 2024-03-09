@@ -2,8 +2,14 @@
 
 void do_strjoin(int i, char *env, t_mini *mini)
 {
+	char *temp;
+
+	mini->after = ft_after(mini->args[i]);
+	temp = ft_strjoin(mini->before, env);
 	free(mini->args[i]);
-	mini->args[i] = ft_strjoin(mini->before, env);
+	mini->args[i] = ft_strjoin(temp, mini->after);
+	free(temp);
+	free(mini->after);
 	free(mini->before);
 }
 void free_expand(char *s1, char *s2, char *s3, int flag)
@@ -60,7 +66,7 @@ char *ft_after(char *s)
 
 	j = 0;
 	i = ft_strlen(s) - 1;
-	while (i >= 0 && !isalnum(s[i]))
+	while (i >= 0 && !ft_isalnum(s[i]))
 	{
 		i--;
 		j++;

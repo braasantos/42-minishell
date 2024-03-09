@@ -6,15 +6,15 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/09 11:20:25 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/09 18:05:53 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-bool	db_quotes(char *str)
+bool db_quotes(char *str)
 {
-	int	quotes;
+	int quotes;
 
 	quotes = 0;
 	while (*str)
@@ -23,12 +23,12 @@ bool	db_quotes(char *str)
 	return (quotes);
 }
 
-bool	is_space(char c)
+bool is_space(char c)
 {
-	return((c >= 9 && c <= 13) || c == 32);
+	return ((c >= 9 && c <= 13) || c == 32);
 }
 
-static bool	is_echo(char *str)
+static bool is_echo(char *str)
 {
 	while (is_space(*str))
 		str++;
@@ -37,9 +37,10 @@ static bool	is_echo(char *str)
 	return (false);
 }
 
-char	**which_split(char *str, t_mini *mini)
+char **which_split(char *str, t_mini *mini)
 {
-	char	**split;
+	char **split;
+	char *temp;
 
 	if (is_echo(str) && db_quotes(str))
 	{
@@ -48,10 +49,14 @@ char	**which_split(char *str, t_mini *mini)
 		split = echo_split(&*(str), '"');
 		mini->echo_flag = 1;
 	}
-	else
+	else if (count_dquotes(str) > 0)
 	{
-		split = ft_split(str, ' ');
+		temp = ft_remove_quotes(str);
+		split = ft_split(temp, ' ');
+		free(temp);
 		mini->echo_flag = 0;
 	}
+	else
+		split = ft_split(str, ' ');
 	return (split);
 }
