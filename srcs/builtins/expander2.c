@@ -4,7 +4,7 @@ void do_strjoin(int i, char *env, t_mini *mini)
 {
 	char *temp;
 
-	mini->after = ft_after(mini->args[i]);
+	mini->after = ft_after(mini->new_str);
 	temp = ft_strjoin(mini->before, env);
 	free(mini->args[i]);
 	mini->args[i] = ft_strjoin(temp, mini->after);
@@ -20,6 +20,20 @@ void free_expand(char *s1, char *s2, char *s3, int flag)
 	if (flag == 1)
 		s3 = ft_strdup(" ");
 }
+int ft_var(char *str)
+{
+	int i;
+
+	i = ft_before_exp(str);
+	if (str[i] && str[i] == '$')
+		i++;
+	while (str[i] && str[i] != '\'')
+		i++;
+	if (str[i] == '\'')
+		i --;
+	return (i);
+}
+
 int ft_before_exp(char *str)
 {
 	int i;
@@ -41,8 +55,8 @@ char *ft_before(char *s)
 	if (i == 0)
 	{
 		space = malloc(1 * sizeof(char));
-    	space[0] = '\0';
-    	return (space);
+		space[0] = '\0';
+		return (space);
 	}
 	before_quo = malloc(sizeof(char) * (i + 1));
 	if (before_quo == NULL)
@@ -63,12 +77,14 @@ char *ft_after(char *s)
 	int j;
 	char *after_quo;
 	int k;
+	int len;
 
 	j = 0;
-	i = ft_strlen(s) - 1;
-	while (i >= 0 && !ft_isalnum(s[i]))
+	i = ft_var(s);
+	len = ft_strlen(s) - 1 - i;
+	while (len >= 0)
 	{
-		i--;
+		len--;
 		j++;
 	}
 	after_quo = malloc(sizeof(char) * (j + 1));

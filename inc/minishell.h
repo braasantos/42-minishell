@@ -187,4 +187,9 @@ void delete_replace(t_mini *mini, char **str);
 char *get_var(char *s);
 char **remove_var(char **newenvp, char *var_name);
 
+int ft_after_exp(char *str, int j);
+void out_of_names(char *s);
+int ft_before_exp(char *str);
+int ft_var(char *str);
+
 #endif
