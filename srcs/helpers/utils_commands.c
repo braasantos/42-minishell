@@ -96,3 +96,16 @@ bool is_a_append_here(char *s)
 			return (true);
 	return (false);
 }
+bool	is_a_number(char *s)
+{
+	int i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (ft_isdigit(s[i]))
+			return (true);
+		i++;
+	}
+	return (false);
+}

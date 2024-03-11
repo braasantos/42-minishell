@@ -15,9 +15,70 @@ void update_path(t_mini *mini, int i)
 			if (is_a_option(mini->args[i + 1], mini) || is_a_file(mini->args[i + 1]) || is_a_cmd(mini->args[i + 1], mini))
 				mini->exec_args = get_newenvp(mini->args);
 	}
+	else if (!ft_strcmp(mini->args[i], "head"))
+		mini->exec_args = another_split(mini, i);
 	else
 		mini->exec_args = split_to_split(mini, i);
 }
+char **another_split(t_mini *mini, int i)
+{
+	char **new_str;
+	char *temp;
+	char *str;
+	char *no_quotes;
+
+	if (mini->args[i + 1])
+	{
+		if (is_a_option(mini->args[i + 1], mini) || is_a_folder(mini->args[i + 1]))
+		{
+			no_quotes = do_sum(mini, i);
+			temp = give_first(no_quotes, mini, i);
+			if (mini->args[i + 2])
+			{
+				if (is_a_number(mini->args[i + 2]) || is_a_file(mini->args[i + 2]))
+					str = ft_strjoin(temp, mini->args[i + 2]);
+				new_str = ft_split(str, ' ');
+			}
+			else
+				new_str = ft_split(temp, ' ');
+			free(str);
+			if (!new_str)
+				return (free(temp), ft_free_arr(new_str), NULL);
+			else
+				return (free(temp), new_str);
+		}
+	}
+	return (ft_split(mini->args[i], ' '));
+}
+
+char *give_first(char *no_quotes, t_mini *mini, int i)
+{
+	char *str;
+	char *temp;
+
+	str = ft_strdup(mini->args[i]);
+	temp = ft_strjoin(str, " ");
+	free(str);
+	str = ft_strjoin(temp, no_quotes);
+	free(temp);
+	free(no_quotes);
+	return (str);
+}
+
+static	char *hndl_quotes(t_mini *mini, int i)
+{
+	char *s;
+	char *temp;
+
+	if (count_dquotes(mini->args[i]) > 0)
+		s = ft_remove_quotes(mini->args[i]);
+	else
+		s = ft_strdup(mini->args[i]);
+	temp = ft_strjoin(s, " ");
+	free(s);
+	return (temp);
+}
+
 
 char **add_option(t_mini *mini)
 {
@@ -27,11 +88,11 @@ char **add_option(t_mini *mini)
 	char **ret;
 	int i;
 
-	result = NULL; 
+	result = NULL;
 	i = -1;
 	while (mini->args[++i])
 	{
-		temp = ft_strjoin(mini->args[i], " ");
+		temp = hndl_quotes(mini, i);
 		if (result == NULL)
 			result = ft_strdup(temp);
 		else
@@ -84,14 +145,14 @@ char **split_to_split(t_mini *mini, int i)
 }
 char *ft_touppercase(char *s)
 {
-    int i;
-	
+	int i;
+
 	i = 0;
-    while (s[i])
+	while (s[i])
 	{
-        if (s[i] >= 'a' && s[i] <= 'z')
-            s[i] = s[i] - ('a' - 'A');
-        i++;
-    }
-    return (s);
+		if (s[i] >= 'a' && s[i] <= 'z')
+			s[i] = s[i] - ('a' - 'A');
+		i++;
+	}
+	return (s);
 }

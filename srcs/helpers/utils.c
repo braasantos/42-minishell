@@ -53,7 +53,7 @@ int	pipe_check(char *str)
 	{
 		if (str[i] == '|' && !quotes_open(str, i))
 		{
-			if (i == 0)
+			if (i == 1)
 				return (0);
 			if (str[i + 1] == '\0')
 				return (0);

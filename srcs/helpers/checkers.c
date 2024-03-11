@@ -32,12 +32,17 @@ bool is_a_red(char *s)
 bool is_a_cmd(char *s, t_mini *mini)
 {
 	char *str;
+	char *temp;
 
-	str = ft_add(mini, s);
-	if (access(str, X_OK) == 0)
-		return (free(str), true);
+	if (count_quotes(s) > 0)
+		temp = ft_remove_quotes(s);
 	else
-		return (free(str), false);
+		temp = ft_strdup(s);
+	str = ft_add(mini, temp);
+	if (access(str, X_OK) == 0)
+		return (free(temp), free(str), true);
+	else
+		return (free(temp), free(str), false);
 }
 bool is_a_file(char *s)
 {
@@ -50,8 +55,10 @@ bool is_a_option(char *s, t_mini *mini)
 {
 	char *str;
 
-	if (is_a_pipe(s) || is_a_red(s) || is_a_file(s) || !ft_strcmp(s, "-"))
+	if (is_a_pipe(s) || is_a_red(s) || is_a_file(s))
 		return (false);
+	if (!ft_strcmp(s, "-"))
+		return (true);
 	str = ft_add(mini, s);
 	if (access(str, X_OK) == -1)
 		return (free(str), true);

@@ -40,6 +40,7 @@ void parser(t_mini *mini)
 		mini->str = readline("\033[0;34mminishell \033[0m");
 		mini->new_str = pad_central(mini->str);
 		mini->args = which_split(mini->new_str, mini);
+		check_comand(mini);
 		if (!mini->new_str)
 		{
 			free_struct(mini);
@@ -47,7 +48,10 @@ void parser(t_mini *mini)
 			exit(1);
 		}
 		if (!mini->args[0])
+		{
+			free_struct(mini);
 			continue;
+		}
 		add_history(mini->str);
 		parsing(mini, mini->new_str);
 		free_struct(mini);

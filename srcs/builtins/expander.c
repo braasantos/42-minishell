@@ -34,7 +34,7 @@ char *get_expand(char *s)
 		else
 			str[j++] = s[i++];
 		if (s[i] == '\'' || s[i] == ' ')
-			break ;
+			break;
 	}
 	str[j] = '\0';
 	return (str);
@@ -63,7 +63,17 @@ int expander_squotes(t_mini *mini, int i)
 	ft_free_arr(split);
 	return (0);
 }
+static void check(int i, char *env, t_mini *mini)
+{
+	mini->before = ft_before(mini->args[i]);
+	if (count_dquotes(mini->new_str) > 0)
+		do_strjoin(i, env, mini);
+	else if (count_squotes(mini->new_str) > 0)
+		do_strdup(i, env, mini, 1);
+	else
+		do_strdup(i, env, mini, 1);
 
+}
 int check_expand(t_mini *mini)
 {
 	int i;
@@ -82,11 +92,7 @@ int check_expand(t_mini *mini)
 			free(str);
 			if (env == NULL)
 				return (free(env), do_strdup(i, env, mini, 0), 0);
-			mini->before = ft_before(mini->args[i]);
-			if (count_dquotes(mini->new_str) > 0)
-				do_strjoin(i, env, mini);
-			else
-				do_strdup(i, env, mini, 1);
+			check(i, env, mini);	
 		}
 		i++;
 	}

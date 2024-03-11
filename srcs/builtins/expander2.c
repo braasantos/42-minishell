@@ -27,10 +27,20 @@ int ft_var(char *str)
 	i = ft_before_exp(str);
 	if (str[i] && str[i] == '$')
 		i++;
-	while (str[i] && str[i] != '\'')
-		i++;
-	if (str[i] == '\'')
-		i --;
+	if (count_squotes(str) > 0)
+	{
+		while (str[i] && str[i] != '\'')
+			i++;
+		if (str[i] == '\'')
+			i--;
+	}
+	else
+	{
+		while (str[i] && str[i] != ' ')
+			i++;
+		if (str[i] == ' ')
+			i--;
+	}
 	return (i);
 }
 
@@ -43,6 +53,7 @@ int ft_before_exp(char *str)
 		i++;
 	return (i);
 }
+
 
 char *ft_before(char *s)
 {

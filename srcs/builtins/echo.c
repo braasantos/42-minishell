@@ -18,6 +18,7 @@ void print_arg(char *str, t_mini *mini, int current, int flag)
 			write(1, " ", 1);
 }
 
+
 int echo_cmd(char **tokens, t_mini *mini)
 {
 	int flag_nl;
@@ -30,7 +31,7 @@ int echo_cmd(char **tokens, t_mini *mini)
 	check_expand(mini);
 	while (mini->args[i])
 	{
-		if (ft_check_echo_arguments(mini->args[i]) && option)
+		if (!ft_strcmp(mini->args[i], "-n") && option)
 		{
 			flag_nl = 0;
 			i++;
@@ -46,23 +47,15 @@ int echo_cmd(char **tokens, t_mini *mini)
 	return (ft_print_new_line(flag_nl), 1);
 }
 
-int ft_check_echo_arguments(char *args)
+int ft_check_echo_arguments(char *arg)
 {
-	int i;
-
-	i = 0;
-	if (args[i] != '-')
-		return 0;
-	i++;
-	if (args[i] != 'n')
-		return 0;
-	while (args[i] == 'n')
-		i++;
-	return (args[i] == '\0');
+	if (ft_strcmp(arg, "-n") == 0)
+		return (1);
+	return (0);
 }
 
 void ft_print_new_line(int flag_nl)
 {
 	if (flag_nl)
-		printf("\n");
+		ft_printf("\n");
 }

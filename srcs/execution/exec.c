@@ -41,10 +41,13 @@ int pipe_creation(t_mini *mini)
 	return (0);
 }
 
+
+
 bool is_not_a_cmd(char *s)
 {
 	if (is_a_pipe(s) || is_a_red(s) || ft_strstartswith(s, "-") || 
-		count_quotes(s) > 0 || is_a_append_here(s) || is_a_file(s))
+		count_quotes(s) > 0 || is_a_append_here(s) || is_a_file(s)
+		|| is_a_number(s))
 		return (false);
 	return (true);
 }
@@ -78,7 +81,7 @@ void create_child(t_mini *mini, int i, int flag, int j)
 	if (is_a_cmd(mini->args[i], mini) == false)
 	{
 		print(COMMAND_NOT_FOUND, mini->args[i]);
-		return;
+		return ;
 	}
 	update_path(mini, i);
 	mini->newpro[j] = fork();

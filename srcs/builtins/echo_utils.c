@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/09 18:05:53 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/11 18:16:27 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,43 @@ static bool is_echo(char *str)
 	return (false);
 }
 
+void check_comand(t_mini *mini)
+{
+	int i;
+	char *temp;
+
+	i = 0;
+	while(mini->args[i])
+	{
+		if (is_a_cmd(mini->args[i], mini))
+		{
+			if (count_quotes(mini->args[i]) > 0)
+			{
+				temp = ft_strdup(mini->args[i]);
+				free(mini->args[i]);
+				mini->args[i] = ft_remove_quotes(temp);
+				free(temp);
+			}
+		}
+		i++;
+	}
+}
+
 char **which_split(char *str, t_mini *mini)
 {
 	char **split;
-	char *temp;
 
 	if (is_echo(str) && db_quotes(str))
 	{
-		while (*str != '"')
+		while (*str != '"' && *str != '-')
 			str++;
 		split = echo_split(&*(str), '"');
 		mini->echo_flag = 1;
 	}
-	else if (count_dquotes(str) > 0)
+	else
 	{
-		temp = ft_remove_quotes(str);
-		split = ft_split(temp, ' ');
-		free(temp);
+		split = ft_split(str, ' ');
 		mini->echo_flag = 0;
 	}
-	else
-		split = ft_split(str, ' ');
 	return (split);
 }

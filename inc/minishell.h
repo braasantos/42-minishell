@@ -186,10 +186,14 @@ char **echo_split(char const *s, char c);
 void delete_replace(t_mini *mini, char **str);
 char *get_var(char *s);
 char **remove_var(char **newenvp, char *var_name);
-
+int count_squotes(char *str);
 int ft_after_exp(char *str, int j);
 void out_of_names(char *s);
 int ft_before_exp(char *str);
 int ft_var(char *str);
+bool	is_a_number(char *s);
+char **another_split(t_mini *mini, int i);
+char *give_first(char *no_quotes, t_mini *mini, int i);
+void check_comand(t_mini *mini);
 
 #endif
