@@ -44,6 +44,8 @@ int count_quotes(char *str)
     int i;
     int count;
 
+	if (!str)
+		return (0);
     i = 0;
     count = 0;
     while (str[i])
@@ -60,6 +62,8 @@ int count_dquotes(char *str)
     int i;
     int count;
 
+	if (!str)
+		return (0);
     i = 0;
     count = 0;
     while (str[i])

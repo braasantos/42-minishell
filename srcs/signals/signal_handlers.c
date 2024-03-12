@@ -3,46 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 13:54:36 by pabernar          #+#    #+#             */
-/*   Updated: 2024/02/23 19:01:04 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/12 15:02:04 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-
-void	ft_handle_eof(void)
+void	exec_signals(int sig, void *mini)
 {
-	rl_replace_line("exit", 0);
-	rl_redisplay();
-	printf("\n");
-	exit(0);
-}
+	static t_mini	*static_mini;
 
-void	ft_handle_sigint(int sig)
-{
-	if (sig == SIGINT)
+	if (!static_mini && mini)
+		static_mini = (t_mini *)mini;
+	if (static_mini && static_mini->interact)
 	{
-		rl_replace_line("", 0);
-		printf("\n");
-		rl_on_new_line();
-		rl_redisplay();
+		if (sig == SIGINT)
+		{
+			printf("\n");
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
+		if (sig == SIGQUIT)
+		{
+			printf("\b\b  \b\b");
+			rl_redisplay();
+		}
 	}
-}
-
-void	ft_handle_sigint_ign(int sig)
-{
+	if (!(static_mini->interact))
+		if (sig == SIGINT)
+			write(1, "\n", 1);
 	if (sig == SIGINT)
-		g_signal = sig;
+		g_signal = 130;
 }
 
-void	ft_handle_sigquit(int sig)
+static void	signals_handler(int sig)
 {
-	if (sig == SIGQUIT)
-	{
-		g_signal = sig;
-		printf("Quit (core dumped)");
-	}
+	exec_signals(sig, 0);
+}
+
+void	signals_start(void)
+{
+	struct sigaction	sa;
+	
+	sa.sa_handler = &signals_handler;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	sigaction(SIGQUIT, &sa, NULL);
+	sigaction(SIGINT, &sa, NULL);
 }

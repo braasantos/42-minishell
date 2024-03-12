@@ -24,6 +24,8 @@ int	padding_needed(char *str, int i, int pad)
 {
 	char	skip;
 
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if (str[i] && find_char(str[i], "|><") && !quotes_open(str, i))
@@ -44,6 +46,8 @@ char	*pad_central(char *str)
 	int		extra;
 	char	*ret;
 
+	if (!str)
+		return (NULL);
 	extra = padding_needed(str, 0, 0);
 	if (extra == 0)
 		return (ft_strdup(str));

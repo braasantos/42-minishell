@@ -41,6 +41,7 @@ typedef struct s_mini
 	int exit_flag;
 	char *before;
 	char *after;
+	bool	interact;
 } t_mini;
 
 /* ************************************************************************** */
@@ -117,6 +118,9 @@ int check_position(t_mini *mini, int j);
 /* ************************************************************************** */
 /*				                      signal	             				  */
 /* ************************************************************************** */
+void	signals_start(void);
+void	exec_signals(int sig, void *mini);
+
 void ft_init_signals(void);
 void ft_ignore_signals(void);
 void ft_restore_signals(void);
@@ -124,6 +128,9 @@ void ft_handle_eof(void);
 void ft_handle_sigint(int sig);
 void ft_handle_sigint_ign(int sig);
 void ft_handle_sigquit(int sig);
+
+
+void	handle_sigint();
 /* ************************************************************************** */
 /*				parser.c					   */
 /* ************************************************************************** */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/11 18:16:27 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/12 14:56:52 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ bool is_space(char c)
 
 static bool is_echo(char *str)
 {
+	if (!str)
+		return (NULL);
 	while (is_space(*str))
 		str++;
 	if (!ft_strncmp("echo", &*(str), 4))
@@ -43,6 +45,8 @@ void check_comand(t_mini *mini)
 	char *temp;
 
 	i = 0;
+	if (!mini->args)
+		return ;
 	while(mini->args[i])
 	{
 		if (is_a_cmd(mini->args[i], mini))
