@@ -41,13 +41,10 @@ int pipe_creation(t_mini *mini)
 	return (0);
 }
 
-
-
 bool is_not_a_cmd(char *s)
 {
-	if (is_a_pipe(s) || is_a_red(s) || ft_strstartswith(s, "-") || 
-		count_quotes(s) > 0 || is_a_append_here(s) || is_a_file(s)
-		|| is_a_number(s))
+	if (is_a_pipe(s) || is_a_red(s) || ft_strstartswith(s, "-") ||
+		count_quotes(s) > 0 || is_a_append_here(s) || is_a_file(s) || is_a_number(s))
 		return (false);
 	return (true);
 }
@@ -66,7 +63,8 @@ void create_flow(t_mini *mini)
 			break;
 		if (is_not_a_cmd(mini->args[i]))
 		{
-			create_child(mini, i, 1, j);
+			if (create_child(mini, i, 1, j) == 1)
+				break;
 			j++;
 		}
 		i++;
@@ -74,14 +72,14 @@ void create_flow(t_mini *mini)
 	close_pipes(mini);
 	get_exit_status(mini);
 }
-void create_child(t_mini *mini, int i, int flag, int j)
+int create_child(t_mini *mini, int i, int flag, int j)
 {
 	if (builtins(mini) == 1)
-		return;
+		return (0);
 	if (is_a_cmd(mini->args[i], mini) == false)
 	{
 		print(COMMAND_NOT_FOUND, mini->args[i]);
-		return ;
+		return (1);
 	}
 	update_path(mini, i);
 	mini->newpro[j] = fork();
@@ -97,4 +95,5 @@ void create_child(t_mini *mini, int i, int flag, int j)
 	if (mini->exit_flag != 1 && flag == 0)
 		get_exit_status(mini);
 	delete_path(mini);
+	return (0);
 }

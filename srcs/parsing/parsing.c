@@ -16,8 +16,8 @@ void parsing(t_mini *mini, char *str)
 		return;
 	if (!redirect_basic_check(str))
 	 	ft_printf("invalid redirect\n");
-	if (!pipe_check(str))
-		ft_printf("Minishell: syntax error near unexpected token ``|'\n");
+	if (!pipe_check(mini, str))
+		return ;
 	execute(mini);
 }
 void sigint_on_child(int signal)

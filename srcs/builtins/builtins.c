@@ -38,7 +38,7 @@ int builtins(t_mini *mini)
 		return (print_pwd());
 	if (!ft_strcmp(mini->args[0], "echo"))
 		return (echo_cmd(mini->args, mini));
-	if ((!ft_strcmp(mini->args[0], "cd")) || (!ft_strcmp(mini->args[0], "~")))
+	if ((!ft_strcmp(mini->args[0], "cd")))
 		return (get_cd(mini));
 	if ((!ft_strcmp(mini->args[0], "env")))
 		return (get_envp(mini));

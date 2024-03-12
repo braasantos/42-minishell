@@ -44,21 +44,25 @@ int	quotes_open(char *str, int target_index)
 	return (0);
 }
 
-int	pipe_check(char *str)
+int	pipe_check(t_mini *mini,char *str)
 {
 	int	i;
 
 	i = -1;
-	while (str[++i])
+	while (mini->args[++i])
 	{
-		if (str[i] == '|' && !quotes_open(str, i))
+		if (!ft_strcmp(mini->args[i], "|") && !quotes_open(str, i))
 		{
-			if (i == 1)
+			if (i == 0)
+			{
+				ft_printf("Minishell: syntax error near unexpected token `|'\n");
 				return (0);
-			if (str[i + 1] == '\0')
+			}
+			if (!mini->args[i + 1])
+			{
+				ft_printf("Minishell: syntax error near unexpected token `|'\n");
 				return (0);
-			if (i != 0 && (str[i - 1] == '|' || str[i + 1] == '|'))
-				return (0);
+			}
 		}
 	}
 	return (1);

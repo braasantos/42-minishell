@@ -41,6 +41,7 @@ typedef struct s_mini
 	int exit_flag;
 	char *before;
 	char *after;
+	bool pipe_or_redirect_found;
 } t_mini;
 
 /* ************************************************************************** */
@@ -87,7 +88,7 @@ int find_char(char c, char *find);
 int padding_needed(char *str, int i, int pad);
 char *pad_central(char *str);
 int quotes_open(char *str, int target_index);
-int pipe_check(char *str);
+int pipe_check(t_mini *mini, char *str);
 int redirect_basic_check(char *str);
 int ft_check_open_quotes(char *str);
 int count_pipes(t_mini *mini);
@@ -102,7 +103,7 @@ void ft_free_arr(char **str);
 /* ************************************************************************** */
 /*				parser.c					   */
 /* ************************************************************************** */
-void create_child(t_mini *mini, int i, int flag, int j);
+int create_child(t_mini *mini, int i, int flag, int j);
 void parsing(t_mini *mini, char *str);
 void ft_exit(t_mini *mini);
 
@@ -155,7 +156,7 @@ int handle_heredoc2(char *delimiter);
 void unlink_all(void);
 int do_redirects(t_mini *mini, int i);
 int count_red(t_mini *mini);
-char **add_option(t_mini *mini);
+char **add_option(t_mini *mini, int i);
 int print_pwd(void);
 char *get_expand(char *s);
 int check_expand(t_mini *mini);
@@ -191,7 +192,7 @@ int ft_after_exp(char *str, int j);
 void out_of_names(char *s);
 int ft_before_exp(char *str);
 int ft_var(char *str);
-bool	is_a_number(char *s);
+bool is_a_number(char *s);
 char **another_split(t_mini *mini, int i);
 char *give_first(char *no_quotes, t_mini *mini, int i);
 void check_comand(t_mini *mini);

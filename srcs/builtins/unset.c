@@ -37,7 +37,10 @@ int get_unset(t_mini *mini)
 	if (mini->args[1])
 	{
 		temp = ft_strdup(mini->args[1]);
-		var_name = ft_strjoin(temp, "=");
+		if (find_char('=', mini->args[1]))
+			var_name = ft_strjoin(temp, "=");
+		else
+			var_name = ft_strdup(temp);
 		free(temp);
 		newvar = remove_var(mini->newenvp, var_name);
 		ft_free_arr(mini->newenvp);

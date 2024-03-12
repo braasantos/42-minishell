@@ -47,13 +47,6 @@ int echo_cmd(char **tokens, t_mini *mini)
 	return (ft_print_new_line(flag_nl), 1);
 }
 
-int ft_check_echo_arguments(char *arg)
-{
-	if (ft_strcmp(arg, "-n") == 0)
-		return (1);
-	return (0);
-}
-
 void ft_print_new_line(int flag_nl)
 {
 	if (flag_nl)

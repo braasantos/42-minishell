@@ -12,6 +12,7 @@
 		"minishell.h": "c",
 		"stdlib.h": "c",
 		"stdio.h": "c",
-		"typeinfo": "c"
+		"typeinfo": "c",
+		"functional": "c"
 	}
 }

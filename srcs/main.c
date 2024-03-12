@@ -33,6 +33,7 @@ int main(int ac, char **av)
 	ft_init_signals();
 	parser(&mini);
 }
+
 void parser(t_mini *mini)
 {
 	while (1)
