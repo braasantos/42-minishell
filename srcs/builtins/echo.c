@@ -14,7 +14,7 @@ void print_arg(char *str, t_mini *mini, int current, int flag)
 		i++;
 	}
 	if (flag == 0)
-		if (total > current)
+		if (total - 1 > current)
 			write(1, " ", 1);
 }
 

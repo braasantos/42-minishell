@@ -79,6 +79,8 @@ char	*ft_remove_quotes(char *str)
 	int	i;
 	int	j;
 
+	if (!str)
+		return (NULL);
 	count = count_quotes(str);
 	i = ft_strlen(str) - count;
 	new = (char *)malloc(sizeof(char) * (i + 1));
