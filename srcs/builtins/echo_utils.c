@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/12 21:16:33 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/13 16:55:06 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,6 @@ bool is_space(char c)
 	return ((c >= 9 && c <= 13) || c == 32);
 }
 
-static bool is_echo(char *str)
-{
-	if (!str)
-		return (NULL);
-	while (is_space(*str))
-		str++;
-	if (!ft_strncmp("echo", &*(str), 4))
-		return (true);
-	return (false);
-}
-
 void check_comand(t_mini *mini)
 {
 	int i;
@@ -46,8 +35,8 @@ void check_comand(t_mini *mini)
 
 	i = 0;
 	if (!mini->args)
-		return ;
-	while(mini->args[i])
+		return;
+	while (mini->args[i])
 	{
 		if (is_a_cmd(mini->args[i], mini))
 		{
@@ -59,6 +48,10 @@ void check_comand(t_mini *mini)
 				free(temp);
 			}
 		}
+		if (bingo(mini->args[i], '$'))
+			expand_str(mini, i);
+		if (bingo(mini->args[i], '\''))
+			time_to_remove(mini, i);
 		i++;
 	}
 }
@@ -67,17 +60,32 @@ char **which_split(char *str, t_mini *mini)
 {
 	char **split;
 
-	if (is_echo(str) && db_quotes(str))
-	{
-		while (*str != '"' && *str != '-')
-			str++;
-		split = echo_split(&*(str), '"');
-		mini->echo_flag = 1;
-	}
-	else
-	{
-		split = ft_split(str, ' ');
-		mini->echo_flag = 0;
-	}
+	split = ft_split(str, ' ');
+	mini->echo_flag = 0;
 	return (split);
+}
+int count_quote_pairs(char *str)
+{
+	int pairs;
+	int open_quote;
+	int i;
+
+	pairs = 0;
+	open_quote = 0;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '"')
+		{
+			if (open_quote == 0)
+				open_quote = 1;
+			else
+			{
+				pairs++;
+				open_quote = 0;
+			}
+		}
+		i++;
+	}
+	return (pairs);
 }

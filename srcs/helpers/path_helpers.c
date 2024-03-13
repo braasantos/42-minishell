@@ -27,9 +27,6 @@ bool check_options(char *s)
 		return (true);
 	return (false);
 }
-// char *save_lines(char *result, char *temp, char *new_result)
-// {
-// }
 
 int save_lines2(t_mini *mini, char *temp, int i)
 {

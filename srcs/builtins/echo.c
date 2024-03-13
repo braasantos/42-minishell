@@ -18,7 +18,6 @@ void print_arg(char *str, t_mini *mini, int current, int flag)
 			write(1, " ", 1);
 }
 
-
 int echo_cmd(char **tokens, t_mini *mini)
 {
 	int flag_nl;
@@ -28,7 +27,6 @@ int echo_cmd(char **tokens, t_mini *mini)
 	i = 1;
 	flag_nl = 1;
 	option = 1;
-	check_expand(mini);
 	while (mini->args[i])
 	{
 		if (!ft_strcmp(mini->args[i], "-n") && option)

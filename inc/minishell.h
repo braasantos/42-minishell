@@ -42,7 +42,7 @@ typedef struct s_mini
 	char *before;
 	char *after;
 	bool pipe_or_redirect_found;
-	bool	interact;
+	bool interact;
 } t_mini;
 
 /* ************************************************************************** */
@@ -50,7 +50,7 @@ typedef struct s_mini
 /* ************************************************************************** */
 int str_len(char **str);
 int have_redirect(t_mini *mini);
-int builtins(t_mini *mini);
+int builtins(t_mini *mini, int i);
 int find_env_var(char *var, t_mini *mini);
 char **realloc_envv(int new_size, t_mini *mini);
 void set_env_var(char *key, char *value, t_mini *mini);
@@ -58,7 +58,7 @@ int ft_strendswith(char *s1, char *s2);
 char *ft_pathjoin(char *p1, char *p2);
 char *get_env(char *var, t_mini *mini);
 void change_dir(char *path, t_mini *mini);
-int get_cd(t_mini *mini);
+int get_cd(t_mini *mini, int i);
 int ft_strstartswith(char *s1, char *s2);
 int echo_cmd(char **tokens, t_mini *mini);
 int ft_check_echo_arguments(char *array_args);
@@ -93,7 +93,7 @@ int pipe_check(t_mini *mini, char *str);
 int redirect_basic_check(char *str);
 int ft_check_open_quotes(char *str);
 int count_pipes(t_mini *mini);
-void print(t_op op, char *ag);
+int print(t_op op, char *ag);
 int check_args(char *str);
 int ft_strcmp(char *str1, char *str2);
 char **get_newenvp(char **envp);
@@ -119,8 +119,8 @@ int check_position(t_mini *mini, int j);
 /* ************************************************************************** */
 /*				                      signal	             				  */
 /* ************************************************************************** */
-void	signals_start(void);
-void	exec_signals(int sig, void *mini);
+void signals_start(void);
+void exec_signals(int sig, void *mini);
 
 void ft_init_signals(void);
 void ft_ignore_signals(void);
@@ -130,8 +130,7 @@ void ft_handle_sigint(int sig);
 void ft_handle_sigint_ign(int sig);
 void ft_handle_sigquit(int sig);
 
-
-void	handle_sigint();
+void handle_sigint();
 /* ************************************************************************** */
 /*				parser.c					   */
 /* ************************************************************************** */
@@ -203,5 +202,11 @@ bool is_a_number(char *s);
 char **another_split(t_mini *mini, int i);
 char *give_first(char *no_quotes, t_mini *mini, int i);
 void check_comand(t_mini *mini);
-
+void expand_str(t_mini *mini, int i);
+void do_all(t_mini *mini, int i, char *env);
+void time_to_remove(t_mini *mini, int i);
+int count_quote_pairs(char *str);
+bool is_not_a_cmd(char *s);
+void ohhh_boy(t_mini *mini, int i);
+bool is_a_builtin(t_mini *mini, int i);
 #endif

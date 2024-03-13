@@ -79,17 +79,6 @@ char **get_newenvp(char **envp)
 	return (newenvp);
 }
 
-void while_loop(char **s)
-{
-	int i;
-
-	i = 0;
-	while (s[i])
-	{
-		ft_printf("%s\n", s[i]);
-		i++;
-	}
-}
 bool is_a_append_here(char *s)
 {
 	if (!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))

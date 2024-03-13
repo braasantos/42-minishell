@@ -7,6 +7,19 @@ void ft_exit(t_mini *mini)
 	ft_free_arr(mini->newenvp);
 	exit(1);
 }
+int bingo(char *s, char c)
+{
+	int i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (c == s[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 void parsing(t_mini *mini, char *str)
 {

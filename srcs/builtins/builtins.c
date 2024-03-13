@@ -26,25 +26,25 @@ int have_redirect(t_mini *mini)
 	return (0);
 }
 
-int builtins(t_mini *mini)
+int builtins(t_mini *mini, int i)
 {
-	if (!ft_strcmp(mini->args[0], "exit"))
+	if (!ft_strcmp(mini->args[i], "exit"))
 	{
 		mini->exit_flag = 1;
 		unlink(".heredoc");
 		free_struct_2(mini);
 	}
-	if (!ft_strcmp(mini->args[0], "pwd"))
+	if (!ft_strcmp(mini->args[i], "pwd"))
 		return (print_pwd());
-	if (!ft_strcmp(mini->args[0], "echo"))
+	if (!ft_strcmp(mini->args[i], "echo"))
 		return (echo_cmd(mini->args, mini));
-	if ((!ft_strcmp(mini->args[0], "cd")))
-		return (get_cd(mini));
-	if ((!ft_strcmp(mini->args[0], "env")))
+	if ((!ft_strcmp(mini->args[i], "cd")))
+		return (get_cd(mini, i));
+	if ((!ft_strcmp(mini->args[i], "env")))
 		return (get_envp(mini));
-	if ((!ft_strcmp(mini->args[0], "export")))
+	if ((!ft_strcmp(mini->args[i], "export")))
 		return (get_export(mini));
-	if ((!ft_strcmp(mini->args[0], "unset")))
+	if ((!ft_strcmp(mini->args[i], "unset")))
 		return (get_unset(mini));
 	return (0);
 }
@@ -61,4 +61,22 @@ int check_parser2(t_mini *mini, int i)
 		return (1);
 	}
 	return (0);
+}
+bool is_a_builtin(t_mini *mini, int i)
+{
+	if (!ft_strcmp(mini->args[i], "exit"))
+		return (true);
+	if (!ft_strcmp(mini->args[i], "pwd"))
+		return (true);
+	if (!ft_strcmp(mini->args[i], "echo"))
+		return (true);
+	if ((!ft_strcmp(mini->args[i], "cd")))
+		return (true);
+	if ((!ft_strcmp(mini->args[i], "env")))
+		return (true);
+	if ((!ft_strcmp(mini->args[i], "export")))
+		return (true);
+	if ((!ft_strcmp(mini->args[i], "unset")))
+		return (true);
+	return (false);
 }

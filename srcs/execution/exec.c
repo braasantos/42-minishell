@@ -5,10 +5,18 @@ void execute(t_mini *mini)
 	int n_pipes;
 
 	n_pipes = count_pipes(mini);
+	if (!ft_strcmp(mini->args[0], "echo"))
+	{
+		echo_cmd(mini->args, mini);
+		return;
+	}
 	if (check_parser(mini) == 1)
 		return;
 	if ((n_pipes == 0))
 	{
+		if (is_a_builtin(mini, 0))
+			if (builtins(mini, 0))
+				return;
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
 		create_child(mini, 0, 0, 0);
 		free(mini->newpro);
@@ -72,16 +80,23 @@ void create_flow(t_mini *mini)
 	close_pipes(mini);
 	get_exit_status(mini);
 }
+
+void ft_exit_builtin(t_mini *mini, int i)
+{
+	if (!ft_strcmp(mini->args[i], "exit"))
+	{
+		mini->exit_flag = 1;
+		unlink(".heredoc");
+		free_struct_2(mini);
+	}
+}
 int create_child(t_mini *mini, int i, int flag, int j)
 {
-	if (builtins(mini) == 1)
-		return (0);
-	if (is_a_cmd(mini->args[i], mini) == false)
-	{
-		print(COMMAND_NOT_FOUND, mini->args[i]);
-		return (1);
-	}
-	update_path(mini, i);
+	ft_exit_builtin(mini, i);
+	if (is_a_cmd(mini->args[i], mini) == false && is_a_builtin(mini, i) == false)
+		return (print(COMMAND_NOT_FOUND, mini->args[i]));
+	if (is_a_builtin(mini, i) == false)
+		update_path(mini, i);
 	mini->newpro[j] = fork();
 	if (!mini->newpro[j])
 	{
@@ -89,11 +104,15 @@ int create_child(t_mini *mini, int i, int flag, int j)
 		if (flag == 1)
 			through_pipes(mini, j);
 		redirect(mini);
-		if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
-			ft_exit(mini);
+		if (builtins(mini, i))
+			exit(0);
+		if (is_a_builtin(mini, i) == false)
+			if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
+				ft_exit(mini);
 	}
 	if (mini->exit_flag != 1 && flag == 0)
 		get_exit_status(mini);
-	delete_path(mini);
+	if (is_a_builtin(mini, i) == false)
+		delete_path(mini);
 	return (0);
 }

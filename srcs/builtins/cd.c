@@ -59,18 +59,23 @@ static int has_two_args(char **args, t_mini *mini)
 	return (0);
 }
 
-int get_cd(t_mini *mini)
+int get_cd(t_mini *mini, int i)
 {
 	char *home_dir;
 
 	home_dir = get_env("HOME", mini);
-	if ((!mini->args[1]))
+	if ((!mini->args[i + 1]))
 	{
 		change_dir(home_dir, mini);
 		return (1);
 	}
-	if (has_two_args(mini->args, mini))
-		return (1);
+	else
+	{
+		if (is_a_pipe(mini->args[i + 1]) || is_a_red(mini->args[i + 1]) || is_a_append_here(mini->args[i + 1]))
+			return (1);
+		if (has_two_args(mini->args, mini))
+			return (1);
+	}
 	return (0);
 }
 

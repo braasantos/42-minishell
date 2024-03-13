@@ -1,19 +1,5 @@
 #include "../../inc/minishell.h"
 
-int bingo(char *s, char c)
-{
-	int i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (c == s[i])
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 char *get_expand(char *s)
 {
 	int i;
@@ -39,74 +25,106 @@ char *get_expand(char *s)
 	str[j] = '\0';
 	return (str);
 }
-int expander_squotes(t_mini *mini, int i)
+char *ft_remove_squotes(const char *str)
 {
-	char **split;
-
-	split = ft_split(mini->new_str, '\"');
-	if (count_dquotes(mini->new_str) > 0)
-	{
-		if (ft_strstartswith(split[1], "\'"))
-		{
-			ft_free_arr(split);
-			return (0);
-		}
-	}
-	else
-	{
-		if (ft_strstartswith(mini->args[i], "\'"))
-		{
-			ft_free_arr(split);
-			return (1);
-		}
-	}
-	ft_free_arr(split);
-	return (0);
-}
-static void check(int i, char *env, t_mini *mini)
-{
-	mini->before = ft_before(mini->args[i]);
-	if (count_dquotes(mini->new_str) > 0)
-		do_strjoin(i, env, mini);
-	else if (count_squotes(mini->new_str) > 0)
-		do_strdup(i, env, mini, 1);
-	else
-		do_strdup(i, env, mini, 1);
-
-}
-int check_expand(t_mini *mini)
-{
-	int i;
-	char *str;
-	char *env;
+    char *new_str;
+    size_t len;
+    size_t j;
+	size_t i;
 
 	i = 0;
-	while (mini->args[i])
+	j = 0;
+	len = strlen(str);
+	new_str = (char *)malloc(len + 1); 
+    if (!str)
+        return NULL;
+    if (new_str == NULL)
+        return NULL;
+    while (i < len)
 	{
-		if (bingo(mini->args[i], '$'))
-		{
-			if (expander_squotes(mini, i))
-				return (0);
-			str = get_expand(mini->args[i]);
-			env = get_env(str, mini);
-			free(str);
-			if (env == NULL)
-				return (free(env), do_strdup(i, env, mini, 0), 0);
-			check(i, env, mini);	
-		}
+        if (str[i] != '\'') {
+            new_str[j++] = str[i];
+        }
 		i++;
+    }
+    new_str[j] = '\0';
+    return new_str;
+}
+void time_to_remove(t_mini *mini, int i)
+{
+	int d_quotes;
+	int s_quotes;
+	char *s;
+
+	d_quotes = count_quote_pairs(mini->new_str);
+	s_quotes = count_squotes(mini->new_str);
+	if (d_quotes > 0 && s_quotes > 0)
+	{
+		if (d_quotes % 2 == 0)
+		{
+			s = ft_remove_squotes(mini->args[i]);
+			free(mini->args[i]);
+			mini->args[i] = ft_strdup(s);
+			free(s);
+		}
 	}
-	return (0);
+	if (d_quotes == 0 && s_quotes > 0)
+		ohhh_boy(mini, i);
 }
 
-void do_strdup(int i, char *env, t_mini *mini, int flag)
+void ohhh_boy(t_mini *mini, int i)
 {
+	char *s;
+
+	s = ft_strdup(mini->args[i]);
 	free(mini->args[i]);
-	if (flag == 1)
+	mini->args[i] = ft_remove_squotes(s);
+	free(s);
+}
+
+void expand_str(t_mini *mini, int i)
+{
+	char *s;
+	char *env;
+	int count_quotes;
+
+	count_quotes = count_dquotes(mini->new_str);
+	if (count_quotes == 0 && count_squotes(mini->new_str) > 0)
 	{
-		mini->args[i] = ft_strjoin(mini->before, env);
-		free(mini->before);
+		ohhh_boy(mini, i);
+		return;
 	}
+	mini->before = ft_before(mini->args[i]);
+	mini->after = ft_after(mini->args[i]);
+	s = get_expand(mini->args[i]);
+	env = get_env(s, mini);
+	free(s);
+	free(mini->args[i]);
+	if (env)
+		do_all(mini, i, env);
 	else
 		mini->args[i] = ft_strdup("\0");
+
+	free(mini->before);
+	free(mini->after);
+}
+
+void do_all(t_mini *mini, int i, char *env)
+{
+	char *str;
+	char *temp;
+
+	if (mini->before)
+		str = ft_strjoin(mini->before, env);
+	else
+		str = ft_strdup(env);
+	if (mini->after)
+		temp = ft_strjoin(str, mini->after);
+	else
+		temp = ft_strdup(env);
+	mini->args[i] = ft_strdup(temp);
+	if (str)
+		free(str);
+	if (temp)
+		free(temp);
 }

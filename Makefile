@@ -8,6 +8,7 @@ signals/signal_handlers.c \
 helpers/utils.c \
 helpers/utils2.c \
 helpers/utils3.c \
+helpers/utils4.c \
 helpers/checkers_utils.c \
 helpers/utils_commands.c \
 helpers/checkers.c \
@@ -32,7 +33,7 @@ clean_exit/clean_all.c \
 HEADER = ../inc/minishell.h
 LIBFTDIR = includes/LIBFT/libft.a
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 COMPILER = $(CC) $(CFLAGS)
 RM = rm -f
 MINI = -lreadline

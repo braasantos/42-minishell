@@ -22,10 +22,11 @@ int ft_check_open_quotes(char *str)
 	return (1);
 }
 
-void print(t_op op, char *ag)
+int print(t_op op, char *ag)
 {
 	if (op == COMMAND_NOT_FOUND)
 		ft_printf("%s: command not found\n", ag);
+	return (1);
 }
 
 int check_args(char *str)
