@@ -33,6 +33,7 @@ void parsing(t_mini *mini, char *str)
 		return ;
 	handle_split_args(mini);
 	execute(mini);
+	redirect(mini);
 }
 void sigint_on_child(int signal)
 {

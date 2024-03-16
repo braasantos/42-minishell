@@ -2,10 +2,12 @@
 
 void update_path(t_mini *mini, int i)
 {
+	char *temp;
+
+	temp = NULL;
 	mini->flag = 0;
 	mini->path_to_cmd = ft_add(mini, mini->args[i]);
-	mini->exec_args = add_option(mini, i);
-	mini->pipe_or_redirect_found = false;
+	mini->exec_args = add_option(mini, i, temp);
 }
 
 char *hndl_quotes(t_mini *mini, int i)
@@ -41,14 +43,14 @@ int save_lines2(t_mini *mini, char *temp, int i)
 	return (0);
 }
 
-char **add_option(t_mini *mini, int i)
+char **add_option(t_mini *mini, int i, char *temp)
 {
-	char *temp;
 	char *result;
 	char *new_result;
 	char **ret;
 
 	result = NULL;
+	mini->pipe_or_redirect_found = false;
 	while (mini->args[i] && !mini->pipe_or_redirect_found)
 	{
 		temp = hndl_quotes(mini, i);

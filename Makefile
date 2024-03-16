@@ -33,7 +33,7 @@ clean_exit/clean_all.c \
 HEADER = ../inc/minishell.h
 LIBFTDIR = includes/LIBFT/libft.a
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 COMPILER = $(CC) $(CFLAGS)
 RM = rm -f
 MINI = -lreadline

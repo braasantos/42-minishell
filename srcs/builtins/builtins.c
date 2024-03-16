@@ -28,6 +28,7 @@ int have_redirect(t_mini *mini)
 
 int builtins(t_mini *mini, int i)
 {
+	hanlde_redirects(mini);
 	if (!ft_strcmp(mini->args[i], "exit"))
 	{
 		mini->exit_flag = 1;

@@ -31,19 +31,26 @@ bool is_a_red(char *s)
 }
 bool is_a_cmd(char *s, t_mini *mini)
 {
-	char *str;
-	char *temp;
+    char *str;
+    char *temp;
+    bool result;
 
-	if (count_quotes(s) > 0)
-		temp = ft_remove_quotes(s);
-	else
-		temp = ft_strdup(s);
-	str = ft_add(mini, temp);
-	if (access(str, X_OK) == 0)
-		return (free(temp), free(str), true);
-	else
-		return (free(temp), free(str), false);
+	result = false;
+    if (check_options(s))
+        temp = ft_remove_quotes(s);
+    else
+        temp = ft_strdup(s);
+    str = ft_add(mini, temp);
+    if (str)
+	{
+        if (access(str, X_OK) == 0)
+            result = true;
+        free(str);
+    }
+    free(temp);
+    return result;
 }
+
 bool is_a_file(char *s)
 {
 	if (access(s, R_OK) == -1)
@@ -65,4 +72,3 @@ bool is_a_option(char *s, t_mini *mini)
 	else
 		return (free(str), false);
 }
-

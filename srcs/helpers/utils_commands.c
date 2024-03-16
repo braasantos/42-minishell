@@ -53,31 +53,30 @@ char **get_path(char **newenv)
  */
 char **get_newenvp(char **envp)
 {
-	char **newenvp;
-	int i;
-	int j;
+    char **newenvp;
+    int i;
+    int j;
+    int len;
 
-	i = str_len(envp);
-	newenvp = (char **)malloc((i + 1) * sizeof(char *));
+    len = str_len(envp);
 	i = 0;
-	while (envp[i])
-	{
-		j = ft_strlen(envp[i]);
-		newenvp[i] = (char *)malloc((j + 1) * sizeof(char));
-		if (newenvp[i] == NULL)
-			return (ft_free_arr(newenvp), NULL);
-		j = 0;
-		while (envp[i][j])
-		{
-			newenvp[i][j] = envp[i][j];
-			j++;
-		}
-		newenvp[i][j] = '\0';
+    newenvp = (char **)malloc((len + 1) * sizeof(char *));
+    while (i < len)
+    {
+        j = ft_strlen(envp[i]);
+        newenvp[i] = (char *)malloc((j + 1) * sizeof(char));
+        if (newenvp[i] == NULL)
+        {
+			ft_free_arr(newenvp);
+            return NULL;
+        }
+        strcpy(newenvp[i], envp[i]);
 		i++;
-	}
-	newenvp[i] = NULL;
-	return (newenvp);
+    }
+    newenvp[len] = NULL;
+    return newenvp;
 }
+
 
 bool is_a_append_here(char *s)
 {

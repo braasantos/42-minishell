@@ -18,7 +18,7 @@ void ft_free_arr(char **str)
 
 void free_struct(t_mini *mini)
 {
-	if (mini->echo_split && mini->free_flag == 1)
+	if (mini->free_flag == 1)
 		ft_free_arr(mini->echo_split);
 	if (mini->args)
 		ft_free_arr(mini->args);

@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/15 20:16:47 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/16 15:41:25 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ bool is_space(char c)
 	return ((c >= 9 && c <= 13) || c == 32);
 }
 
-char **add_option_echo(t_mini *mini, int i)
+char **add_option_echo(t_mini *mini, int i, char *temp)
 {
-	char *temp;
 	char *result;
 	char *new_result;
 	char **ret;
 
 	result = NULL;
+	mini->pipe_or_redirect_found = false;
 	while (mini->args[i] && !mini->pipe_or_redirect_found)
 	{
 		temp = hndl_quotes(mini, i);
@@ -60,16 +60,18 @@ void handle_split_args(t_mini *mini)
 {
 	int i;
 	char **str;
+	char *temp;
 
-	i = 0;
+	i = -1;
+	temp = NULL;
 	mini->free_flag = 0;
-	while (mini->args[i])
+	while (mini->args[++i])
 	{
 		if (!ft_strcmp(mini->args[i], "echo"))
 		{
 			if (count_pipes(mini) > 0 || count_red(mini) > 0)
 			{
-				str = add_option_echo(mini, i);
+				str = add_option_echo(mini, i, temp);
 				mini->echo_split = get_newenvp(str);
 				ft_free_arr(str);
 				mini->free_flag = 1;
@@ -80,9 +82,7 @@ void handle_split_args(t_mini *mini)
 				mini->free_flag = 1;
 			}
 		}
-		i++;
 	}
-	ft_printf("%d\n", mini->free_flag);
 }
 
 void check_comand(t_mini *mini)

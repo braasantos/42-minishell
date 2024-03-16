@@ -27,8 +27,6 @@ int echo_cmd(char **tokens, t_mini *mini)
 	i = 1;
 	flag_nl = 1;
 	option = 1;
-	if (count_red(mini) > 0)
-		redirect_output_echo(0, mini);
 	while (tokens[i])
 	{
 		if (!ft_strcmp(tokens[i], "-n") && option)
@@ -72,6 +70,8 @@ int redirect_output_echo(int i, t_mini *mini)
 			dup2(file_fd, STDOUT_FILENO);
 			close(file_fd);
 		}
+		if (!ft_strcmp(mini->args[i], ">>"))
+			handle_append(mini, i);
 		i++;
 	}
 	return (0);

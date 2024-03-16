@@ -164,7 +164,7 @@ int handle_heredoc2(char *delimiter);
 void unlink_all(void);
 int do_redirects(t_mini *mini, int i);
 int count_red(t_mini *mini);
-char **add_option(t_mini *mini, int i);
+char **add_option(t_mini *mini, int i, char *temp);
 int print_pwd(void);
 char *get_expand(char *s);
 int check_expand(t_mini *mini);
@@ -214,7 +214,7 @@ bool is_a_builtin(t_mini *mini, int i);
 char *hndl_quotes(t_mini *mini, int i);
 int save_lines2(t_mini *mini, char *temp, int i);
 bool check_options(char *s);
-int	redirect_output(int i, t_mini *mini);
-int	redirect_output_echo(int i, t_mini *mini);
+int redirect_output(int i, t_mini *mini);
+int redirect_output_echo(int i, t_mini *mini);
 void handle_split_args(t_mini *mini);
 #endif

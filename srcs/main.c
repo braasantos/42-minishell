@@ -6,6 +6,8 @@ static void init_all(t_mini *mini)
 {
 	g_signal = 0;
 	mini->newenvp = NULL;
+	mini->path_to_cmd = NULL;
+	mini->exec_args = NULL;
 	mini->args = NULL;
 	mini->new_str = NULL;
 	mini->before = NULL;
@@ -20,8 +22,10 @@ static void init_all(t_mini *mini)
 	mini->exit_flag = 0;
 	mini->echo_flag = 0;
 	mini->free_flag = 0;
-	mini->STDIN = dup(STDIN_FILENO);
-	mini->STDOUT = dup(STDOUT_FILENO);
+	mini->STDIN = 0;
+	ft_printf("%d\n", mini->STDIN);
+	mini->STDOUT = 1;
+	ft_printf("%d\n", mini->STDOUT);
 	mini->interact = false;
 }
 

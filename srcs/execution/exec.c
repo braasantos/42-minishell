@@ -84,8 +84,7 @@ int pipe_creation(t_mini *mini)
 bool is_not_a_cmd(char *s)
 {
 	if (is_a_pipe(s) || is_a_red(s) || ft_strstartswith(s, "-") ||
-		count_quotes(s) > 0 || is_a_append_here(s) || is_a_file(s) 
-			|| is_a_number(s))
+		count_quotes(s) > 0 || is_a_append_here(s) || is_a_file(s) || is_a_number(s))
 		return (false);
 	return (true);
 }
@@ -140,9 +139,9 @@ int create_child(t_mini *mini, int i, int flag, int j)
 		hanlde_redirects(mini);
 		if (flag == 1)
 			through_pipes(mini, j);
-		redirect(mini);
 		if (builtins(mini, i))
 			exit(0);
+		redirect(mini);
 		if (is_a_builtin(mini, i) == false)
 			if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
 				ft_exit(mini);
