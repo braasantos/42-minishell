@@ -103,9 +103,9 @@ char	*ft_remove_quotes(char *str)
 
 int check_next(t_mini *mini, int i)
 {
-	if (!ft_strcmp(mini->args[i], ">") || 
-		(!ft_strcmp(mini->args[i], "<")) || 
-			is_a_append_here(mini->args[i]))
+	if (!ft_strcmp(mini->args[i], ">") 
+		|| (!ft_strcmp(mini->args[i], "<")) 
+			|| is_a_append_here(mini->args[i]))
 	{
 		if (mini->args[i + 1])
 			return (1);

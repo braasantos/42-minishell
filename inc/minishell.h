@@ -30,6 +30,7 @@ typedef struct s_mini
 	char *str;		   // str with the initial string
 	char *new_str;	   // worked string
 	int *pipes_fd;	   // for pipes
+	char **echo_split;
 	int fd1;
 	int fd0;
 	int STDIN;
@@ -41,6 +42,7 @@ typedef struct s_mini
 	int exit_flag;
 	char *before;
 	char *after;
+	int free_flag;
 	bool pipe_or_redirect_found;
 	bool interact;
 } t_mini;
@@ -209,4 +211,10 @@ int count_quote_pairs(char *str);
 bool is_not_a_cmd(char *s);
 void ohhh_boy(t_mini *mini, int i);
 bool is_a_builtin(t_mini *mini, int i);
+char *hndl_quotes(t_mini *mini, int i);
+int save_lines2(t_mini *mini, char *temp, int i);
+bool check_options(char *s);
+int	redirect_output(int i, t_mini *mini);
+int	redirect_output_echo(int i, t_mini *mini);
+void handle_split_args(t_mini *mini);
 #endif

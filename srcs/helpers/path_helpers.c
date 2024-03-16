@@ -8,11 +8,13 @@ void update_path(t_mini *mini, int i)
 	mini->pipe_or_redirect_found = false;
 }
 
-static char *hndl_quotes(t_mini *mini, int i)
+char *hndl_quotes(t_mini *mini, int i)
 {
 	char *s;
 	char *temp;
 
+	s = NULL;
+	temp = NULL;
 	if (count_dquotes(mini->args[i]) > 0)
 		s = ft_remove_quotes(mini->args[i]);
 	else

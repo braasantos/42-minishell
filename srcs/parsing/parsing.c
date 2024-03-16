@@ -3,6 +3,8 @@
 void ft_exit(t_mini *mini)
 {
 	ft_free_arr(mini->args);
+	if (mini->echo_split)
+		ft_free_arr(mini->echo_split);
 	free(mini->new_str);
 	ft_free_arr(mini->newenvp);
 	exit(1);
@@ -25,12 +27,11 @@ void parsing(t_mini *mini, char *str)
 {
 	if (!ft_check_open_quotes(str))
 		return;
-	if (check_inutils(mini))
-		return;
 	if (!redirect_basic_check(str))
 	 	ft_printf("invalid redirect\n");
 	if (!pipe_check(mini, str))
 		return ;
+	handle_split_args(mini);
 	execute(mini);
 }
 void sigint_on_child(int signal)

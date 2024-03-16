@@ -1,12 +1,5 @@
 #include "../../inc/minishell.h"
 
-int check_inutils(t_mini *mini)
-{
-	if (!ft_strcmp(mini->args[0], "<") || !ft_strcmp(mini->args[0], ">"))
-		return (ft_printf("Minishell: syntax error near unexpected token `newline'\n"), 1);
-	return (0);
-}
-
 int	find_char(char c, char *find)
 {
 	int	i;

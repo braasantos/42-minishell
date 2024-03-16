@@ -10,6 +10,7 @@ static void init_all(t_mini *mini)
 	mini->new_str = NULL;
 	mini->before = NULL;
 	mini->after = NULL;
+	mini->echo_split = NULL;
 	mini->fd1 = 0;
 	mini->fd0 = 0;
 	mini->STDIN = 0;
@@ -18,11 +19,11 @@ static void init_all(t_mini *mini)
 	mini->stdout_fd = 1;
 	mini->exit_flag = 0;
 	mini->echo_flag = 0;
-	mini->STDIN = STDIN_FILENO;
-	mini->STDOUT = STDOUT_FILENO;
+	mini->free_flag = 0;
+	mini->STDIN = dup(STDIN_FILENO);
+	mini->STDOUT = dup(STDOUT_FILENO);
 	mini->interact = false;
 }
-
 
 int main(int ac, char **av)
 {
@@ -37,7 +38,6 @@ int main(int ac, char **av)
 	exec_signals(0, &mini);
 	parser(&mini);
 }
-
 void parser(t_mini *mini)
 {
 	while (1)

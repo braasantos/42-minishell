@@ -4,9 +4,8 @@ void ft_free_arr(char **str)
 {
 	int i;
 
-	if (!str)
+	if (!str || !*str)
 		return;
-	
 	i = -1;
 	while (str[++i])
 	{
@@ -19,6 +18,8 @@ void ft_free_arr(char **str)
 
 void free_struct(t_mini *mini)
 {
+	if (mini->echo_split && mini->free_flag == 1)
+		ft_free_arr(mini->echo_split);
 	if (mini->args)
 		ft_free_arr(mini->args);
 	if (mini->new_str)

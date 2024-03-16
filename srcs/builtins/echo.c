@@ -6,7 +6,7 @@ void print_arg(char *str, t_mini *mini, int current, int flag)
 	int total;
 
 	i = 0;
-	total = str_len(mini->args);
+	total = str_len(mini->echo_split);
 	while (str[i])
 	{
 		if (str[i] != '"')
@@ -27,9 +27,11 @@ int echo_cmd(char **tokens, t_mini *mini)
 	i = 1;
 	flag_nl = 1;
 	option = 1;
-	while (mini->args[i])
+	if (count_red(mini) > 0)
+		redirect_output_echo(0, mini);
+	while (tokens[i])
 	{
-		if (!ft_strcmp(mini->args[i], "-n") && option)
+		if (!ft_strcmp(tokens[i], "-n") && option)
 		{
 			flag_nl = 0;
 			i++;
@@ -49,4 +51,28 @@ void ft_print_new_line(int flag_nl)
 {
 	if (flag_nl)
 		ft_printf("\n");
+}
+
+int redirect_output_echo(int i, t_mini *mini)
+{
+	int file_fd;
+
+	while (mini->args[i])
+	{
+		if (!ft_strcmp(mini->args[i], ">"))
+		{
+			if (!mini->args[i + 1])
+				return (1);
+			file_fd = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+			if (!file_fd)
+			{
+				ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
+				return (1);
+			}
+			dup2(file_fd, STDOUT_FILENO);
+			close(file_fd);
+		}
+		i++;
+	}
+	return (0);
 }

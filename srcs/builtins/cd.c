@@ -53,7 +53,10 @@ static int has_two_args(char **args, t_mini *mini)
 			ft_putendl_fd("cd: too many arguments", 1);
 			return (1);
 		}
-		change_dir(args[1], mini);
+		if (!ft_strcmp(args[1], "-"))
+			print_pwd();
+		else
+			change_dir(args[1], mini);
 		return (1);
 	}
 	return (0);
