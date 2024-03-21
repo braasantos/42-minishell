@@ -1,8 +1,8 @@
 #include "../../inc/minishell.h"
 
-char *ft_strcpy(char *dest, char *src)
+char	*ft_strcpy(char *dest, char *src)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (src[i] != '\0')
@@ -15,9 +15,9 @@ char *ft_strcpy(char *dest, char *src)
 }
 
 
-int fore(char *s)
+int	fore(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] && s[i] != ' ')
@@ -27,10 +27,10 @@ int fore(char *s)
 	return (i);
 }
 
-int afta(char *s)
+int	afta(char *s)
 {
-	int j;
-	int i;
+	int	j;
+	int	i;
 
 	j = 0;
 	i = fore(s);
@@ -41,12 +41,12 @@ int afta(char *s)
 	return (j);
 }
 
-char *help(char *str)
+char	*help(char *str)
 {
-	int i;
-	int j;
-	int k;
-	char *s;
+	int		i;
+	int		j;
+	int		k;
+	char	*s;
 
 	j = afta(str);
 	s = malloc(sizeof(char) * (j + 2));
@@ -60,4 +60,13 @@ char *help(char *str)
 	s[j] = '=';
 	s[j + 1] = '\0';
 	return (s);
+}
+int	ft_before_exp(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '$')
+		i++;
+	return (i);
 }

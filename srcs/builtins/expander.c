@@ -1,11 +1,11 @@
 #include "../../inc/minishell.h"
 
-char *get_expand(char *s)
+char	*get_expand(char *s)
 {
-	int i;
-	char *str;
-	int len;
-	int j;
+	int		i;
+	char	*str;
+	int		len;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -25,36 +25,11 @@ char *get_expand(char *s)
 	str[j] = '\0';
 	return (str);
 }
-char *ft_remove_squotes(const char *str)
+void	time_to_remove(t_mini *mini, int i)
 {
-    char *new_str;
-    size_t len;
-    size_t j;
-	size_t i;
-
-	i = 0;
-	j = 0;
-	len = strlen(str);
-	new_str = (char *)malloc(len + 1); 
-    if (!str)
-        return NULL;
-    if (new_str == NULL)
-        return NULL;
-    while (i < len)
-	{
-        if (str[i] != '\'') {
-            new_str[j++] = str[i];
-        }
-		i++;
-    }
-    new_str[j] = '\0';
-    return new_str;
-}
-void time_to_remove(t_mini *mini, int i)
-{
-	int d_quotes;
-	int s_quotes;
-	char *s;
+	int		d_quotes;
+	int		s_quotes;
+	char	*s;
 
 	d_quotes = count_quote_pairs(mini->new_str);
 	s_quotes = count_squotes(mini->new_str);
@@ -72,9 +47,9 @@ void time_to_remove(t_mini *mini, int i)
 		ohhh_boy(mini, i);
 }
 
-void ohhh_boy(t_mini *mini, int i)
+void	ohhh_boy(t_mini *mini, int i)
 {
-	char *s;
+	char	*s;
 
 	s = ft_strdup(mini->args[i]);
 	free(mini->args[i]);
@@ -82,11 +57,11 @@ void ohhh_boy(t_mini *mini, int i)
 	free(s);
 }
 
-void expand_str(t_mini *mini, int i)
+void	expand_str(t_mini *mini, int i)
 {
-	char *s;
-	char *env;
-	int count_quotes;
+	char	*s;
+	char	*env;
+	int		count_quotes;
 
 	count_quotes = count_dquotes(mini->new_str);
 	if (count_quotes == 0 && count_squotes(mini->new_str) > 0)
@@ -109,10 +84,10 @@ void expand_str(t_mini *mini, int i)
 	free(mini->after);
 }
 
-void do_all(t_mini *mini, int i, char *env)
+void	do_all(t_mini *mini, int i, char *env)
 {
-	char *str;
-	char *temp;
+	char	*str;
+	char	*temp;
 
 	if (mini->before)
 		str = ft_strjoin(mini->before, env);

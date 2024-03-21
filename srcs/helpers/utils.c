@@ -85,3 +85,9 @@ int	redirect_basic_check(char *str)
 	}
 	return (1);
 }
+bool	check_options(char *s)
+{
+	if (is_a_pipe(s) || is_a_red(s) || is_a_append_here(s))
+		return (true);
+	return (false);
+}

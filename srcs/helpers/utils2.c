@@ -1,9 +1,9 @@
 #include "../../inc/minishell.h"
 
-int ft_check_open_quotes(char *str)
+int	ft_check_open_quotes(char *str)
 {
-	char quote;
-	int state;
+	char	quote;
+	int		state;
 
 	state = 0;
 	while (*str)
@@ -22,17 +22,17 @@ int ft_check_open_quotes(char *str)
 	return (1);
 }
 
-int print(t_op op, char *ag)
+int	print(t_op op, char *ag)
 {
 	if (op == COMMAND_NOT_FOUND)
 		ft_printf("%s: command not found\n", ag);
 	return (1);
 }
 
-int check_args(char *str)
+int	check_args(char *str)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -48,9 +48,9 @@ int check_args(char *str)
 		return (0);
 }
 
-int ft_strcmp(char *str1, char *str2)
+int	ft_strcmp(char *str1, char *str2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str1[i] || str2[i])
@@ -63,7 +63,7 @@ int ft_strcmp(char *str1, char *str2)
 	return (0);
 }
 
-bool is_a_folder(char *s)
+bool	is_a_folder(char *s)
 {
 	if (access(s, F_OK) == -1)
 		return (false);

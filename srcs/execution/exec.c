@@ -1,41 +1,8 @@
 #include "../../inc/minishell.h"
 
-void handle_append2(t_mini *mini, int i)
+void	execute(t_mini *mini)
 {
-	int file;
-
-	if (mini->args[i + 1])
-	{
-		file = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0664);
-		if (!file)
-		{
-			ft_putstr_fd("Minishell: no file specified in redirect '>>'.\n", 2);
-			return;
-		}
-		close(file);
-	}
-	else
-		return;
-}
-
-int check_here(t_mini *mini)
-{
-	if (!ft_strcmp(mini->args[0], "<<"))
-	{
-		handle_heredoc(mini, 0);
-		return (1);
-	}
-	if (!ft_strcmp(mini->args[0], ">>"))
-	{
-		handle_append2(mini, 0);
-		return (1);
-	}
-	return (0);
-}
-
-void execute(t_mini *mini)
-{
-	int n_pipes;
+	int	n_pipes;
 
 	n_pipes = count_pipes(mini);
 	if (check_parser(mini) == 1)
@@ -44,11 +11,11 @@ void execute(t_mini *mini)
 		return;
 	if ((n_pipes == 0))
 	{
-		if (is_a_builtin(mini, 0))
-			if (builtins(mini, 0))
-				return;
-		if (!ft_strcmp(mini->args[0], ">"))
+		if ((!ft_strcmp(mini->args[0], "cd")))
+		{
+			get_cd(mini, 0);
 			return;
+		}
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
 		create_child(mini, 0, 0, 0);
 		free(mini->newpro);
@@ -61,10 +28,10 @@ void execute(t_mini *mini)
 	}
 }
 
-int pipe_creation(t_mini *mini)
+int	pipe_creation(t_mini *mini)
 {
-	int i;
-	int n_pipes;
+	int	i;
+	int	n_pipes;
 
 	n_pipes = count_pipes(mini);
 	mini->pipes_fd = malloc(sizeof(int) * (n_pipes * 2));
@@ -81,7 +48,7 @@ int pipe_creation(t_mini *mini)
 	return (0);
 }
 
-bool is_not_a_cmd(char *s)
+bool	is_not_a_cmd(char *s)
 {
 	if (is_a_pipe(s) || is_a_red(s) || ft_strstartswith(s, "-") ||
 		count_quotes(s) > 0 || is_a_append_here(s) || is_a_file(s) || is_a_number(s))
@@ -89,10 +56,10 @@ bool is_not_a_cmd(char *s)
 	return (true);
 }
 
-void create_flow(t_mini *mini)
+void	create_flow(t_mini *mini)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -116,21 +83,9 @@ void create_flow(t_mini *mini)
 	close_pipes(mini);
 	get_exit_status(mini);
 }
-
-void ft_exit_builtin(t_mini *mini, int i)
-{
-	if (!ft_strcmp(mini->args[i], "exit"))
-	{
-		mini->exit_flag = 1;
-		unlink(".heredoc");
-		free_struct_2(mini);
-	}
-}
-int create_child(t_mini *mini, int i, int flag, int j)
+int	create_child(t_mini *mini, int i, int flag, int j)
 {
 	ft_exit_builtin(mini, i);
-	if (is_a_cmd(mini->args[i], mini) == false && is_a_builtin(mini, i) == false)
-		return (print(COMMAND_NOT_FOUND, mini->args[i]));
 	if (is_a_builtin(mini, i) == false)
 		update_path(mini, i);
 	mini->newpro[j] = fork();
@@ -144,7 +99,11 @@ int create_child(t_mini *mini, int i, int flag, int j)
 		redirect(mini);
 		if (is_a_builtin(mini, i) == false)
 			if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
+			{
+				if (is_a_cmd(mini->args[i], mini) == false && is_a_builtin(mini, i) == false)
+					print(COMMAND_NOT_FOUND, mini->args[i]);
 				ft_exit(mini);
+			}
 	}
 	if (mini->exit_flag != 1 && flag == 0)
 		get_exit_status(mini);

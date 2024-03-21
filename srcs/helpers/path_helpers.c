@@ -1,8 +1,8 @@
 #include "../../inc/minishell.h"
 
-void update_path(t_mini *mini, int i)
+void	update_path(t_mini *mini, int i)
 {
-	char *temp;
+	char	*temp;
 
 	temp = NULL;
 	mini->flag = 0;
@@ -10,10 +10,10 @@ void update_path(t_mini *mini, int i)
 	mini->exec_args = add_option(mini, i, temp);
 }
 
-char *hndl_quotes(t_mini *mini, int i)
+char	*hndl_quotes(t_mini *mini, int i)
 {
-	char *s;
-	char *temp;
+	char	*s;
+	char	*temp;
 
 	s = NULL;
 	temp = NULL;
@@ -25,12 +25,7 @@ char *hndl_quotes(t_mini *mini, int i)
 	free(s);
 	return (temp);
 }
-bool check_options(char *s)
-{
-	if (is_a_pipe(s) || is_a_red(s) || is_a_append_here(s))
-		return (true);
-	return (false);
-}
+
 
 int save_lines2(t_mini *mini, char *temp, int i)
 {
@@ -43,11 +38,11 @@ int save_lines2(t_mini *mini, char *temp, int i)
 	return (0);
 }
 
-char **add_option(t_mini *mini, int i, char *temp)
+char	**add_option(t_mini *mini, int i, char *temp)
 {
-	char *result;
-	char *new_result;
-	char **ret;
+	char	*result;
+	char	*new_result;
+	char	**ret;
 
 	result = NULL;
 	mini->pipe_or_redirect_found = false;
@@ -72,21 +67,8 @@ char **add_option(t_mini *mini, int i, char *temp)
 	return (free(result), ret);
 }
 
-void delete_path(t_mini *mini)
+void	delete_path(t_mini *mini)
 {
 	free(mini->path_to_cmd);
 	ft_free_arr(mini->exec_args);
-}
-char *ft_touppercase(char *s)
-{
-	int i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] >= 'a' && s[i] <= 'z')
-			s[i] = s[i] - ('a' - 'A');
-		i++;
-	}
-	return (s);
 }

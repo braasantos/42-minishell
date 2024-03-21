@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-char *get_env(char *var, t_mini *mini)
+char	*get_env(char *var, t_mini *mini)
 {
 	int i;
 	char *tmp;
@@ -23,10 +23,10 @@ char *get_env(char *var, t_mini *mini)
 	return (NULL);
 }
 
-void change_dir(char *path, t_mini *mini)
+void	change_dir(char *path, t_mini *mini)
 {
-	char *cwd;
-	char buff[4097];
+	char	*cwd;
+	char	buff[4097];
 
 	cwd = getcwd(buff, 4096);
 	if (!chdir(path))
@@ -44,7 +44,7 @@ void change_dir(char *path, t_mini *mini)
 	}
 }
 
-static int has_two_args(char **args, t_mini *mini)
+static int	has_two_args(char **args, t_mini *mini)
 {
 	if (args[1])
 	{
@@ -54,7 +54,7 @@ static int has_two_args(char **args, t_mini *mini)
 			return (1);
 		}
 		if (!ft_strcmp(args[1], "-"))
-			print_pwd();
+			print_pwd(mini, 0);
 		else
 			change_dir(args[1], mini);
 		return (1);
@@ -62,9 +62,9 @@ static int has_two_args(char **args, t_mini *mini)
 	return (0);
 }
 
-int get_cd(t_mini *mini, int i)
+int	get_cd(t_mini *mini, int i)
 {
-	char *home_dir;
+	char	*home_dir;
 
 	home_dir = get_env("HOME", mini);
 	if ((!mini->args[i + 1]))
@@ -82,9 +82,9 @@ int get_cd(t_mini *mini, int i)
 	return (0);
 }
 
-int ft_strstartswith(char *s1, char *s2)
+int	ft_strstartswith(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (s2[++i])

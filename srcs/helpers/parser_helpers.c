@@ -56,9 +56,9 @@ char	*pad_central(char *str)
 	return (ret);
 }
 
-int check_position_bool(t_mini *mini, char *to_find)
+int	check_position_bool(t_mini *mini, char *to_find)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (mini->args[i])
@@ -70,9 +70,9 @@ int check_position_bool(t_mini *mini, char *to_find)
 	return 0;
 }
 
-int check_position(t_mini *mini, int j)
+int	check_position(t_mini *mini, int j)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (mini->args[i])

@@ -1,9 +1,9 @@
 #include "../../inc/minishell.h"
 
-void print_arg(char *str, t_mini *mini, int current, int flag)
+void	print_arg(char *str, t_mini *mini, int current, int flag)
 {
-	int i;
-	int total;
+	int	i;
+	int	total;
 
 	i = 0;
 	total = str_len(mini->echo_split);
@@ -18,11 +18,11 @@ void print_arg(char *str, t_mini *mini, int current, int flag)
 			write(1, " ", 1);
 }
 
-int echo_cmd(char **tokens, t_mini *mini)
+int	echo_cmd(char **tokens, t_mini *mini)
 {
-	int flag_nl;
-	int option;
-	int i;
+	int	flag_nl;
+	int	option;
+	int	i;
 
 	i = 1;
 	flag_nl = 1;
@@ -45,15 +45,15 @@ int echo_cmd(char **tokens, t_mini *mini)
 	return (ft_print_new_line(flag_nl), 1);
 }
 
-void ft_print_new_line(int flag_nl)
+void	ft_print_new_line(int flag_nl)
 {
 	if (flag_nl)
 		ft_printf("\n");
 }
 
-int redirect_output_echo(int i, t_mini *mini)
+int	redirect_output_echo(int i, t_mini *mini)
 {
-	int file_fd;
+	int	file_fd;
 
 	while (mini->args[i])
 	{
@@ -75,4 +75,14 @@ int redirect_output_echo(int i, t_mini *mini)
 		i++;
 	}
 	return (0);
+}
+bool	db_quotes(char *str)
+{
+	int	quotes;
+
+	quotes = 0;
+	while (*str)
+		if (*str++ == '\"')
+			quotes++;
+	return (quotes);
 }

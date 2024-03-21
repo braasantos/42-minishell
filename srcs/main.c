@@ -23,16 +23,14 @@ static void init_all(t_mini *mini)
 	mini->echo_flag = 0;
 	mini->free_flag = 0;
 	mini->STDIN = 0;
-	ft_printf("%d\n", mini->STDIN);
 	mini->STDOUT = 1;
-	ft_printf("%d\n", mini->STDOUT);
 	mini->interact = false;
 }
 
 int main(int ac, char **av)
 {
-	t_mini mini;
-	extern char **environ;
+	t_mini	mini;
+	extern char	**environ;
 
 	if (ac >= 2 && av)
 		return (ft_printf("pls do not use arguments :(\n"));
@@ -42,7 +40,7 @@ int main(int ac, char **av)
 	exec_signals(0, &mini);
 	parser(&mini);
 }
-void parser(t_mini *mini)
+void	parser(t_mini *mini)
 {
 	while (1)
 	{

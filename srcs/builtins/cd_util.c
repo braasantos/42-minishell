@@ -1,9 +1,9 @@
 #include "../../inc/minishell.h"
 
-int find_env_var(char *var, t_mini *mini)
+int	find_env_var(char *var, t_mini *mini)
 {
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = -1;
 	while (mini->newenvp[++i])
@@ -18,10 +18,10 @@ int find_env_var(char *var, t_mini *mini)
 	}
 	return (i);
 }
-char **realloc_envv(int new_size, t_mini *mini)
+char	**realloc_envv(int new_size, t_mini *mini)
 {
-	char **new;
-	int i;
+	char	**new;
+	int		i;
 
 	new = (char **)malloc(sizeof(char *) * (new_size + 1));
 	i = -1;
@@ -34,7 +34,7 @@ char **realloc_envv(int new_size, t_mini *mini)
 	return (new);
 }
 
-void set_env_var(char *key, char *value, t_mini *mini)
+void	set_env_var(char *key, char *value, t_mini *mini)
 {
 	int pos;
 	char *tmp;
@@ -60,7 +60,7 @@ void set_env_var(char *key, char *value, t_mini *mini)
 	free(tmp);
 }
 
-int ft_strendswith(char *s1, char *s2)
+int	ft_strendswith(char *s1, char *s2)
 {
 	int i;
 
@@ -72,9 +72,9 @@ int ft_strendswith(char *s1, char *s2)
 	return (0);
 }
 
-char *ft_pathjoin(char *p1, char *p2)
+char	*ft_pathjoin(char *p1, char *p2)
 {
-	char *tmp2;
+	char	*tmp2;
 
 	if (!p2 || !p1)
 		return (NULL);

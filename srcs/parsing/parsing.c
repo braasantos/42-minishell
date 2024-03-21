@@ -1,17 +1,20 @@
 #include "../../inc/minishell.h"
 
-void ft_exit(t_mini *mini)
+void	ft_exit(t_mini *mini)
 {
-	ft_free_arr(mini->args);
-	if (mini->echo_split)
+	if (mini->free_flag == 1)
 		ft_free_arr(mini->echo_split);
-	free(mini->new_str);
-	ft_free_arr(mini->newenvp);
+	if (mini->args)
+		ft_free_arr(mini->args);
+	if (mini->new_str)
+		free(mini->new_str);
+	if (mini->str)
+		free(mini->str);
 	exit(1);
 }
-int bingo(char *s, char c)
+int	bingo(char *s, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -23,7 +26,7 @@ int bingo(char *s, char c)
 	return (0);
 }
 
-void parsing(t_mini *mini, char *str)
+void	parsing(t_mini *mini, char *str)
 {
 	if (!ft_check_open_quotes(str))
 		return;
@@ -35,7 +38,7 @@ void parsing(t_mini *mini, char *str)
 	execute(mini);
 	redirect(mini);
 }
-void sigint_on_child(int signal)
+void	sigint_on_child(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -45,10 +48,10 @@ void sigint_on_child(int signal)
 	}
 }
 
-void get_exit_status(t_mini *mini)
+void	get_exit_status(t_mini *mini)
 {
-	int i;
-	int status;
+	int	i;
+	int	status;
 
 	i = 0;
 	status = 0;

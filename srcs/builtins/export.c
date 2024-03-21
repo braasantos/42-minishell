@@ -1,10 +1,10 @@
 #include "../../inc/minishell.h"
 
-char **add_var(char **newenvp, char *new_var)
+char	**add_var(char **newenvp, char *new_var)
 {
-	int num_vars;
-	int i;
-	char **newenvp_new;
+	int		num_vars;
+	int		i;
+	char	**newenvp_new;
 
 	num_vars = str_len(newenvp);
 	i = 0;
@@ -22,10 +22,10 @@ char **add_var(char **newenvp, char *new_var)
 	newenvp_new[num_vars + 1] = NULL;
 	return (newenvp_new);
 }
-char *get_var(char *s)
+char	*get_var(char *s)
 {
-	int i;
-	char *str;
+	int		i;
+	char	*str;
 
 	i = 0;
 	while (s[i] && s[i] != '=')
@@ -41,51 +41,10 @@ char *get_var(char *s)
 	return (str);
 }
 
-
-int var_exists(t_mini *mini, char *var)
+int	export_unset(t_mini *mini)
 {
-	int i;
-	char *new_var;
-
-	i = 0;
-	new_var = get_var(var);
-	while (mini->newenvp[i])
-	{
-		if (!ft_strncmp(mini->newenvp[i], new_var, ft_strlen(new_var)))
-		{
-			free(new_var);
-			return (1);
-		}
-		i++;
-	}
-	free(new_var);
-	return (0);
-}
-
-int get_export(t_mini *mini)
-{
-	char **newvar;
-
-	newvar = NULL;
-	if (mini->args[1])
-	{
-		if (var_exists(mini, mini->args[1]))
-		{
-			delete_replace(mini, newvar);
-			return (1);
-		}
-		if (count_quotes(mini->new_str) == 0)
-			export_quotes(newvar, mini);
-		else if (count_quotes(mini->new_str) > 0)
-			export_woquotes(newvar, mini);
-	}
-	return (1);
-}
-
-int export_unset(t_mini *mini)
-{
-	char *var_name;
-	char **newvar;
+	char	*var_name;
+	char	**newvar;
 
 	if (mini->args[1])
 	{
@@ -98,33 +57,12 @@ int export_unset(t_mini *mini)
 	}
 	return (1);
 }
-void delete_replace(t_mini *mini, char **str)
+
+void	export_woquotes(char **newvar, t_mini *mini)
 {
-	export_unset(mini);
-	if (count_quotes(mini->new_str) == 0)
-		export_quotes(str, mini);
-	else if (count_quotes(mini->new_str) > 0)
-		export_woquotes(str, mini);
-}
-
-
-void export_quotes(char **newvar, t_mini *mini)
-{
-	char *var;
-
-	var = ft_strdup(mini->args[1]);
-	newvar = add_var(mini->newenvp, var);
-	ft_free_arr(mini->newenvp);
-	mini->newenvp = get_newenvp(newvar);
-	ft_free_arr(newvar);
-	free(var);
-}
-
-void export_woquotes(char **newvar, t_mini *mini)
-{
-	char **splitted;
-	char *str;
-	char *tmp;
+	char	**splitted;
+	char	*str;
+	char	*tmp;
 
 	splitted = ft_split(mini->new_str, '\"');
 	str = help(splitted[0]);
@@ -136,4 +74,29 @@ void export_woquotes(char **newvar, t_mini *mini)
 	mini->newenvp = get_newenvp(newvar);
 	ft_free_arr(newvar);
 	ft_free_arr(splitted);
+}
+char	*ft_remove_squotes(const char *str)
+{
+    char	*new_str;
+    size_t	len;
+    size_t	j;
+	size_t	i;
+
+	i = 0;
+	j = 0;
+	len = strlen(str);
+	new_str = (char *)malloc(len + 1); 
+    if (!str)
+        return NULL;
+    if (new_str == NULL)
+        return NULL;
+    while (i < len)
+	{
+        if (str[i] != '\'') {
+            new_str[j++] = str[i];
+        }
+		i++;
+    }
+    new_str[j] = '\0';
+    return new_str;
 }
