@@ -1,8 +1,8 @@
 #include "../../inc/minishell.h"
 
-bool is_a_file_to_create(char *s, t_mini *mini)
+bool	is_a_file_to_create(char *s, t_mini *mini)
 {
-	int pos;
+	int	pos;
 
 	pos = check_position_bool(mini, ">");
 	if ((is_a_red(mini->args[pos])))
@@ -13,9 +13,9 @@ bool is_a_file_to_create(char *s, t_mini *mini)
 	return (false);
 }
 
-void create_file(t_mini *mini)
+void	create_file(t_mini *mini)
 {
-	int file;
+	int	file;
 
 	file = check_position_bool(mini, "<");
 	printf("%d\n", file);
@@ -28,9 +28,9 @@ void create_file(t_mini *mini)
 	dup2(mini->fd0, STDIN_FILENO);
 }
 
-char *do_sum(t_mini *mini, int i)
+char	*do_sum(t_mini *mini, int i)
 {
-	char *s;
+	char	*s;
 
 	if (count_quotes(mini->args[i + 1]) > 1)
 		s = ft_remove_quotes(mini->args[i + 1]);
@@ -39,38 +39,38 @@ char *do_sum(t_mini *mini, int i)
 	return (s);
 }
 
-int count_quotes(char *str)
+int	count_quotes(char *str)
 {
-    int i;
-    int count;
+	int	i;
+	int	count;
 
 	if (!str)
 		return (0);
-    i = 0;
-    count = 0;
-    while (str[i])
-    {
-        if (str[i] == '\"' || str[i] == '\'')
-            count++;
-        i++;
-    }
-    return count;
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"' || str[i] == '\'')
+			count++;
+		i++;
+	}
+	return (count);
 }
 
-int count_dquotes(char *str)
+int	count_dquotes(char *str)
 {
-    int i;
-    int count;
+	int	i;
+	int	count;
 
 	if (!str)
 		return (0);
-    i = 0;
-    count = 0;
-    while (str[i])
-    {
-        if (str[i] == '\"')
-            count++;
-        i++;
-    }
-    return count;
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '\"')
+			count++;
+		i++;
+	}
+	return (count);
 }

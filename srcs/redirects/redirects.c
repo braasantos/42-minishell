@@ -1,9 +1,9 @@
 #include "../../inc/minishell.h"
 
-int count_red(t_mini *mini)
+int	count_red(t_mini *mini)
 {
-		int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -19,7 +19,7 @@ int count_red(t_mini *mini)
 
 int	redirect_output(int i, t_mini *mini)
 {
-	int		file_fd;
+	int	file_fd;
 
 	if (!mini->args[i + 1])
 		return (1);
@@ -36,7 +36,7 @@ int	redirect_output(int i, t_mini *mini)
 
 int	redirect_input(int i, t_mini *mini)
 {
-	int		file_fd;
+	int	file_fd;
 
 	file_fd = open(mini->args[i + 1], O_RDONLY);
 	if (!file_fd)
@@ -50,7 +50,7 @@ int	redirect_input(int i, t_mini *mini)
 }
 void	hanlde_redirects(t_mini *mini)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (mini->args[i])

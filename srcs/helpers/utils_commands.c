@@ -1,13 +1,14 @@
 #include "../../inc/minishell.h"
 
-char *ft_add(t_mini *mini, char *ag)
+char	*ft_add(t_mini *mini, char *ag)
 {
-	char *cmd1;
-	char **str;
-	char *tmp;
-	int i;
+	char	*cmd1;
+	char	**str;
+	char	*tmp;
+	int		i;
 
 	tmp = NULL;
+	cmd1 = NULL;
 	str = get_path(mini->newenvp);
 	if (access(ag, X_OK) == 0)
 		return (ft_free_arr(str), ft_strdup(ag));
@@ -27,11 +28,12 @@ char *ft_add(t_mini *mini, char *ag)
 	return (ft_free_arr(str), NULL);
 }
 
-char **get_path(char **newenv)
+
+char	**get_path(char **newenv)
 {
-	int i;
-	char *str;
-	char **newstr;
+	int		i;
+	char	*str;
+	char	**newstr;
 
 	i = 0;
 	newstr = NULL;
@@ -51,12 +53,12 @@ char **get_path(char **newenv)
 /*
  * Function to copy the envp
  */
-char **get_newenvp(char **envp)
+char	**get_newenvp(char **envp)
 {
-    char **newenvp;
-    int i;
-    int j;
-    int len;
+    char	**newenvp;
+    int		i;
+    int		j;
+    int		len;
 
     len = str_len(envp);
 	i = 0;
@@ -78,7 +80,7 @@ char **get_newenvp(char **envp)
 }
 
 
-bool is_a_append_here(char *s)
+bool	is_a_append_here(char *s)
 {
 	if (!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
 			return (true);

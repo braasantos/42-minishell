@@ -1,8 +1,8 @@
 #include "../../inc/minishell.h"
 
-int check_parser(t_mini *mini)
+int	check_parser(t_mini *mini)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (mini->args[i])
@@ -25,7 +25,7 @@ int check_parser(t_mini *mini)
 	}
 	return (0);
 }
-int check_parser3(t_mini *mini, int i)
+int	check_parser3(t_mini *mini, int i)
 {
 	if (mini->args[i + 1])
 	{
@@ -47,7 +47,7 @@ int check_parser3(t_mini *mini, int i)
 	return (0);
 }
 
-int do_redirects(t_mini *mini, int i)
+int	do_redirects(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "<<"))
 	{
@@ -75,9 +75,9 @@ int do_redirects(t_mini *mini, int i)
 char	*ft_remove_quotes(char *str)
 {
 	char	*new;
-	int	count;
-	int	i;
-	int	j;
+	int		count;
+	int		i;
+	int		j;
 
 	if (!str)
 		return (NULL);
@@ -101,7 +101,7 @@ char	*ft_remove_quotes(char *str)
 	return (new);
 }
 
-int check_next(t_mini *mini, int i)
+int	check_next(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], ">") 
 		|| (!ft_strcmp(mini->args[i], "<")) 

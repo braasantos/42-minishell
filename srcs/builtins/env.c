@@ -1,8 +1,8 @@
 #include "../../inc/minishell.h"
 
-int get_envp(t_mini *mini)
+int	get_envp(t_mini *mini)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while(mini->newenvp[++i])

@@ -1,6 +1,6 @@
 #include "../../inc/minishell.h"
 
-void through_pipes(t_mini *mini, int i)
+void	through_pipes(t_mini *mini, int i)
 {
 	if (i == 0)
 		dup2(mini->pipes_fd[1], STDOUT_FILENO);
@@ -14,10 +14,10 @@ void through_pipes(t_mini *mini, int i)
 	close_pipes(mini);
 }
 
-int count_pipes(t_mini *mini)
+int	count_pipes(t_mini *mini)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -30,7 +30,7 @@ int count_pipes(t_mini *mini)
 	return (count);
 }
 
-void close_pipes(t_mini *mini)
+void	close_pipes(t_mini *mini)
 {
 	int i;
 	int n_pipes;

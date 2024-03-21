@@ -1,8 +1,8 @@
 #include "../../inc/minishell.h"
 
-void ft_free_arr(char **str)
+void	ft_free_arr(char **str)
 {
-	int i;
+	int	i;
 
 	if (!str || !*str)
 		return;
@@ -16,7 +16,7 @@ void ft_free_arr(char **str)
 	str = NULL;
 }
 
-void free_struct(t_mini *mini)
+void	free_struct(t_mini *mini)
 {
 	if (mini->free_flag == 1)
 		ft_free_arr(mini->echo_split);
@@ -28,7 +28,7 @@ void free_struct(t_mini *mini)
 		free(mini->str);
 }
 
-void free_struct_2(t_mini *mini)
+void	free_struct_2(t_mini *mini)
 {
 	if (mini->args)
 		ft_free_arr(mini->args);

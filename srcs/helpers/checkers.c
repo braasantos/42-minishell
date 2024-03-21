@@ -1,8 +1,8 @@
 #include "../../inc/minishell.h"
 
-bool is_a_pipe(char *s)
+bool	is_a_pipe(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -14,9 +14,9 @@ bool is_a_pipe(char *s)
 	return (false);
 }
 
-bool is_a_red(char *s)
+bool	is_a_red(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -29,38 +29,38 @@ bool is_a_red(char *s)
 		return (true);
 	return (false);
 }
-bool is_a_cmd(char *s, t_mini *mini)
+bool	is_a_cmd(char *s, t_mini *mini)
 {
-    char *str;
-    char *temp;
-    bool result;
+	char	*str;
+	char	*temp;
+	bool	result;
 
 	result = false;
-    if (check_options(s))
-        temp = ft_remove_quotes(s);
-    else
-        temp = ft_strdup(s);
-    str = ft_add(mini, temp);
-    if (str)
+	if (count_quotes(mini->new_str) > 0)
+		temp = ft_remove_quotes(s);
+	else
+		temp = ft_strdup(s);
+	str = ft_add(mini, temp);
+	if (str)
 	{
-        if (access(str, X_OK) == 0)
-            result = true;
-        free(str);
-    }
-    free(temp);
-    return result;
+		if (access(str, X_OK) == 0)
+			result = true;
+		free(str);
+	}
+	free(temp);
+	return (result);
 }
 
-bool is_a_file(char *s)
+bool	is_a_file(char *s)
 {
 	if (access(s, R_OK) == -1)
 		return (false);
 	return (true);
 }
 
-bool is_a_option(char *s, t_mini *mini)
+bool	is_a_option(char *s, t_mini *mini)
 {
-	char *str;
+	char	*str;
 
 	if (is_a_pipe(s) || is_a_red(s) || is_a_file(s))
 		return (false);

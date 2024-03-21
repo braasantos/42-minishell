@@ -1,11 +1,11 @@
 #include "../../inc/minishell.h"
 
-char **remove_var(char **newenvp, char *var_name)
+char	**remove_var(char **newenvp, char *var_name)
 {
-	int num_vars;
-	int i;
-	int j;
-	char **newenvp_new;
+	int		num_vars;
+	int		i;
+	int		j;
+	char	**newenvp_new;
 
 	num_vars = 0;
 	while (newenvp[num_vars])
@@ -28,11 +28,11 @@ char **remove_var(char **newenvp, char *var_name)
 	return newenvp_new;
 }
 
-int get_unset(t_mini *mini)
+int	get_unset(t_mini *mini)
 {
-	char *var_name;
-	char **newvar;
-	char *temp;
+	char	*var_name;
+	char	**newvar;
+	char	*temp;
 
 	if (mini->args[1])
 	{
@@ -49,4 +49,9 @@ int get_unset(t_mini *mini)
 		free(var_name);
 	}
 	return (1);
+}
+
+bool	is_space(char c)
+{
+	return ((c >= 9 && c <= 13) || c == 32);
 }

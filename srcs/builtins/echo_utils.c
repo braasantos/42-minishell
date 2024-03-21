@@ -6,33 +6,17 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/16 15:41:25 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/20 18:52:37 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-bool db_quotes(char *str)
+char	**add_option_echo(t_mini *mini, int i, char *temp)
 {
-	int quotes;
-
-	quotes = 0;
-	while (*str)
-		if (*str++ == '\"')
-			quotes++;
-	return (quotes);
-}
-
-bool is_space(char c)
-{
-	return ((c >= 9 && c <= 13) || c == 32);
-}
-
-char **add_option_echo(t_mini *mini, int i, char *temp)
-{
-	char *result;
-	char *new_result;
-	char **ret;
+	char	*result;
+	char	*new_result;
+	char	**ret;
 
 	result = NULL;
 	mini->pipe_or_redirect_found = false;
@@ -56,11 +40,11 @@ char **add_option_echo(t_mini *mini, int i, char *temp)
 	ret = ft_split(result, ' ');
 	return (free(result), ret);
 }
-void handle_split_args(t_mini *mini)
+void	handle_split_args(t_mini *mini)
 {
-	int i;
-	char **str;
-	char *temp;
+	int		i;
+	char	**str;
+	char	*temp;
 
 	i = -1;
 	temp = NULL;
@@ -85,10 +69,10 @@ void handle_split_args(t_mini *mini)
 	}
 }
 
-void check_comand(t_mini *mini)
+void	check_comand(t_mini *mini)
 {
-	int i;
-	char *temp;
+	int		i;
+	char	*temp;
 
 	i = 0;
 	if (!mini->args)
@@ -113,20 +97,20 @@ void check_comand(t_mini *mini)
 	}
 }
 
-char **which_split(char *str, t_mini *mini)
+char	**which_split(char *str, t_mini *mini)
 {
-	char **split;
+	char	**split;
 
 	split = ft_split(str, ' ');
 	mini->echo_flag = 0;
 	return (split);
 }
 
-int count_quote_pairs(char *str)
+int	count_quote_pairs(char *str)
 {
-	int pairs;
-	int open_quote;
-	int i;
+	int	pairs;
+	int	open_quote;
+	int	i;
 
 	pairs = 0;
 	open_quote = 0;

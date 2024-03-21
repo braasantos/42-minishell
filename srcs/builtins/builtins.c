@@ -1,8 +1,8 @@
 #include "../../inc/minishell.h"
 
-int str_len(char **str)
+int	str_len(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] != NULL)
@@ -10,9 +10,9 @@ int str_len(char **str)
 	return (i);
 }
 
-int have_redirect(t_mini *mini)
+int	have_redirect(t_mini *mini)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (mini->args[i])
@@ -26,7 +26,7 @@ int have_redirect(t_mini *mini)
 	return (0);
 }
 
-int builtins(t_mini *mini, int i)
+int	builtins(t_mini *mini, int i)
 {
 	hanlde_redirects(mini);
 	if (!ft_strcmp(mini->args[i], "exit"))
@@ -36,7 +36,7 @@ int builtins(t_mini *mini, int i)
 		free_struct_2(mini);
 	}
 	if (!ft_strcmp(mini->args[i], "pwd"))
-		return (print_pwd());
+		return (print_pwd(mini, i));
 	if (!ft_strcmp(mini->args[i], "echo"))
 		return (echo_cmd(mini->echo_split, mini));
 	if ((!ft_strcmp(mini->args[i], "cd")))
@@ -50,9 +50,9 @@ int builtins(t_mini *mini, int i)
 	return (0);
 }
 
-int check_parser2(t_mini *mini, int i)
+int	check_parser2(t_mini *mini, int i)
 {
-	int file_fd;
+	int	file_fd;
 
 	file_fd = 0;
 	file_fd = open(mini->args[i], O_WRONLY | O_CREAT | O_TRUNC, 0664);
@@ -63,7 +63,7 @@ int check_parser2(t_mini *mini, int i)
 	}
 	return (0);
 }
-bool is_a_builtin(t_mini *mini, int i)
+bool	is_a_builtin(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "exit"))
 		return (true);

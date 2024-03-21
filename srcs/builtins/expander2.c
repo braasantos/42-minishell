@@ -1,8 +1,8 @@
 #include "../../inc/minishell.h"
 
-void do_strjoin(int i, char *env, t_mini *mini)
+void	do_strjoin(int i, char *env, t_mini *mini)
 {
-	char *temp;
+	char	*temp;
 
 	mini->after = ft_after(mini->new_str);
 	temp = ft_strjoin(mini->before, env);
@@ -12,7 +12,7 @@ void do_strjoin(int i, char *env, t_mini *mini)
 	free(mini->after);
 	free(mini->before);
 }
-void free_expand(char *s1, char *s2, char *s3, int flag)
+void	free_expand(char *s1, char *s2, char *s3, int flag)
 {
 	free(s3);
 	free(s1);
@@ -20,9 +20,9 @@ void free_expand(char *s1, char *s2, char *s3, int flag)
 	if (flag == 1)
 		s3 = ft_strdup(" ");
 }
-int ft_var(char *str)
+int	ft_var(char *str)
 {
-	int i;
+	int	i;
 
 	i = ft_before_exp(str);
 	if (str[i] && str[i] == '$')
@@ -44,23 +44,12 @@ int ft_var(char *str)
 	return (i);
 }
 
-int ft_before_exp(char *str)
+char	*ft_before(char *s)
 {
-	int i;
-
-	i = 0;
-	while (str[i] && str[i] != '$')
-		i++;
-	return (i);
-}
-
-
-char *ft_before(char *s)
-{
-	int i;
-	char *before_quo;
-	char *space;
-	int j;
+	int		i;
+	char	*before_quo;
+	char	*space;
+	int		j;
 
 	i = ft_before_exp(s);
 	if (i == 0)
@@ -82,13 +71,13 @@ char *ft_before(char *s)
 	return (before_quo);
 }
 
-char *ft_after(char *s)
+char	*ft_after(char *s)
 {
-	int i;
-	int j;
-	char *after_quo;
-	int k;
-	int len;
+	int		i;
+	int		j;
+	char	*after_quo;
+	int		k;
+	int		len;
 
 	j = 0;
 	i = ft_var(s);

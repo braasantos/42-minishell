@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:40:05 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/08 15:09:49 by gabe             ###   ########.fr       */
+/*   Updated: 2024/03/20 18:47:40 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ char	**echo_split(char const *s, char c)
 	char	**new_arr;
 	int		count;
 
-	//printf("echo_split str : %s\n", s);
 	if (!s)
 		return (NULL);
 	count = ft_countword(s, c) + 1;

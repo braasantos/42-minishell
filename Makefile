@@ -15,12 +15,14 @@ helpers/checkers.c \
 helpers/parser_helpers.c \
 helpers/path_helpers.c \
 execution/exec.c \
+execution/exec_utils.c \
 builtins/builtins.c \
 builtins/expander.c \
 builtins/expander2.c \
 builtins/pwd.c \
 builtins/env.c \
 builtins/export.c \
+builtins/export2.c \
 builtins/export_utils.c \
 builtins/unset.c \
 builtins/cd.c \
