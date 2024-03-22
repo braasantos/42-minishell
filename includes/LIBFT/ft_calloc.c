@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:56:44 by bjorge-m          #+#    #+#             */
-/*   Updated: 2023/10/12 19:57:54 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:30:26 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	void	*b;
 
 	b = malloc(nmemb * size);
-	if (!b) 
+	if (!b)
 		return (NULL);
-	else 
+	else
 		ft_bzero(b, nmemb * size);
 	return (b);
 }

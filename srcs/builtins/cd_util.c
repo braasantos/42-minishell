@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd_util.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:53:25 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 12:54:07 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	find_env_var(char *var, t_mini *mini)
@@ -18,6 +30,7 @@ int	find_env_var(char *var, t_mini *mini)
 	}
 	return (i);
 }
+
 char	**realloc_envv(int new_size, t_mini *mini)
 {
 	char	**new;
@@ -36,8 +49,8 @@ char	**realloc_envv(int new_size, t_mini *mini)
 
 void	set_env_var(char *key, char *value, t_mini *mini)
 {
-	int pos;
-	char *tmp;
+	int		pos;
+	char	*tmp;
 
 	pos = find_env_var(key, mini);
 	tmp = ft_strjoin("=", value);
@@ -62,7 +75,7 @@ void	set_env_var(char *key, char *value, t_mini *mini)
 
 int	ft_strendswith(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (s1[++i])

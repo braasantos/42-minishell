@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:58:40 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 12:59:00 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	do_strjoin(int i, char *env, t_mini *mini)
@@ -12,6 +24,7 @@ void	do_strjoin(int i, char *env, t_mini *mini)
 	free(mini->after);
 	free(mini->before);
 }
+
 void	free_expand(char *s1, char *s2, char *s3, int flag)
 {
 	free(s3);
@@ -20,6 +33,7 @@ void	free_expand(char *s1, char *s2, char *s3, int flag)
 	if (flag == 1)
 		s3 = ft_strdup(" ");
 }
+
 int	ft_var(char *str)
 {
 	int	i;

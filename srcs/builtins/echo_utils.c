@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/20 18:52:37 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/21 12:57:55 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**add_option_echo(t_mini *mini, int i, char *temp)
 		else
 		{
 			if (save_lines2(mini, temp, i))
-				break;
+				break ;
 			new_result = ft_strjoin(result, temp);
 			free(result);
 			result = ft_strdup(new_result);
@@ -40,6 +40,7 @@ char	**add_option_echo(t_mini *mini, int i, char *temp)
 	ret = ft_split(result, ' ');
 	return (free(result), ret);
 }
+
 void	handle_split_args(t_mini *mini)
 {
 	int		i;
@@ -76,7 +77,7 @@ void	check_comand(t_mini *mini)
 
 	i = 0;
 	if (!mini->args)
-		return;
+		return ;
 	while (mini->args[i])
 	{
 		if (is_a_cmd(mini->args[i], mini))

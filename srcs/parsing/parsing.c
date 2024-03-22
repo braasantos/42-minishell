@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/22 14:08:11 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	ft_exit(t_mini *mini)
@@ -12,6 +24,7 @@ void	ft_exit(t_mini *mini)
 		free(mini->str);
 	exit(1);
 }
+
 int	bingo(char *s, char c)
 {
 	int	i;
@@ -29,15 +42,15 @@ int	bingo(char *s, char c)
 void	parsing(t_mini *mini, char *str)
 {
 	if (!ft_check_open_quotes(str))
-		return;
+		return ;
 	if (!redirect_basic_check(str))
-	 	ft_printf("invalid redirect\n");
+		ft_printf("invalid redirect\n");
 	if (!pipe_check(mini, str))
 		return ;
 	handle_split_args(mini);
 	execute(mini);
-	redirect(mini);
 }
+
 void	sigint_on_child(int signal)
 {
 	if (signal == SIGINT)

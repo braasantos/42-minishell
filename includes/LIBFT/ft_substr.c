@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 14:59:35 by bjorge-m          #+#    #+#             */
-/*   Updated: 2023/10/12 15:02:01 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:38:06 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		mal[i] = s[start + i];
 		i++;
 	}
-	mal[i] = '\0'; 
+	mal[i] = '\0';
 	return (mal);
 }

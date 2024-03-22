@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:04:04 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 13:04:31 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 char	**remove_var(char **newenvp, char *var_name)
@@ -12,7 +24,7 @@ char	**remove_var(char **newenvp, char *var_name)
 		num_vars++;
 	newenvp_new = (char **)malloc((num_vars + 1) * sizeof(char *));
 	if (newenvp_new == NULL)
-		return NULL;
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (i < num_vars)
@@ -25,7 +37,7 @@ char	**remove_var(char **newenvp, char *var_name)
 		i++;
 	}
 	newenvp_new[j] = NULL;
-	return newenvp_new;
+	return (newenvp_new);
 }
 
 int	get_unset(t_mini *mini)

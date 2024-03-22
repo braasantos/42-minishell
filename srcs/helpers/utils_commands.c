@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_commands.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:19:23 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 13:21:59 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 char	*ft_add(t_mini *mini, char *ag)
@@ -28,7 +40,6 @@ char	*ft_add(t_mini *mini, char *ag)
 	return (ft_free_arr(str), NULL);
 }
 
-
 char	**get_path(char **newenv)
 {
 	int		i;
@@ -50,45 +61,43 @@ char	**get_path(char **newenv)
 	free(str);
 	return (newstr);
 }
-/*
- * Function to copy the envp
- */
+
 char	**get_newenvp(char **envp)
 {
-    char	**newenvp;
-    int		i;
-    int		j;
-    int		len;
+	char	**newenvp;
+	int		i;
+	int		j;
+	int		len;
 
-    len = str_len(envp);
+	len = str_len(envp);
 	i = 0;
-    newenvp = (char **)malloc((len + 1) * sizeof(char *));
-    while (i < len)
-    {
-        j = ft_strlen(envp[i]);
-        newenvp[i] = (char *)malloc((j + 1) * sizeof(char));
-        if (newenvp[i] == NULL)
-        {
+	newenvp = (char **)malloc((len + 1) * sizeof(char *));
+	while (i < len)
+	{
+		j = ft_strlen(envp[i]);
+		newenvp[i] = (char *)malloc((j + 1) * sizeof(char));
+		if (newenvp[i] == NULL)
+		{
 			ft_free_arr(newenvp);
-            return NULL;
-        }
-        strcpy(newenvp[i], envp[i]);
+			return (NULL);
+		}
+		strcpy(newenvp[i], envp[i]);
 		i++;
-    }
-    newenvp[len] = NULL;
-    return newenvp;
+	}
+	newenvp[len] = NULL;
+	return (newenvp);
 }
-
 
 bool	is_a_append_here(char *s)
 {
 	if (!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
-			return (true);
+		return (true);
 	return (false);
 }
+
 bool	is_a_number(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 13:00:14 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	var_exists(t_mini *mini, char *var)
@@ -39,6 +51,7 @@ int	get_export(t_mini *mini)
 	}
 	return (1);
 }
+
 void	delete_replace(t_mini *mini, char **str)
 {
 	export_unset(mini);

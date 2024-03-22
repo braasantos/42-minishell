@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:00:21 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 13:03:07 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 char	**add_var(char **newenvp, char *new_var)
@@ -10,7 +22,7 @@ char	**add_var(char **newenvp, char *new_var)
 	i = 0;
 	newenvp_new = malloc((num_vars + 2) * sizeof(char *));
 	if (newenvp_new == NULL)
-		return NULL;
+		return (NULL);
 	while (i < num_vars)
 	{
 		newenvp_new[i] = malloc((ft_strlen(newenvp[i]) + 1) * sizeof(char));
@@ -22,6 +34,7 @@ char	**add_var(char **newenvp, char *new_var)
 	newenvp_new[num_vars + 1] = NULL;
 	return (newenvp_new);
 }
+
 char	*get_var(char *s)
 {
 	int		i;
@@ -75,28 +88,28 @@ void	export_woquotes(char **newvar, t_mini *mini)
 	ft_free_arr(newvar);
 	ft_free_arr(splitted);
 }
+
 char	*ft_remove_squotes(const char *str)
 {
-    char	*new_str;
-    size_t	len;
-    size_t	j;
+	char	*new_str;
+	size_t	len;
+	size_t	j;
 	size_t	i;
 
 	i = 0;
 	j = 0;
 	len = strlen(str);
-	new_str = (char *)malloc(len + 1); 
-    if (!str)
-        return NULL;
-    if (new_str == NULL)
-        return NULL;
-    while (i < len)
+	new_str = (char *)malloc(len + 1);
+	if (!str)
+		return (NULL);
+	if (new_str == NULL)
+		return (NULL);
+	while (i < len)
 	{
-        if (str[i] != '\'') {
-            new_str[j++] = str[i];
-        }
+		if (str[i] != '\'')
+			new_str[j++] = str[i];
 		i++;
-    }
-    new_str[j] = '\0';
-    return new_str;
+	}
+	new_str[j] = '\0';
+	return (new_str);
 }

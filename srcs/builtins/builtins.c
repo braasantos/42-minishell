@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 12:51:40 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	str_len(char **str)
@@ -63,6 +75,7 @@ int	check_parser2(t_mini *mini, int i)
 	}
 	return (0);
 }
+
 bool	is_a_builtin(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "exit"))

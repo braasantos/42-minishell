@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:58:11 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 12:58:32 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	get_envp(t_mini *mini)
@@ -5,7 +17,7 @@ int	get_envp(t_mini *mini)
 	int	i;
 
 	i = -1;
-	while(mini->newenvp[++i])
+	while (mini->newenvp[++i])
 		printf("%s\n", mini->newenvp[i]);
 	return (1);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:23:27 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 13:23:46 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	through_pipes(t_mini *mini, int i)
@@ -32,8 +44,8 @@ int	count_pipes(t_mini *mini)
 
 void	close_pipes(t_mini *mini)
 {
-	int i;
-	int n_pipes;
+	int	i;
+	int	n_pipes;
 
 	i = 0;
 	n_pipes = count_pipes(mini);

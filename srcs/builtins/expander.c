@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 12:59:47 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 char	*get_expand(char *s)
@@ -20,11 +32,12 @@ char	*get_expand(char *s)
 		else
 			str[j++] = s[i++];
 		if (s[i] == '\'' || s[i] == ' ')
-			break;
+			break ;
 	}
 	str[j] = '\0';
 	return (str);
 }
+
 void	time_to_remove(t_mini *mini, int i)
 {
 	int		d_quotes;
@@ -67,7 +80,7 @@ void	expand_str(t_mini *mini, int i)
 	if (count_quotes == 0 && count_squotes(mini->new_str) > 0)
 	{
 		ohhh_boy(mini, i);
-		return;
+		return ;
 	}
 	mini->before = ft_before(mini->args[i]);
 	mini->after = ft_after(mini->args[i]);
@@ -79,7 +92,6 @@ void	expand_str(t_mini *mini, int i)
 		do_all(mini, i, env);
 	else
 		mini->args[i] = ft_strdup("\0");
-
 	free(mini->before);
 	free(mini->after);
 }

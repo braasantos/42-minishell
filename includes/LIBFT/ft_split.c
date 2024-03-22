@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:08:10 by bjorge-m          #+#    #+#             */
-/*   Updated: 2023/10/12 15:16:12 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/22 13:54:33 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	**ft_putwords(char **new, char const *s, char c)
 	int		flag;
 	int		count;
 
-	newarr = new; 
+	newarr = new;
 	flag = 0;
 	count = 0;
 	while (*s)

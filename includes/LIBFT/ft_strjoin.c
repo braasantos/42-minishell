@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:31:36 by bjorge-m          #+#    #+#             */
-/*   Updated: 2023/10/10 17:37:22 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:38:21 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	mal = (char *)malloc((s1_len + s2_len + 1) * sizeof(char));
 	if (!mal)
 		return (NULL);
-	else 
+	else
 	{
 		ft_strlcpy(mal, s1, s1_len + 1);
 		ft_strlcat(mal, s2, s1_len + s2_len + 1);

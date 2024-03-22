@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils3.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/22 14:22:20 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	check_parser(t_mini *mini)
@@ -13,7 +25,8 @@ int	check_parser(t_mini *mini)
 				return (check_parser2(mini, (i + 1)));
 			else
 			{
-				printf("minishell: syntax error near unexpected token `newline'\n");
+				ft_printf("minishell: syntax error near");
+				ft_printf("unexpected token `newline'\n");
 				return (1);
 			}
 		}
@@ -25,6 +38,7 @@ int	check_parser(t_mini *mini)
 	}
 	return (0);
 }
+
 int	check_parser3(t_mini *mini, int i)
 {
 	if (mini->args[i + 1])
@@ -35,13 +49,14 @@ int	check_parser3(t_mini *mini, int i)
 			return (0);
 		else
 		{
-			printf("minishell: %s: No such file or directory\n", mini->args[i + 1]);
+			ft_printf("minishell: No such");
+			ft_printf("%s file or directory\n", mini->args[i + 1]);
 			return (1);
 		}
 	}
 	else
 	{
-		printf("minishell: syntax error near unexpected token `newline'\n");
+		ft_printf("minishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 	return (0);
@@ -55,7 +70,8 @@ int	do_redirects(t_mini *mini, int i)
 			return (0);
 		else
 		{
-			printf("minishell: syntax error near unexpected token `newline'\n");
+			printf("minishell: syntax error near");
+			ft_printf("unexpected token `newline'\n");
 			return (1);
 		}
 	}
@@ -65,7 +81,8 @@ int	do_redirects(t_mini *mini, int i)
 			return (0);
 		else
 		{
-			printf("minishell: syntax error near unexpected token `newline'\n");
+			printf("minishell: syntax error near");
+			ft_printf("unexpected token `newline'\n");
 			return (1);
 		}
 	}
@@ -85,7 +102,7 @@ char	*ft_remove_quotes(char *str)
 	i = ft_strlen(str) - count;
 	new = (char *)malloc(sizeof(char) * (i + 1));
 	if (new == NULL)
-		return NULL;
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (str[i])
@@ -103,9 +120,9 @@ char	*ft_remove_quotes(char *str)
 
 int	check_next(t_mini *mini, int i)
 {
-	if (!ft_strcmp(mini->args[i], ">") 
-		|| (!ft_strcmp(mini->args[i], "<")) 
-			|| is_a_append_here(mini->args[i]))
+	if (!ft_strcmp(mini->args[i], ">")
+		|| (!ft_strcmp(mini->args[i], "<"))
+		|| is_a_append_here(mini->args[i]))
 	{
 		if (mini->args[i + 1])
 			return (1);

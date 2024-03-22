@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:33:19 by bjorge-m          #+#    #+#             */
-/*   Updated: 2023/10/12 16:11:39 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/22 12:30:53 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*ft_memchr(const void *s, int c, size_t n)
 
 	i = 0;
 	str = (unsigned char *) s;
-	ch = (unsigned char) c; 
+	ch = (unsigned char) c;
 	while (i < n)
 	{
 		if (str[i] == ch)

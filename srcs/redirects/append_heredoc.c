@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   append_heredoc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:23:56 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 13:24:33 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	handle_red(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], ">>"))
-			handle_append(mini, i);
+		handle_append(mini, i);
 	if (!ft_strcmp(mini->args[i], "<<"))
-			handle_heredoc(mini, i);
+		handle_heredoc(mini, i);
 }
 
 void	handle_append(t_mini *mini, int i)
@@ -26,6 +38,7 @@ void	handle_append(t_mini *mini, int i)
 	else
 		return ;
 }
+
 void	handle_heredoc(t_mini *mini, int i)
 {
 	if (handle_heredoc2(mini->args[i + 1]))

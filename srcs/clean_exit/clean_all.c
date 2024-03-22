@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clean_all.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:04:44 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/22 14:08:08 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	ft_free_arr(char **str)
@@ -5,7 +17,7 @@ void	ft_free_arr(char **str)
 	int	i;
 
 	if (!str || !*str)
-		return;
+		return ;
 	i = -1;
 	while (str[++i])
 	{
@@ -20,12 +32,9 @@ void	free_struct(t_mini *mini)
 {
 	if (mini->free_flag == 1)
 		ft_free_arr(mini->echo_split);
-	if (mini->args)
-		ft_free_arr(mini->args);
-	if (mini->new_str)
-		free(mini->new_str);
-	if (mini->str)
-		free(mini->str);
+	ft_free_arr(mini->args);
+	free(mini->new_str);
+	free(mini->str);
 }
 
 void	free_struct_2(t_mini *mini)

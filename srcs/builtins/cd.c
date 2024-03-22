@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 12:53:12 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 char	*get_env(char *var, t_mini *mini)
 {
-	int i;
-	char *tmp;
-	char *str;
+	int		i;
+	char	*tmp;
+	char	*str;
 
 	i = -1;
 	str = ft_remove_quotes(var);
@@ -74,7 +86,8 @@ int	get_cd(t_mini *mini, int i)
 	}
 	else
 	{
-		if (is_a_pipe(mini->args[i + 1]) || is_a_red(mini->args[i + 1]) || is_a_append_here(mini->args[i + 1]))
+		if (is_a_pipe(mini->args[i + 1]) || is_a_red(mini->args[i + 1])
+			|| is_a_append_here(mini->args[i + 1]))
 			return (1);
 		if (has_two_args(mini->args, mini))
 			return (1);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/22 12:37:28 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	handle_append2(t_mini *mini, int i)
@@ -10,12 +22,12 @@ void	handle_append2(t_mini *mini, int i)
 		if (!file)
 		{
 			ft_putstr_fd("Minishell: no file specified in redirect '>>'.\n", 2);
-			return;
+			return ;
 		}
 		close(file);
 	}
 	else
-		return;
+		return ;
 }
 
 int	check_here(t_mini *mini)
@@ -40,5 +52,21 @@ void	ft_exit_builtin(t_mini *mini, int i)
 		mini->exit_flag = 1;
 		unlink(".heredoc");
 		free_struct_2(mini);
+	}
+}
+
+void	print_cmd(t_mini *mini, int i)
+{
+	if (is_a_cmd(mini->args[i], mini) == false
+		&& is_a_builtin(mini, i) == false)
+		print(COMMAND_NOT_FOUND, mini->args[i]);
+}
+
+void	handle_execve(t_mini *mini, int i)
+{
+	if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
+	{
+		print_cmd(mini, i);
+		ft_exit(mini);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:40:05 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/20 18:47:40 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/21 12:57:11 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static char	**ft_putwords(char **new, char const *s, char c)
 	int		flag;
 	int		count;
 
-	newarr = new; 
+	newarr = new;
 	flag = 0;
 	count = 0;
 	newarr[count++] = ft_strdup("echo");

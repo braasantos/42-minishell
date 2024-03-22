@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirects.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 18:22:18 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	count_red(t_mini *mini)
@@ -9,8 +21,10 @@ int	count_red(t_mini *mini)
 	count = 0;
 	while (mini->args[i])
 	{
-		if (ft_strcmp(mini->args[i], "<") == 0 || ft_strcmp(mini->args[i], ">") == 0 || 
-			!ft_strcmp(mini->args[i], ">>") ||! ft_strcmp(mini->args[i], ">>"))
+		if (ft_strcmp(mini->args[i], "<") == 0
+			|| ft_strcmp(mini->args[i], ">") == 0
+			|| !ft_strcmp(mini->args[i], ">>")
+			|| !ft_strcmp(mini->args[i], ">>"))
 			count++;
 		i++;
 	}
@@ -48,6 +62,7 @@ int	redirect_input(int i, t_mini *mini)
 	close(file_fd);
 	return (0);
 }
+
 void	hanlde_redirects(t_mini *mini)
 {
 	int	i;

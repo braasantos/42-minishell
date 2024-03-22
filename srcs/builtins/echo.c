@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 12:54:16 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 12:56:37 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	print_arg(char *str, t_mini *mini, int current, int flag)
@@ -61,10 +73,12 @@ int	redirect_output_echo(int i, t_mini *mini)
 		{
 			if (!mini->args[i + 1])
 				return (1);
-			file_fd = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+			file_fd = open(mini->args[i + 1],
+					O_WRONLY | O_CREAT | O_TRUNC, 0664);
 			if (!file_fd)
 			{
-				ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
+				ft_putstr_fd("Minishell: no filespecified", 2);
+				ft_putstr_fd("in redirect '>' . \n", 2);
 				return (1);
 			}
 			dup2(file_fd, STDOUT_FILENO);
@@ -76,6 +90,7 @@ int	redirect_output_echo(int i, t_mini *mini)
 	}
 	return (0);
 }
+
 bool	db_quotes(char *str)
 {
 	int	quotes;

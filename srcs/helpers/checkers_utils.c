@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checkers_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:10:12 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/22 13:55:42 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 bool	is_a_file_to_create(char *s, t_mini *mini)
@@ -18,12 +30,12 @@ void	create_file(t_mini *mini)
 	int	file;
 
 	file = check_position_bool(mini, "<");
-	printf("%d\n", file);
-	mini->STDOUT = dup(STDOUT_FILENO);
-	if ((mini->fd0 = open(mini->args[file + 1], O_RDONLY)) < 0)
+	mini->st_dout = dup(STDOUT_FILENO);
+	mini->fd0 = open(mini->args[file + 1], O_RDONLY);
+	if (mini->fd0 < 0)
 	{
 		ft_putstr_fd("Error opening file\n", 2);
-		return;
+		return ;
 	}
 	dup2(mini->fd0, STDIN_FILENO);
 }

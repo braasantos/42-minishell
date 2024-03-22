@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_helpers.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:13:10 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 13:13:39 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	update_path(t_mini *mini, int i)
@@ -26,8 +38,7 @@ char	*hndl_quotes(t_mini *mini, int i)
 	return (temp);
 }
 
-
-int save_lines2(t_mini *mini, char *temp, int i)
+int	save_lines2(t_mini *mini, char *temp, int i)
 {
 	if (check_options(mini->args[i]))
 	{
@@ -54,7 +65,7 @@ char	**add_option(t_mini *mini, int i, char *temp)
 		else
 		{
 			if (save_lines2(mini, temp, i))
-				break;
+				break ;
 			new_result = ft_strjoin(result, temp);
 			free(result);
 			result = ft_strdup(new_result);

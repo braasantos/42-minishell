@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:17:31 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 13:19:17 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 int	find_char(char c, char *find)
@@ -10,7 +22,6 @@ int	find_char(char c, char *find)
 			return (1);
 	return (0);
 }
-
 
 int	quotes_open(char *str, int target_index)
 {
@@ -37,7 +48,7 @@ int	quotes_open(char *str, int target_index)
 	return (0);
 }
 
-int	pipe_check(t_mini *mini,char *str)
+int	pipe_check(t_mini *mini, char *str)
 {
 	int	i;
 
@@ -48,12 +59,14 @@ int	pipe_check(t_mini *mini,char *str)
 		{
 			if (i == 0)
 			{
-				ft_printf("Minishell: syntax error near unexpected token `|'\n");
+				ft_printf("Minishell: syntax error");
+				ft_printf("near unexpected token `|'\n");
 				return (0);
 			}
 			if (!mini->args[i + 1])
 			{
-				ft_printf("Minishell: syntax error near unexpected token `|'\n");
+				ft_printf("Minishell: syntax error");
+				ft_printf("near unexpected token `|'\n");
 				return (0);
 			}
 		}
@@ -85,6 +98,7 @@ int	redirect_basic_check(char *str)
 	}
 	return (1);
 }
+
 bool	check_options(char *s)
 {
 	if (is_a_pipe(s) || is_a_red(s) || is_a_append_here(s))

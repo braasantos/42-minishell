@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 13:54:36 by pabernar          #+#    #+#             */
-/*   Updated: 2024/03/12 15:02:04 by gabe             ###   ########.fr       */
+/*   Updated: 2024/03/22 14:33:21 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,16 @@ static void	signals_handler(int sig)
 void	signals_start(void)
 {
 	struct sigaction	sa;
-	
+
 	sa.sa_handler = &signals_handler;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGQUIT, &sa, NULL);
 	sigaction(SIGINT, &sa, NULL);
+}
+
+void	twenty_six_lines(t_mini *mini)
+{
+	close_pipes(mini);
+	get_exit_status(mini);
 }

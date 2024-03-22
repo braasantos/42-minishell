@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_helpers.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:12:30 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/22 13:44:11 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 void	pad(char *src, char *dest, int i, int j)
@@ -64,10 +76,10 @@ int	check_position_bool(t_mini *mini, char *to_find)
 	while (mini->args[i])
 	{
 		if (!ft_strcmp(mini->args[i], to_find))
-			return i;
+			return (i);
 		i++;
 	}
-	return 0;
+	return (0);
 }
 
 int	check_position(t_mini *mini, int j)
@@ -78,8 +90,8 @@ int	check_position(t_mini *mini, int j)
 	while (mini->args[i])
 	{
 		if (!ft_strcmp(mini->args[i], mini->args[j]))
-			return i;
+			return (i);
 		i++;
 	}
-	return 0;
+	return (0);
 }

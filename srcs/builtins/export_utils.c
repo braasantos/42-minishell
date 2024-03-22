@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/21 13:03:18 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/03/21 13:03:40 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 char	*ft_strcpy(char *dest, char *src)
@@ -13,7 +25,6 @@ char	*ft_strcpy(char *dest, char *src)
 	dest[i] = '\0';
 	return (dest);
 }
-
 
 int	fore(char *s)
 {
@@ -61,6 +72,7 @@ char	*help(char *str)
 	s[j + 1] = '\0';
 	return (s);
 }
+
 int	ft_before_exp(char *str)
 {
 	int	i;
