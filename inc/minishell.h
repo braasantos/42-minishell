@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/22 14:27:02 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:13:49 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,7 @@ int		check_next(t_mini *mini, int i);
 int		count_squotes(char *str);
 void	while_loop(char **s);
 char	*ft_touppercase(char *s);
+int	basic_builtin(t_mini *mini);
 /* ************************************************************************** */
 /*								parsing									  */
 /* ************************************************************************** */
@@ -305,8 +306,10 @@ void	redirect(t_mini *mini);
 /* ******************** */
 /*	signal_handlers.c	*/
 /* ******************** */
-void	exec_signals(int sig, void *mini);
-void	signals_start(void);
+void	backslash(int sig);
+void	ctrl_c(int sig);
+void	back_to_prompt(int sig);
+void	signals(int sig);
 void	twenty_six_lines(t_mini *mini);
 /* ************************************************************************** */
 /*									main									  */

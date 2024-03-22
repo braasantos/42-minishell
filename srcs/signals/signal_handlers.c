@@ -3,57 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 13:54:36 by pabernar          #+#    #+#             */
-/*   Updated: 2024/03/22 14:33:21 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:09:26 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	exec_signals(int sig, void *mini)
+void	backslash(int sig)
 {
-	static t_mini	*static_mini;
+	g_signal = 131;
+	(void)sig;
+}
 
-	if (!static_mini && mini)
-		static_mini = (t_mini *)mini;
-	if (static_mini && static_mini->interact)
+void	ctrl_c(int sig)
+{
+	g_signal = 142;
+	write(1, "\n", 1);
+	(void)sig;
+}
+
+void	back_to_prompt(int sig)
+{
+	g_signal = 142;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	(void)sig;
+}
+
+void	signals(int sig)
+{
+	if (sig == 1)
 	{
-		if (sig == SIGINT)
-		{
-			printf("\n");
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-		}
-		if (sig == SIGQUIT)
-		{
-			printf("\b\b  \b\b");
-			rl_redisplay();
-		}
+		signal(SIGINT, back_to_prompt);
+		signal(SIGQUIT, SIG_IGN);
 	}
-	if (!(static_mini->interact))
-		if (sig == SIGINT)
-			write(1, "\n", 1);
-	if (sig == SIGINT)
-		g_signal = 130;
-}
-
-static void	signals_handler(int sig)
-{
-	exec_signals(sig, 0);
-}
-
-void	signals_start(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = &signals_handler;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGQUIT, &sa, NULL);
-	sigaction(SIGINT, &sa, NULL);
+	if (sig == 2)
+	{
+		signal(SIGINT, ctrl_c);
+		signal(SIGQUIT, backslash);
+	}
+	if (sig == 3)
+	{
+		write(1, "exit\n", 5);
+		exit(0);
+	}
 }
 
 void	twenty_six_lines(t_mini *mini)
