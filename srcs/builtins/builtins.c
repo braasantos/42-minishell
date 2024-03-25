@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 12:51:40 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/25 18:11:19 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	have_redirect(t_mini *mini)
 
 int	builtins(t_mini *mini, int i)
 {
-	hanlde_redirects(mini);
 	if (!ft_strcmp(mini->args[i], "exit"))
 	{
 		mini->exit_flag = 1;

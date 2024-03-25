@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/22 14:52:20 by gabe             ###   ########.fr       */
+/*   Updated: 2024/03/25 18:09:34 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	execute(t_mini *mini)
 		return ;
 	if ((n_pipes == 0))
 	{
-		if (basic_builtin(mini))
-			return ;
+		if (!ft_strcmp(mini->args[0], "exit"))
+			free_struct_2(mini);
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
 		create_child(mini, 0, 0, 0);
 		free(mini->newpro);
@@ -76,8 +76,6 @@ void	create_flow(t_mini *mini)
 	pipe_creation(mini);
 	while (mini->args[i])
 	{
-		if (check_next(mini, i))
-			break ;
 		if (is_not_a_cmd(mini->args[i]))
 		{
 			if (create_child(mini, i, 1, j) == 1)
@@ -87,7 +85,7 @@ void	create_flow(t_mini *mini)
 		if (!ft_strcmp(mini->args[i], "echo"))
 			while (mini->args[i] && check_options(mini->args[i]) == false)
 				i++;
-		if (!ft_strcmp(mini->args[i], "grep"))
+		if (mini->args[i] && !ft_strcmp(mini->args[i], "grep"))
 			i++;
 		if (mini->args[i])
 			i++;
@@ -97,7 +95,6 @@ void	create_flow(t_mini *mini)
 
 int	create_child(t_mini *mini, int i, int flag, int j)
 {
-	ft_exit_builtin(mini, i);
 	if (is_a_builtin(mini, i) == false)
 		update_path(mini, i);
 	mini->newpro[j] = fork();
@@ -107,10 +104,9 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 		if (flag == 1)
 			through_pipes(mini, j);
 		if (builtins(mini, i))
-			exit(0);
+			kill(0, SIGCHLD);
 		redirect(mini);
-		if (is_a_builtin(mini, i) == false)
-			handle_execve(mini, i);
+		handle_execve(mini, i);
 	}
 	if (mini->exit_flag != 1 && flag == 0)
 		get_exit_status(mini);
