@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/21 12:57:55 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:54:06 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,6 @@ void	check_comand(t_mini *mini)
 			time_to_remove(mini, i);
 		i++;
 	}
-}
-
-char	**which_split(char *str, t_mini *mini)
-{
-	char	**split;
-
-	split = ft_split(str, ' ');
-	mini->echo_flag = 0;
-	return (split);
 }
 
 int	count_quote_pairs(char *str)

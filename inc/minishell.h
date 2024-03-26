@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/22 15:13:49 by gabe             ###   ########.fr       */
+/*   Updated: 2024/03/26 16:53:53 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ char	**echo_split(char const *s, char c);
 char	**add_option_echo(t_mini *mini, int i, char *temp);
 void	handle_split_args(t_mini *mini);
 void	check_comand(t_mini *mini);
-char	**which_split(char *str, t_mini *mini);
 int		count_quote_pairs(char *str);
 /* ******************** */
 /* 		echo.c			*/
@@ -309,7 +308,7 @@ void	redirect(t_mini *mini);
 void	backslash(int sig);
 void	ctrl_c(int sig);
 void	back_to_prompt(int sig);
-void	signals(int sig);
+void	signals(int sig, t_mini *mini);
 void	twenty_six_lines(t_mini *mini);
 /* ************************************************************************** */
 /*									main									  */

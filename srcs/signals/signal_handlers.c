@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 13:54:36 by pabernar          #+#    #+#             */
-/*   Updated: 2024/03/22 15:09:26 by gabe             ###   ########.fr       */
+/*   Updated: 2024/03/26 17:09:46 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,15 @@ void	back_to_prompt(int sig)
 	(void)sig;
 }
 
-void	signals(int sig)
+void	free_eof(t_mini *mini)
+{
+	if (mini->str)
+		free(mini->str);
+	if (mini->newenvp)
+		ft_free_arr(mini->newenvp);
+}
+
+void	signals(int sig, t_mini *mini)
 {
 	if (sig == 1)
 	{
@@ -50,6 +58,7 @@ void	signals(int sig)
 	if (sig == 3)
 	{
 		write(1, "exit\n", 5);
+		free_eof(mini);
 		exit(0);
 	}
 }

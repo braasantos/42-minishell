@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/22 15:11:02 by gabe             ###   ########.fr       */
+/*   Updated: 2024/03/26 17:21:03 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,13 @@ void	parser(t_mini *mini)
 {
 	while (1)
 	{
-		signals(1);
+		signals(1, mini);
 		mini->str = readline("\033[0;34mminishell \033[0m");
+		if (!mini->str)
+			signals(3, mini);
 		mini->new_str = pad_central(mini->str);
-		mini->args = which_split(mini->new_str, mini);
+		mini->args = ft_split(mini->new_str, ' ');
 		check_comand(mini);
-		if (!mini->new_str)
-		{
-			free_struct(mini);
-			free(mini->new_str);
-			exit(1);
-		}
 		if (!mini->args[0])
 		{
 			free_struct(mini);

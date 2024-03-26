@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:44 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/26 16:32:17 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:16:33 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void	free_struct(t_mini *mini)
 
 void	free_struct_2(t_mini *mini)
 {
-	if (mini->args)
-		ft_free_arr(mini->args);
+	if (mini->echo_split)
+		ft_free_arr(mini->echo_split);
+	ft_free_arr(mini->args);
 	if (mini->new_str)
 		free(mini->new_str);
 	if (mini->str)
