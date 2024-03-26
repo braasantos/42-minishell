@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:10 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 13:13:39 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 14:58:19 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char	**add_option(t_mini *mini, int i, char *temp)
 
 void	delete_path(t_mini *mini)
 {
-	free(mini->path_to_cmd);
-	ft_free_arr(mini->exec_args);
+	if (mini->path_to_cmd)
+		free(mini->path_to_cmd);
+	if ((mini->exec_args))
+		ft_free_arr(mini->exec_args);
 }

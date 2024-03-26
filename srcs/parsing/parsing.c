@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/22 14:08:11 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:27:54 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@ void	ft_exit(t_mini *mini)
 {
 	if (mini->free_flag == 1)
 		ft_free_arr(mini->echo_split);
-	if (mini->args)
-		ft_free_arr(mini->args);
-	if (mini->new_str)
-		free(mini->new_str);
-	if (mini->str)
-		free(mini->str);
+	ft_free_arr(mini->args);
+	free(mini->new_str);
+	free(mini->str);
+	free(mini->newpro);
+	ft_free_arr(mini->newenvp);
 	exit(1);
 }
 

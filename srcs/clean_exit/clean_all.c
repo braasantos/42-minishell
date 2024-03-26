@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:44 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/22 14:08:08 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:32:17 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	ft_free_arr(char **str)
 		if (str[i])
 			free(str[i]);
 	}
-	free(str);
+	if (str)
+		free(str);
 	str = NULL;
 }
 

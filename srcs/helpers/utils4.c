@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:17:19 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/22 14:33:18 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 12:07:24 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,7 @@ int	basic_builtin(t_mini *mini)
 		return (get_export(mini));
 	if ((!ft_strcmp(mini->args[0], "unset")))
 		return (get_unset(mini));
+	if (!ft_strcmp(mini->args[0], "exit"))
+			free_struct_2(mini);
 	return (0);
 }

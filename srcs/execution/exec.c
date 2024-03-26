@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/25 18:09:34 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:00:58 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	execute(t_mini *mini)
 		return ;
 	if ((n_pipes == 0))
 	{
-		if (!ft_strcmp(mini->args[0], "exit"))
-			free_struct_2(mini);
+		if (builtins(mini, 0))
+			return ;
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
 		create_child(mini, 0, 0, 0);
 		free(mini->newpro);
@@ -95,7 +95,7 @@ void	create_flow(t_mini *mini)
 
 int	create_child(t_mini *mini, int i, int flag, int j)
 {
-	if (is_a_builtin(mini, i) == false)
+	if (is_a_builtin(mini, i) == false && is_a_cmd(mini->args[i], mini))
 		update_path(mini, i);
 	mini->newpro[j] = fork();
 	if (!mini->newpro[j])
@@ -104,13 +104,13 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 		if (flag == 1)
 			through_pipes(mini, j);
 		if (builtins(mini, i))
-			kill(0, SIGCHLD);
+			ft_exit(mini);
 		redirect(mini);
 		handle_execve(mini, i);
 	}
 	if (mini->exit_flag != 1 && flag == 0)
 		get_exit_status(mini);
-	if (is_a_builtin(mini, i) == false)
+	if (is_a_builtin(mini, i) == false && is_a_cmd(mini->args[i], mini))
 		delete_path(mini);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 12:53:12 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 16:19:06 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,17 @@ char	*get_env(char *var, t_mini *mini)
 
 	i = -1;
 	str = ft_remove_quotes(var);
+	tmp = ft_strjoin(str, "=");
+	free(str);
 	while (mini->newenvp[++i])
 	{
-		tmp = ft_strjoin(str, "=");
 		if (ft_strstartswith(mini->newenvp[i], tmp))
 		{
 			free(tmp);
-			free(str);
 			return (ft_strchr(mini->newenvp[i], '=') + 1);
 		}
-		free(tmp);
 	}
-	free(str);
+	free(tmp);
 	return (NULL);
 }
 
@@ -39,10 +38,16 @@ void	change_dir(char *path, t_mini *mini)
 {
 	char	*cwd;
 	char	buff[4097];
+	char	*env;
 
 	cwd = getcwd(buff, 4096);
 	if (!chdir(path))
+	{
 		set_env_var("OLDPWD", cwd, mini);
+		env = getcwd(0, 0);
+		set_env_var("PWD", env, mini);
+		free(env);
+	}
 	else
 	{
 		ft_printf("cd: ");
