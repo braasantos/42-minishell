@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/26 17:21:03 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:37:07 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	g_signal;
 static void	init_all(t_mini *mini)
 {
 	g_signal = 0;
+	mini->exit_code = 0;
 	mini->newenvp = NULL;
 	mini->path_to_cmd = NULL;
 	mini->exec_args = NULL;

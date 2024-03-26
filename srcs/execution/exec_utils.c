@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/26 15:02:51 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:37:33 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+extern int	g_signal;
+
 
 void	handle_append2(t_mini *mini, int i)
 {
@@ -66,12 +69,14 @@ void	handle_execve(t_mini *mini, int i)
 {
 	if (!is_a_cmd(mini->args[i], mini))
 	{
+		mini->exit_code = 1;
 		print_cmd(mini, i);
 		kill(0, SIGCHLD);
 		return ;
 	}
 	if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
 	{
+		mini->exit_code = 1;
 		ft_printf("Minishell: Execve Error\n");
 		kill(0, SIGCHLD);
 	}

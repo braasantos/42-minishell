@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 12:59:47 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/26 19:37:40 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+extern int	g_signal;
 
 char	*get_expand(char *s)
 {
@@ -70,12 +72,36 @@ void	ohhh_boy(t_mini *mini, int i)
 	free(s);
 }
 
+int	get_qmark(t_mini *mini, int i)
+{
+	int j;
+
+	j = 0;
+	while (mini->args[i])
+	{
+		if (mini->args[i][j] == '?')
+		{
+			free(mini->args[i]);
+			mini->args[i] = ft_itoa(mini->exit_code);
+			return (1);
+		}
+		else
+			j++;
+	}
+	return(0); 
+}
+
 void	expand_str(t_mini *mini, int i)
 {
 	char	*s;
 	char	*env;
 	int		count_quotes;
 
+	if (bingo(mini->args[i], '?'))
+	{
+		get_qmark(mini, i);
+		return ;
+	}
 	count_quotes = count_dquotes(mini->new_str);
 	if (count_quotes == 0 && count_squotes(mini->new_str) > 0)
 	{
@@ -95,6 +121,7 @@ void	expand_str(t_mini *mini, int i)
 	free(mini->before);
 	free(mini->after);
 }
+
 
 void	do_all(t_mini *mini, int i, char *env)
 {
