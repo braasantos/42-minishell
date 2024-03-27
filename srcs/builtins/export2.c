@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/27 17:49:55 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/27 21:14:33 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,37 +31,36 @@ int	var_exists(t_mini *mini, char *var)
 	free(new_var);
 	return (0);
 }
-void	get_alpha(char **str)
+
+char	**get_alpha(char **str)
 {
 	int		i;
-	// int		j;
-	// int		n;
-	// char	*temp;
+	int		j;
+	int		n;
+	char	*temp;
 
+	n = 0;
+	while (str[n] != NULL)
+		n++;
 	i = 0;
-	// j = 0;
-	// temp = NULL;
-	// n = str_len(str);
-	while_loop(str);
-	int j;
-	if (str[ i + 1])
-		j = ft_strcmp(str[i], str[i]);
-	printf("%d\n", j);
-	// while (i <= n)
-	// {
-	// 	while(j <= n - i)
-	// 	{
-	// 		if (ft_strcmp(str[i], str[i+ 1]) > 0)
-	// 		{
-	// 			temp =  str[i];
-	// 			str[i] = str[i + 1];
-	// 			str[i + 1] = temp;
-	// 		}
-	// 		j++;
-	// 	}
-	// 	i++;
-	// }
+	while (i < n - 1)
+	{
+		j = 0;
+		while (j < n - i - 1)
+		{
+			if (str[j + 1] != NULL && ft_strcmp(str[j], str[j + 1]) > 0)
+			{
+				temp = str[j];
+				str[j] = str[j + 1];
+				str[j + 1] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (str);
 }
+
 
 char	**bb_sort(char **s)
 {
@@ -69,58 +68,81 @@ char	**bb_sort(char **s)
 	char	*temp;
 	char	*t;
 	char	**str;
+	char	*new_t;
 
-	i = 0;
-	while (s[i])
+	t = NULL;
+	i = -1;
+	while (s[++i] != NULL)
 	{
-		temp = export_var(s[i]);
-		t = ft_strjoin(temp, " ");
+		temp = ft_strdup(s[i]);
+		if (t == NULL)
+			t = strdup(temp);
+		else
+		{
+			new_t = ft_strjoin(t, temp);
+			free(t);
+			t = ft_strjoin(new_t, " ");
+			free(new_t);
+		}
 		free(temp);
-		i++;
 	}
 	str = ft_split(t, ' ');
+	free(t);
 	return (str);
+}
+
+char	*export_no_option_util(char *s)
+{
+	char	*value;
+	char	*tempv;
+
+	value = export_var(s);
+	tempv = ft_strjoin("declare -x ", value);
+	free(value);
+	return (tempv);
 }
 
 void	export_no_option(t_mini *mini)
 {
 	char	**env;
-	char	**temp;
-	char	*value;
 	char	*key;
 	char	*tempv;
 	char	*tempk;
 	int		i;
 
 	i = -1;
-	temp = get_newenvp(mini->newenvp);
-	env = bb_sort(temp);
-	// while_loop(env);
+	env = get_alpha(bb_sort(mini->newenvp));
 	while (env[++i])
 	{
-		value = export_var(env[i]);
 		key = export_key(env[i]);
-		tempv = ft_strjoin("declare -x ", value);
+		tempv = export_no_option_util(env[i]);
 		tempk = ft_strjoin(tempv, "\"");
 		free(tempv);
 		tempv = ft_strjoin(tempk, key);
 		free(tempk);
 		tempk = ft_strjoin(tempv, "\"");
-		// printf("%s\n", tempk);
+		printf("%s\n", tempk);
 		free(tempk);
 		free(tempv);
-		free(value);
 		free(key);
 	}
+	ft_free_arr(env);
 }
+
 
 int	get_export(t_mini *mini)
 {
 	char	**newvar;
 
 	newvar = NULL;
-	if (mini->args[1])
+	if (mini->args[1] && !check_options(mini->args[1]))
 	{
+		if (ft_isdigit(mini->args[1][0]))
+		{
+			ft_printf("bash: export: `%s': ");
+			ft_printf("not a valid identifier\n", mini->args[1]);
+			return (1);
+		}
 		if (var_exists(mini, mini->args[1]))
 		{
 			delete_replace(mini, newvar);
