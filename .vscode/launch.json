@@ -5,10 +5,10 @@
             "name": "C/C++ Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/home/bjorge-m/minishell/minishell", // Path to your executable
+            "program": "/home/bjorge-m/newmini/minishell", // Path to your executable
             "args": [],
             "stopAtEntry": false,
-            "cwd": "/home/bjorge-m/minishell",
+            "cwd": "/home/bjorge-m/newmini",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",

@@ -9,6 +9,7 @@ helpers/utils.c \
 helpers/utils2.c \
 helpers/utils3.c \
 helpers/utils4.c \
+helpers/utils5.c \
 helpers/checkers_utils.c \
 helpers/utils_commands.c \
 helpers/checkers.c \

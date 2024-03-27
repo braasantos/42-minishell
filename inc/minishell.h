@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/26 19:36:55 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/27 15:17:54 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int		get_envp(t_mini *mini);
 char	*get_expand(char *s);
 void	time_to_remove(t_mini *mini, int i);
 void	ohhh_boy(t_mini *mini, int i);
-void	expand_str(t_mini *mini, int i);
+int		expand_str(t_mini *mini, int i);
 void	do_all(t_mini *mini, int i, char *env);
 /* ******************** */
 /* 		expander2.c		*/
@@ -260,7 +260,15 @@ int		check_next(t_mini *mini, int i);
 int		count_squotes(char *str);
 void	while_loop(char **s);
 char	*ft_touppercase(char *s);
-int	basic_builtin(t_mini *mini);
+int		print_error(char *s);
+/* ******************** */
+/*		utils5.c		*/
+/* ******************** */
+void	twenty_six_lines(t_mini *mini);
+char	*export_var(char *s);
+int		export_key_util(char *s);
+char	*export_key(char *s);
+int		get_qmark(t_mini *mini, int i);
 /* ************************************************************************** */
 /*								parsing									  */
 /* ************************************************************************** */
@@ -310,7 +318,6 @@ void	backslash(int sig);
 void	ctrl_c(int sig);
 void	back_to_prompt(int sig);
 void	signals(int sig, t_mini *mini);
-void	twenty_six_lines(t_mini *mini);
 /* ************************************************************************** */
 /*									main									  */
 /* ************************************************************************** */

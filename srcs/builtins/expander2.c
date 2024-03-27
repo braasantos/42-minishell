@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:58:40 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 12:59:00 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/27 12:08:06 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	ft_var(char *str)
 	}
 	else
 	{
+		if (str[i] && str[i] == '?')
+			return (i);
 		while (str[i] && str[i] != ' ')
 			i++;
 		if (str[i] == ' ')
@@ -95,7 +97,7 @@ char	*ft_after(char *s)
 
 	j = 0;
 	i = ft_var(s);
-	len = ft_strlen(s) - 1 - i;
+	len = ft_strlen(s) - i - 1;
 	while (len >= 0)
 	{
 		len--;

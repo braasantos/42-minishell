@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:17:31 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 13:19:17 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:11:38 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ int	pipe_check(t_mini *mini, char *str)
 			if (i == 0)
 			{
 				ft_printf("Minishell: syntax error");
-				ft_printf("near unexpected token `|'\n");
+				ft_printf(" near unexpected token `|'\n");
 				return (0);
 			}
 			if (!mini->args[i + 1])
 			{
 				ft_printf("Minishell: syntax error");
-				ft_printf("near unexpected token `|'\n");
+				ft_printf(" near unexpected token `|'\n");
 				return (0);
 			}
 		}

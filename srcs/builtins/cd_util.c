@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:53:25 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/26 16:22:57 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:17:27 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ char	**realloc_envv(int new_size, t_mini *mini)
 	return (new);
 }
 
-void set_env_var(char *key, char *value, t_mini *mini)
+void	set_env_var(char *key, char *value, t_mini *mini)
 {
 	int		pos;
 	char	*tmp;
 
 	pos = find_env_var(key, mini);
-	tmp =  ft_strjoin(key, "=");
+	tmp = ft_strjoin(key, "=");
 	if (pos >= 0)
 	{
 		if (mini->newenvp[pos])
@@ -65,7 +65,6 @@ void set_env_var(char *key, char *value, t_mini *mini)
 	}
 	free(tmp);
 }
-
 
 int	ft_strendswith(char *s1, char *s2)
 {

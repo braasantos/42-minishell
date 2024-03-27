@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 13:54:36 by pabernar          #+#    #+#             */
-/*   Updated: 2024/03/26 17:09:46 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:09:21 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,4 @@ void	signals(int sig, t_mini *mini)
 		free_eof(mini);
 		exit(0);
 	}
-}
-
-void	twenty_six_lines(t_mini *mini)
-{
-	close_pipes(mini);
-	get_exit_status(mini);
 }

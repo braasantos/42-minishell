@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/22 14:22:20 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:15:58 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,14 @@ int	do_redirects(t_mini *mini, int i)
 	if (!ft_strcmp(mini->args[i], "<<"))
 	{
 		if (mini->args[i + 1])
+		{
+			return (print_error(mini->args[i + 1]));
 			return (0);
+		}
 		else
 		{
-			printf("minishell: syntax error near");
-			ft_printf("unexpected token `newline'\n");
+			ft_printf("minishell: syntax error ");
+			ft_printf("near unexpected token `newline'\n");
 			return (1);
 		}
 	}
@@ -79,12 +82,9 @@ int	do_redirects(t_mini *mini, int i)
 	{
 		if (mini->args[i + 1])
 			return (0);
-		else
-		{
-			printf("minishell: syntax error near");
-			ft_printf("unexpected token `newline'\n");
-			return (1);
-		}
+		ft_printf("minishell: syntax error ");
+		ft_printf("near unexpected token `newline'\n");
+		return (1);
 	}
 	return (0);
 }

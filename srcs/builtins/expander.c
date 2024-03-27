@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/26 19:37:40 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/27 15:12:42 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,56 +72,34 @@ void	ohhh_boy(t_mini *mini, int i)
 	free(s);
 }
 
-int	get_qmark(t_mini *mini, int i)
-{
-	int j;
-
-	j = 0;
-	while (mini->args[i])
-	{
-		if (mini->args[i][j] == '?')
-		{
-			free(mini->args[i]);
-			mini->args[i] = ft_itoa(mini->exit_code);
-			return (1);
-		}
-		else
-			j++;
-	}
-	return(0); 
-}
-
-void	expand_str(t_mini *mini, int i)
+int	expand_str(t_mini *mini, int i)
 {
 	char	*s;
 	char	*env;
 	int		count_quotes;
 
-	if (bingo(mini->args[i], '?'))
-	{
-		get_qmark(mini, i);
-		return ;
-	}
 	count_quotes = count_dquotes(mini->new_str);
 	if (count_quotes == 0 && count_squotes(mini->new_str) > 0)
-	{
-		ohhh_boy(mini, i);
-		return ;
-	}
+		return (ohhh_boy(mini, i), 1);
 	mini->before = ft_before(mini->args[i]);
 	mini->after = ft_after(mini->args[i]);
-	s = get_expand(mini->args[i]);
-	env = get_env(s, mini);
-	free(s);
-	free(mini->args[i]);
-	if (env)
-		do_all(mini, i, env);
+	if (bingo(mini->args[i], '?'))
+		get_qmark(mini, i);
 	else
-		mini->args[i] = ft_strdup("\0");
+	{
+		s = get_expand(mini->args[i]);
+		env = get_env(s, mini);
+		free(s);
+		free(mini->args[i]);
+		if (env)
+			do_all(mini, i, env);
+		else
+			mini->args[i] = ft_strdup("\0");
+	}
 	free(mini->before);
 	free(mini->after);
+	return (1);
 }
-
 
 void	do_all(t_mini *mini, int i, char *env)
 {

@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:17:19 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/26 12:07:24 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/27 15:16:50 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,12 @@ char	*ft_touppercase(char *s)
 	return (s);
 }
 
-int	basic_builtin(t_mini *mini)
+int	print_error(char *s)
 {
-	if ((!ft_strcmp(mini->args[0], "cd")))
-		return (get_cd(mini, 0));
-	if ((!ft_strcmp(mini->args[0], "export")))
-		return (get_export(mini));
-	if ((!ft_strcmp(mini->args[0], "unset")))
-		return (get_unset(mini));
-	if (!ft_strcmp(mini->args[0], "exit"))
-			free_struct_2(mini);
+	if (!ft_strcmp(s, ">"))
+	{
+		ft_printf("minishell: syntax error near unexpected token `>'\n");
+		return (1);
+	}
 	return (0);
 }
