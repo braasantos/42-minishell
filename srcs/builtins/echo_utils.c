@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/28 11:23:46 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:19:35 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	check_comand(t_mini *mini)
 				free(temp);
 			}
 		}
-		if (!ft_strcmp(mini->args[0], "echo"))
+		// if (!ft_strcmp(mini->args[0], "echo"))
 			if (bingo(mini->args[i], '$'))
 				expand_str(mini, i);
 		if (bingo(mini->args[i], '\''))

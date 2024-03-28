@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 12:17:07 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 16:09:33 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	parser(t_mini *mini)
 	while (1)
 	{
 		signals(1, mini);
-		mini->str = readline("\033[0;34mminishell \033[0m");
+		mini->str = readline("\001\033[0;34m\002minishell \001\033[0m\002");
 		if (!mini->str)
 			signals(3, mini);
 		mini->new_str = pad_central(mini->str);
