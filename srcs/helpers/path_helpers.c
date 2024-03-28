@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:10 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/26 14:58:19 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 19:38:36 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*hndl_quotes(t_mini *mini, int i)
 
 int	save_lines2(t_mini *mini, char *temp, int i)
 {
-	if (check_options(mini->args[i]))
+	if (is_a_pipe(mini->args[i]) || is_a_append_here(mini->args[i]))
 	{
 		mini->pipe_or_redirect_found = true;
 		free(temp);

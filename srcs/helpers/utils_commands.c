@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:19:23 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 13:21:59 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 19:53:44 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	**get_newenvp(char **envp)
 			ft_free_arr(newenvp);
 			return (NULL);
 		}
-		strcpy(newenvp[i], envp[i]);
+		ft_strcpy(newenvp[i], envp[i]);
 		i++;
 	}
 	newenvp[len] = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/25 18:11:19 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 21:56:45 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,25 @@ int	have_redirect(t_mini *mini)
 		if (ft_strcmp(mini->args[i], ">") == 0)
 			return (1);
 		if (ft_strcmp(mini->args[i], "<") == 0)
-			return (2);
+			return (1);
+		if (ft_strcmp(mini->args[i], ">>") == 0)
+			return (1);
+		if (ft_strcmp(mini->args[i], "<<") == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	have_here_doc(t_mini *mini)
+{
+	int	i;
+
+	i = 0;
+	while (mini->args[i])
+	{
+		if (ft_strcmp(mini->args[i], "<<") == 0)
+			return (1);
 		i++;
 	}
 	return (0);

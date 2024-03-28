@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/26 15:00:58 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 21:56:56 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	builtins_check(t_mini *mini, int i)
+{
+	if (!ft_strcmp(mini->args[i], "exit"))
+	{
+		mini->exit_flag = 1;
+		unlink(".heredoc");
+		free_struct_2(mini);
+	}
+	if (!ft_strcmp(mini->args[i], "pwd"))
+		return (print_pwd(mini, i));
+	if ((!ft_strcmp(mini->args[i], "cd")))
+		return (get_cd(mini, i));
+	if ((!ft_strcmp(mini->args[i], "env")))
+		return (get_envp(mini));
+	if ((!ft_strcmp(mini->args[i], "export")))
+		return (get_export(mini));
+	if ((!ft_strcmp(mini->args[i], "unset")))
+		return (get_unset(mini));
+	return (0);
+}
 
 void	execute(t_mini *mini)
 {
@@ -23,7 +44,7 @@ void	execute(t_mini *mini)
 		return ;
 	if ((n_pipes == 0))
 	{
-		if (builtins(mini, 0))
+		if (builtins_check(mini, 0))
 			return ;
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
 		create_child(mini, 0, 0, 0);
