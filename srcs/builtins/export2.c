@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 10:19:24 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:05:23 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,146 +32,49 @@ int	var_exists(t_mini *mini, char *var)
 	return (0);
 }
 
-char	**get_alpha(char **str)
-{
-	int		i;
-	int		j;
-	int		n;
-	char	*temp;
-
-	n = 0;
-	while (str[n] != NULL)
-		n++;
-	i = 0;
-	while (i < n - 1)
-	{
-		j = 0;
-		while (j < n - i - 1)
-		{
-			if (str[j + 1] != NULL && ft_strcmp(str[j], str[j + 1]) > 0)
-			{
-				temp = str[j];
-				str[j] = str[j + 1];
-				str[j + 1] = temp;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (str);
-}
-
-
-char	**bb_sort(char **s)
-{
-	int		i;
-	char	*temp;
-	char	*t;
-	char	**str;
-	char	*new_t;
-
-	t = NULL;
-	i = -1;
-	while (s[++i] != NULL)
-	{
-		temp = ft_strdup(s[i]);
-		if (t == NULL)
-			t = strdup(temp);
-		else
-		{
-			new_t = ft_strjoin(t, temp);
-			free(t);
-			t = ft_strjoin(new_t, " ");
-			free(new_t);
-		}
-		free(temp);
-	}
-	str = ft_split(t, ' ');
-	free(t);
-	return (str);
-}
-
-char	*export_no_option_util(char *s)
-{
-	char	*value;
-	char	*tempv;
-
-	value = export_var(s);
-	tempv = ft_strjoin("declare -x ", value);
-	free(value);
-	return (tempv);
-}
-
-void	export_no_option(t_mini *mini)
-{
-	char	**env;
-	char	*key;
-	char	*tempv;
-	char	*tempk;
-	int		i;
-
-	i = -1;
-	env = get_alpha(bb_sort(mini->newenvp));
-	while (env[++i])
-	{
-		key = export_key(env[i]);
-		tempv = export_no_option_util(env[i]);
-		tempk = ft_strjoin(tempv, "\"");
-		free(tempv);
-		tempv = ft_strjoin(tempk, key);
-		free(tempk);
-		tempk = ft_strjoin(tempv, "\"");
-		printf("%s\n", tempk);
-		free(tempk);
-		free(tempv);
-		free(key);
-	}
-	ft_free_arr(env);
-}
-
-
 int	get_export(t_mini *mini)
 {
 	char	**newvar;
+	int		i;
 
 	newvar = NULL;
-	if (mini->args[1] && !check_options(mini->args[1]))
+	i = 0;
+	while (mini->args[++i] && !check_options(mini->args[i]))
 	{
-		if (ft_isdigit(mini->args[1][0]))
+		if (!ft_isalpha(mini->args[i][0]))
 		{
-			ft_printf("bash: export: `%s': ");
-			ft_printf("not a valid identifier\n", mini->args[1]);
-			return (1);
+			ft_printf("bash: export: `%s': ", mini->args[i]);
+			return (ft_printf("not a valid identifier\n"), 1);
 		}
-		if (var_exists(mini, mini->args[1]))
+		if (var_exists(mini, mini->args[i]))
 		{
-			delete_replace(mini, newvar);
+			delete_replace(mini, newvar, i);
 			return (1);
 		}
 		if (count_quotes(mini->new_str) == 0)
-			export_quotes(newvar, mini);
+			export_quotes(newvar, mini, i);
 		else if (count_quotes(mini->new_str) > 0)
-			export_woquotes(newvar, mini);
+			export_woquotes(newvar, mini, i);
 	}
-	else
+	if (!mini->args[1])
 		export_no_option(mini);
 	return (1);
 }
 
-void	delete_replace(t_mini *mini, char **str)
+void	delete_replace(t_mini *mini, char **str, int i)
 {
 	export_unset(mini);
 	if (count_quotes(mini->new_str) == 0)
-		export_quotes(str, mini);
+		export_quotes(str, mini, i);
 	else if (count_quotes(mini->new_str) > 0)
-		export_woquotes(str, mini);
+		export_woquotes(str, mini, i);
 }
 
-void	export_quotes(char **newvar, t_mini *mini)
+void	export_quotes(char **newvar, t_mini *mini, int i)
 {
 	char	*var;
 
-	var = ft_strdup(mini->args[1]);
+	var = ft_strdup(mini->args[i]);
 	newvar = add_var(mini->newenvp, var);
 	ft_free_arr(mini->newenvp);
 	mini->newenvp = get_newenvp(newvar);

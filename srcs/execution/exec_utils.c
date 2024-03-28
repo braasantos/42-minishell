@@ -6,13 +6,11 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/27 15:23:00 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:54:52 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-extern int	g_signal;
 
 void	handle_append2(t_mini *mini, int i)
 {
@@ -68,15 +66,12 @@ void	handle_execve(t_mini *mini, int i)
 {
 	if (!is_a_cmd(mini->args[i], mini))
 	{
-		mini->exit_code = 127;
 		print_cmd(mini, i);
-		kill(0, SIGCHLD);
-		return ;
+		free_struct_2(mini);
 	}
 	if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
 	{
-		mini->exit_code = 2;
 		ft_printf("Minishell: Execve Error\n");
-		kill(0, SIGCHLD);
+		free_struct_2(mini);
 	}
 }

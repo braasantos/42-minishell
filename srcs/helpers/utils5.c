@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:08:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/27 15:17:05 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:22:49 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	get_qmark(t_mini *mini, int i)
 		if (mini->args[i][j] == '?')
 		{
 			free(mini->args[i]);
-			temp = ft_itoa(mini->exit_code);
+			temp = ft_itoa(g_signal);
 			before = ft_strjoin(mini->before, temp);
 			after = ft_strjoin(before, mini->after);
 			mini->args[i] = ft_strdup(after);

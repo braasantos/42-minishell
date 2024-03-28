@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:00:21 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 13:03:07 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:46:27 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,16 @@ int	export_unset(t_mini *mini)
 	return (1);
 }
 
-void	export_woquotes(char **newvar, t_mini *mini)
+void	export_woquotes(char **newvar, t_mini *mini, int i)
 {
-	char	**splitted;
-	char	*str;
 	char	*tmp;
 
-	splitted = ft_split(mini->new_str, '\"');
-	str = help(splitted[0]);
-	tmp = ft_strjoin(str, splitted[1]);
-	free(str);
+	tmp = ft_remove_quotes(mini->args[i]);
 	newvar = add_var(mini->newenvp, tmp);
 	free(tmp);
 	ft_free_arr(mini->newenvp);
 	mini->newenvp = get_newenvp(newvar);
 	ft_free_arr(newvar);
-	ft_free_arr(splitted);
 }
 
 char	*ft_remove_squotes(const char *str)

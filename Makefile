@@ -20,6 +20,7 @@ execution/exec_utils.c \
 builtins/builtins.c \
 builtins/expander.c \
 builtins/expander2.c \
+builtins/export_util.c \
 builtins/pwd.c \
 builtins/env.c \
 builtins/export.c \

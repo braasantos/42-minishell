@@ -6,13 +6,11 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/27 15:12:42 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 11:21:31 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-extern int	g_signal;
 
 char	*get_expand(char *s)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:04 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 13:04:31 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 10:29:20 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ int	get_unset(t_mini *mini)
 	char	*var_name;
 	char	**newvar;
 	char	*temp;
+	int		i;
 
-	if (mini->args[1])
+	i = 1;
+	while (mini->args[i])
 	{
-		temp = ft_strdup(mini->args[1]);
-		if (find_char('=', mini->args[1]))
+		temp = ft_strdup(mini->args[i]);
+		if (find_char('=', mini->args[i]))
 			var_name = ft_strjoin(temp, "=");
 		else
 			var_name = ft_strdup(temp);
@@ -59,6 +61,7 @@ int	get_unset(t_mini *mini)
 		mini->newenvp = get_newenvp(newvar);
 		ft_free_arr(newvar);
 		free(var_name);
+		i++;
 	}
 	return (1);
 }

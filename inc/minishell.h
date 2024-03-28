@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/27 15:17:54 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/28 12:13:21 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,20 +134,27 @@ int		afta(char *s);
 char	*help(char *str);
 int		ft_before_exp(char *str);
 /* ******************** */
+/* 		export_utils.c		*/
+/* ******************** */
+char	**get_alpha(char **str);
+char	*export_no_option_util(char *s);
+char	**bb_sort(char **s);
+void	export_no_option(t_mini *mini);
+/* ******************** */
 /* 		export.c		*/
 /* ******************** */
 char	**add_var(char **newenvp, char *new_var);
 char	*get_var(char *s);
 int		export_unset(t_mini *mini);
-void	export_woquotes(char **newvar, t_mini *mini);
+void	export_woquotes(char **newvar, t_mini *mini, int i);
 char	*ft_remove_squotes(const char *str);
 /* ******************** */
 /* 		export2.c		*/
 /* ******************** */
 int		get_export(t_mini *mini);
 int		var_exists(t_mini *mini, char *var);
-void	delete_replace(t_mini *mini, char **str);
-void	export_quotes(char **newvar, t_mini *mini);
+void	delete_replace(t_mini *mini, char **str, int i);
+void	export_quotes(char **newvar, t_mini *mini, int i);
 /* ******************** */
 /*		   pwd.c		*/
 /* ******************** */
