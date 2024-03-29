@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 12:05:23 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 17:00:44 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,20 @@ int	var_exists(t_mini *mini, char *var)
 	free(new_var);
 	return (0);
 }
+int	check_var(t_mini *mini, int i)
+{
+	int	j;
+
+	j = 0;
+	while(mini->args[i][j])
+	{
+		if (!ft_isalpha(mini->args[i][j]))
+			return (1);
+		j++;
+	}
+	return (0);
+}
+
 
 int	get_export(t_mini *mini)
 {
@@ -41,9 +55,9 @@ int	get_export(t_mini *mini)
 	i = 0;
 	while (mini->args[++i] && !check_options(mini->args[i]))
 	{
-		if (!ft_isalpha(mini->args[i][0]))
+		if (!ft_isalpha(mini->args[i][0]) || check_var(mini, i))
 		{
-			ft_printf("bash: export: `%s': ", mini->args[i]);
+			ft_printf("Minishell: export: `%s': ", mini->args[i]);
 			return (ft_printf("not a valid identifier\n"), 1);
 		}
 		if (var_exists(mini, mini->args[i]))

@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 19:34:17 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/29 17:28:42 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,11 @@ int		ft_strstartswith(char *s1, char *s2);
 /* ******************** */
 /* 		echo_split.c	*/
 /* ******************** */
-char	**echo_split(char const *s, char c);
 /* ******************** */
 /* 		echo_utils.c	*/
 /* ******************** */
 char	**add_option_echo(t_mini *mini, int i, char *temp);
-void	handle_split_args(t_mini *mini);
+int		handle_split_args(t_mini *mini);
 void	check_comand(t_mini *mini);
 int		count_quote_pairs(char *str);
 /* ******************** */
@@ -128,7 +127,7 @@ char	*ft_after(char *s);
 /* ******************** */
 /* 		export_utils.c		*/
 /* ******************** */
-char	*ft_strcpy(char *dest, char *src);
+char	*ft_strcpy(char *dest, const char *src);
 int		fore(char *s);
 int		afta(char *s);
 char	*help(char *str);
@@ -158,7 +157,7 @@ void	export_quotes(char **newvar, t_mini *mini, int i);
 /* ******************** */
 /*		   pwd.c		*/
 /* ******************** */
-int		print_pwd(t_mini *mini, int i);
+int		print_pwd();
 /* ******************** */
 /* 		unset.c			*/
 /* ******************** */
@@ -287,7 +286,7 @@ int	have_here_doc(t_mini *mini);
 /* ******************** */
 /*		parsing.c		*/
 /* ******************** */
-void	ft_exit(t_mini *mini);
+void	ft_exit(t_mini *mini, int i);
 int		bingo(char *s, char c);
 void	parsing(t_mini *mini, char *str);
 void	sigint_on_child(int signal);
@@ -334,4 +333,11 @@ void	signals(int sig, t_mini *mini);
 /*									main									  */
 /* ************************************************************************** */
 void	parser(t_mini *mini);
+
+
+
+
+
+int		file_ok(char *s, int flag);
+int		null_args(t_mini *mini, int i);
 #endif

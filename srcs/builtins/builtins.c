@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 21:56:45 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/29 17:03:38 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	builtins(t_mini *mini, int i)
 		free_struct_2(mini);
 	}
 	if (!ft_strcmp(mini->args[i], "pwd"))
-		return (print_pwd(mini, i));
+		return (print_pwd());
 	if (!ft_strcmp(mini->args[i], "echo"))
 		return (echo_cmd(mini->echo_split, mini));
 	if ((!ft_strcmp(mini->args[i], "cd")))

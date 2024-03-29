@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:54:16 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 12:56:37 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 16:07:15 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	echo_cmd(char **tokens, t_mini *mini)
 	i = 1;
 	flag_nl = 1;
 	option = 1;
+	mini->echo_flag = 0;
 	while (tokens[i])
 	{
 		if (!ft_strcmp(tokens[i], "-n") && option)

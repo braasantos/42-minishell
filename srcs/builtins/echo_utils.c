@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/28 21:52:35 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/29 17:04:49 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,18 @@ char **add_option_echo(t_mini *mini, int i, char *temp)
 	return (free(result), ret);
 }
 
-char	**new_args(char **s, int k, int k1)
+char **new_args(char **s, int k, int k1)
 {
-	char	**newenvp;
-	int		i;
-	int		j;
-	int		len;
-	int		new_index;
+	char **newenvp;
+	int i;
+	int j;
+	int len;
+	int new_index;
 
 	len = str_len(s);
 	newenvp = (char **)malloc((len + 1) * sizeof(char *));
-	new_index = 0;
 	i = 0;
+	new_index = 0;
 	while (i < len)
 	{
 		if (i != k && i != k1)
@@ -70,29 +70,35 @@ char	**new_args(char **s, int k, int k1)
 	return (newenvp);
 }
 
-int echo_w_red(t_mini *mini)
+int	echo_w_red(t_mini *mini)
 {
-	int i;
-	int k1;
+	int	i;
+	int	k1;
 
 	i = -1;
 	while (mini->args[++i])
 	{
-		if (!ft_strcmp(mini->args[i], ">"))
+		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], "<") || !ft_strcmp(mini->args[i], ">>") || !ft_strcmp(mini->args[i], "<<"))
 		{
 			k1 = i + 1;
+			if (mini->args[k1])
+			{
+				if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], ">>"))
+					if (file_ok(mini->args[k1], 1))
+						return (1);
+				if (!ft_strcmp(mini->args[i], "<") || !ft_strcmp(mini->args[i], "<<"))
+					if (file_ok(mini->args[k1], 2))
+						return (1);
+			}
 			mini->echo_split = new_args(mini->args, i, k1);
-			mini->free_flag = 1;
-			return (1);
 		}
 	}
 	return (0);
 }
 
-void handle_split_args(t_mini *mini)
+int handle_split_args(t_mini *mini)
 {
 	int i;
-	char **str;
 	char *temp;
 
 	i = -1;
@@ -102,23 +108,20 @@ void handle_split_args(t_mini *mini)
 	{
 		if (!ft_strcmp(mini->args[i], "echo"))
 		{
-			if (count_red(mini) > 0)
-				if (echo_w_red(mini))
-					return;
+			mini->free_flag = 1;
+			mini->echo_flag = 1;
 			if (count_pipes(mini) > 0)
+				mini->echo_split = add_option_echo(mini, i, temp);
+			if (count_red(mini) > 0)
 			{
-				str = add_option_echo(mini, i, temp);
-				mini->echo_split = get_newenvp(str);
-				ft_free_arr(str);
-				mini->free_flag = 1;
+				if (echo_w_red(mini))
+					return (1);
 			}
 			else
-			{
 				mini->echo_split = get_newenvp(mini->args);
-				mini->free_flag = 1;
-			}
 		}
 	}
+	return (0);
 }
 
 void check_comand(t_mini *mini)

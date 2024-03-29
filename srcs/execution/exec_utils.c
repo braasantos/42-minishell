@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 11:54:52 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 15:30:55 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	handle_append2(t_mini *mini, int i)
+void handle_append2(t_mini *mini, int i)
 {
-	int	file;
+	int file;
 
 	if (mini->args[i + 1])
 	{
@@ -22,15 +22,15 @@ void	handle_append2(t_mini *mini, int i)
 		if (!file)
 		{
 			ft_putstr_fd("Minishell: no file specified in redirect '>>'.\n", 2);
-			return ;
+			return;
 		}
 		close(file);
 	}
 	else
-		return ;
+		return;
 }
 
-int	check_here(t_mini *mini)
+int check_here(t_mini *mini)
 {
 	if (!ft_strcmp(mini->args[0], "<<"))
 	{
@@ -45,7 +45,7 @@ int	check_here(t_mini *mini)
 	return (0);
 }
 
-void	ft_exit_builtin(t_mini *mini, int i)
+void ft_exit_builtin(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "exit"))
 	{
@@ -55,14 +55,13 @@ void	ft_exit_builtin(t_mini *mini, int i)
 	}
 }
 
-void	print_cmd(t_mini *mini, int i)
+void print_cmd(t_mini *mini, int i)
 {
-	if (is_a_cmd(mini->args[i], mini) == false
-		&& is_a_builtin(mini, i) == false)
+	if (is_a_cmd(mini->args[i], mini) == false && is_a_builtin(mini, i) == false)
 		print(COMMAND_NOT_FOUND, mini->args[i]);
 }
 
-void	handle_execve(t_mini *mini, int i)
+void handle_execve(t_mini *mini, int i)
 {
 	if (!is_a_cmd(mini->args[i], mini))
 	{
@@ -74,4 +73,11 @@ void	handle_execve(t_mini *mini, int i)
 		ft_printf("Minishell: Execve Error\n");
 		free_struct_2(mini);
 	}
+}
+
+int null_args(t_mini *mini, int i)
+{
+	if (!ft_strcmp(mini->args[i], "e"))
+		return (1);
+	return (0);
 }

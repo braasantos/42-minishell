@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 21:56:56 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/29 17:30:49 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,17 @@ int	pipe_creation(t_mini *mini)
 	return (0);
 }
 
-bool	is_not_a_cmd(char *s)
+bool is_not_a_cmd(char *s)
 {
-	if (is_a_pipe(s) || is_a_red(s) || ft_strstartswith(s, "-")
-		|| count_quotes(s) > 0 || is_a_append_here(s)
-		|| is_a_file(s) || is_a_number(s))
+	if (is_a_pipe(s) || is_a_red(s) || ft_strstartswith(s, "-") || count_quotes(s) > 0 || is_a_append_here(s) || is_a_file(s) || is_a_number(s))
 		return (false);
 	return (true);
 }
 
-void	create_flow(t_mini *mini)
+void create_flow(t_mini *mini)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
@@ -114,10 +112,12 @@ void	create_flow(t_mini *mini)
 	twenty_six_lines(mini);
 }
 
-int	create_child(t_mini *mini, int i, int flag, int j)
+int create_child(t_mini *mini, int i, int flag, int j)
 {
 	if (is_a_builtin(mini, i) == false && is_a_cmd(mini->args[i], mini))
 		update_path(mini, i);
+	if (null_args(mini, i))
+		return (0);
 	mini->newpro[j] = fork();
 	if (!mini->newpro[j])
 	{
@@ -125,7 +125,7 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 		if (flag == 1)
 			through_pipes(mini, j);
 		if (builtins(mini, i))
-			ft_exit(mini);
+			ft_exit(mini, i);
 		redirect(mini);
 		handle_execve(mini, i);
 	}

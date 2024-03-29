@@ -3,27 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:03:47 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 13:03:49 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 16:56:23 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	print_pwd(t_mini *mini, int i)
+int	print_pwd()
 {
 	char	*env;
 
-	if (!mini->args[i + 1])
-	{
-		env = getcwd(0, 0);
-		ft_printf("%s\n", env);
-		free(env);
-		return (1);
-	}
-	else
-		printf("Minishell: pwd with options\n");
+	env = getcwd(0, 0);
+	ft_printf("%s\n", env);
+	free(env);
 	return (1);
 }

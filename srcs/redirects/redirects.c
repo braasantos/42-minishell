@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 18:22:18 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 17:28:15 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	redirect_output(int i, t_mini *mini)
 	if (!mini->args[i + 1])
 		return (1);
 	file_fd = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (file_ok(mini->args[i + 1], 1))
+		return (1);
 	if (!file_fd)
 	{
 		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
@@ -53,6 +55,8 @@ int	redirect_input(int i, t_mini *mini)
 	int	file_fd;
 
 	file_fd = open(mini->args[i + 1], O_RDONLY);
+	if (file_ok(mini->args[i + 1], 2))
+		return (1);
 	if (!file_fd)
 	{
 		ft_putstr_fd("Minishell: no file specified in redirect '<'.\n", 2);
@@ -83,4 +87,31 @@ void	redirect(t_mini *mini)
 {
 	dup2(mini->stdin_fd, STDIN_FILENO);
 	dup2(mini->stdout_fd, STDOUT_FILENO);
+}
+
+int	file_ok(char *s, int flag)
+{
+	int	fd;
+
+	fd = 0;
+	if (flag == 1)
+	{
+		fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+		if (fd == -1)
+		{
+			close(fd);
+			return (ft_printf("Minishell: %s: Permission denied\n", s), 1);
+		}
+	}
+	if (flag == 2)
+	{
+		fd = open(s, O_RDONLY);
+		if (fd == -1)
+		{
+			close(fd);
+			return (ft_printf("Minishell: %s: Permission denied\n", s), 1);
+		}
+	}
+	close(fd);
+	return (0);
 }

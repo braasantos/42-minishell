@@ -3,45 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   clean_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:44 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 12:13:46 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 15:45:03 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	ft_free_arr(char **str)
+void ft_free_arr(char **str)
 {
-	int	i;
+	int i;
 
 	if (!str || !*str)
 		return ;
 	i = -1;
 	while (str[++i])
-	{
-		if (str[i])
-			free(str[i]);
-	}
-	if (str)
-		free(str);
+		free(str[i]);
+	free(str);
 	str = NULL;
 }
 
 void	free_struct(t_mini *mini)
 {
-	if (mini->free_flag == 1)
+	if (mini->echo_flag == 1)
+	{
 		ft_free_arr(mini->echo_split);
+		mini->echo_flag = 0;
+	}
 	ft_free_arr(mini->args);
 	free(mini->new_str);
 	free(mini->str);
 }
 
-void	free_struct_2(t_mini *mini)
+void free_struct_2(t_mini *mini)
 {
-	if (mini->free_flag == 1)
+	if (mini->echo_flag == 1)
+	{
 		ft_free_arr(mini->echo_split);
+		mini->echo_flag = 0;
+	}
 	ft_free_arr(mini->args);
 	if (mini->new_str)
 		free(mini->new_str);

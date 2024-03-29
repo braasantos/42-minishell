@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:56 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/27 14:00:28 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 17:30:10 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	handle_append(t_mini *mini, int i)
 
 	if (mini->args[i + 1])
 	{
+		if (file_ok(mini->args[i + 1], 1))
+			return ;
 		file = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0664);
 		if (!file)
 		{

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 16:09:33 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 16:08:48 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	g_signal;
+int g_signal;
 
 static void	init_all(t_mini *mini)
 {

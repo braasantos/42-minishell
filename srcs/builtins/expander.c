@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 11:21:31 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/03/29 13:15:30 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	expand_str(t_mini *mini, int i)
 		return (ohhh_boy(mini, i), 1);
 	mini->before = ft_before(mini->args[i]);
 	mini->after = ft_after(mini->args[i]);
+	if (!ft_strcmp(mini->args[i], "$") && ft_strlen(mini->args[i]) == 1)
+		return (1);
 	if (bingo(mini->args[i], '?'))
 		get_qmark(mini, i);
 	else
@@ -92,12 +94,13 @@ int	expand_str(t_mini *mini, int i)
 		if (env)
 			do_all(mini, i, env);
 		else
-			mini->args[i] = ft_strdup("\0");
+			mini->args[i] = ft_strdup("1801");
 	}
 	free(mini->before);
 	free(mini->after);
 	return (1);
 }
+
 
 void	do_all(t_mini *mini, int i, char *env)
 {
