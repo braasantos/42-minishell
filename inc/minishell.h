@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 17:28:42 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/30 17:02:27 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_mini
 	char	*before;
 	char	*after;
 	int		free_flag;
-	int		exit_code;
 	bool	pipe_or_redirect_found;
 	bool	interact;
 }		t_mini;
@@ -93,7 +92,7 @@ int		ft_strstartswith(char *s1, char *s2);
 /* 		echo_utils.c	*/
 /* ******************** */
 char	**add_option_echo(t_mini *mini, int i, char *temp);
-int		handle_split_args(t_mini *mini);
+int		handle_split_args(t_mini *mini, int i);
 void	check_comand(t_mini *mini);
 int		count_quote_pairs(char *str);
 /* ******************** */
@@ -306,10 +305,9 @@ void	close_pipes(t_mini *mini);
 /* ******************** */
 /*	append_heredoc.c	*/
 /* ******************** */
-void	handle_red(t_mini *mini, int i);
-void	handle_append(t_mini *mini, int i);
-void	handle_heredoc(t_mini *mini, int i);
-int		free_child_p(t_mini *mini);
+int		handle_red(t_mini *mini, int i);
+int		handle_append(t_mini *mini, int i);
+int		handle_heredoc(t_mini *mini, int i);
 int		handle_heredoc2(char *delimiter);
 /* ******************** */
 /*		redirects.c	    */
@@ -317,7 +315,7 @@ int		handle_heredoc2(char *delimiter);
 int		count_red(t_mini *mini);
 int		redirect_output(int i, t_mini *mini);
 int		redirect_input(int i, t_mini *mini);
-void	hanlde_redirects(t_mini *mini);
+int		hanlde_redirects(t_mini *mini);
 void	redirect(t_mini *mini);
 /* ************************************************************************** */
 /*								signals									  */
@@ -340,4 +338,5 @@ void	parser(t_mini *mini);
 
 int		file_ok(char *s, int flag);
 int		null_args(t_mini *mini, int i);
+void	exit_fork(t_mini *mini);
 #endif

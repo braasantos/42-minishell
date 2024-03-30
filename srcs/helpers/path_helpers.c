@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:10 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 17:11:03 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/30 17:06:33 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ char	*hndl_quotes(t_mini *mini, int i)
 
 int	save_lines2(t_mini *mini, char *temp, int i)
 {
-	if (is_a_pipe(mini->args[i]) || is_a_append_here(mini->args[i])
-	|| is_a_red(mini->args[i]))
+	if (is_a_pipe(mini->args[i]) || is_a_red(mini->args[i]))
 	{
 		mini->pipe_or_redirect_found = true;
 		free(temp);

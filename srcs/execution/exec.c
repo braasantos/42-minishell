@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 17:30:49 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/30 17:01:09 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void create_flow(t_mini *mini)
 	twenty_six_lines(mini);
 }
 
-int create_child(t_mini *mini, int i, int flag, int j)
+int	create_child(t_mini *mini, int i, int flag, int j)
 {
 	if (is_a_builtin(mini, i) == false && is_a_cmd(mini->args[i], mini))
 		update_path(mini, i);
@@ -121,11 +121,14 @@ int create_child(t_mini *mini, int i, int flag, int j)
 	mini->newpro[j] = fork();
 	if (!mini->newpro[j])
 	{
-		hanlde_redirects(mini);
+		if (!ft_strcmp(mini->args[i], "echo"))
+			handle_split_args(mini, i);
+		if (hanlde_redirects(mini))
+			exit_fork(mini);
 		if (flag == 1)
 			through_pipes(mini, j);
 		if (builtins(mini, i))
-			ft_exit(mini, i);
+			exit_fork(mini);
 		redirect(mini);
 		handle_execve(mini, i);
 	}

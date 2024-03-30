@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:44 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 15:45:03 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/30 14:24:55 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,17 @@ void ft_free_arr(char **str)
 		return ;
 	i = -1;
 	while (str[++i])
+	{
 		free(str[i]);
+		str[i] = NULL;
+	}
 	free(str);
 	str = NULL;
 }
 
 void	free_struct(t_mini *mini)
 {
-	if (mini->echo_flag == 1)
+	if (mini->echo_flag)
 	{
 		ft_free_arr(mini->echo_split);
 		mini->echo_flag = 0;
@@ -39,7 +42,7 @@ void	free_struct(t_mini *mini)
 
 void free_struct_2(t_mini *mini)
 {
-	if (mini->echo_flag == 1)
+	if (mini->echo_flag)
 	{
 		ft_free_arr(mini->echo_split);
 		mini->echo_flag = 0;

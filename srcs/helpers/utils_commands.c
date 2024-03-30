@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:19:23 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 15:18:17 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/30 14:45:37 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,10 @@ char	**get_newenvp(char **envp)
 	int		len;
 
 	len = str_len(envp);
-	i = 0;
 	newenvp = (char **)malloc((len + 1) * sizeof(char *));
 	if (!newenvp)
 		return (NULL);
+	i = 0;
 	while (i < len)
 	{
 		j = ft_strlen(envp[i]);
@@ -86,7 +86,7 @@ char	**get_newenvp(char **envp)
 		ft_strcpy(newenvp[i], envp[i]);
 		i++;
 	}
-	newenvp[len] = NULL;
+	newenvp[i] = NULL;
 	return (newenvp);
 }
 

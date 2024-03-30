@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 17:28:15 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/30 15:32:39 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	redirect_input(int i, t_mini *mini)
 	return (0);
 }
 
-void	hanlde_redirects(t_mini *mini)
+int	hanlde_redirects(t_mini *mini)
 {
 	int	i;
 
@@ -75,12 +75,16 @@ void	hanlde_redirects(t_mini *mini)
 	while (mini->args[i])
 	{
 		if (!ft_strcmp(mini->args[i], ">"))
-			redirect_output(i, mini);
+			if (redirect_output(i, mini))
+				return (1);
 		if (!ft_strcmp(mini->args[i], "<"))
-			redirect_input(i, mini);
-		handle_red(mini, i);
+			if (redirect_input(i, mini))
+				return (1);
+		if (handle_red(mini, i))
+			return (1);
 		i++;
 	}
+	return (0);
 }
 
 void	redirect(t_mini *mini)

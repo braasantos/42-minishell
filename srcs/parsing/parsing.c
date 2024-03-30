@@ -6,27 +6,31 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 17:24:12 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/30 14:39:21 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void ft_exit(t_mini *mini, int i)
+void	exit_fork(t_mini *mini)
 {
-	if (is_a_builtin(mini, i) == false && is_a_cmd(mini->args[i], mini))
-		delete_path(mini);
-	if (mini->echo_flag == 1)
+	int		devnull;
+	char	*argv[3];
+
+	(void)mini;
+	devnull = open("/dev/null", O_WRONLY);
+	if (dup2(devnull, STDOUT_FILENO) == -1
+		|| dup2(devnull, STDERR_FILENO) == -1)
 	{
-		ft_free_arr(mini->echo_split);
-		mini->echo_flag = 0;
+		close(devnull);
+		exit(EXIT_FAILURE);
 	}
-	ft_free_arr(mini->args);
-	free(mini->new_str);
-	free(mini->str);
-	free(mini->newpro);
-	ft_free_arr(mini->newenvp);
-	exit(1);
+	close(devnull);
+	argv[0] = "/bin/echo";
+	argv[1] = "Hello, World!";
+	argv[2] = NULL;
+	execve(argv[0], argv, NULL);
+	exit(EXIT_FAILURE);
 }
 
 int bingo(char *s, char c)
@@ -74,15 +78,13 @@ int nAAAAAAAAAAAA(t_mini *mini)
 void parsing(t_mini *mini, char *str)
 {
 	if (!ft_check_open_quotes(str))
-		return;
+		return ;
 	if (!redirect_basic_check(str))
 		ft_printf("invalid redirect\n");
 	if (!pipe_check(mini, str))
-		return;
+		return ;
 	if (nAAAAAAAAAAAA(mini))
-		return;
-	if (handle_split_args(mini))
-		return;
+		return ;
 	execute(mini);
 }
 

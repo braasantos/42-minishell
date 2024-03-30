@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 15:30:55 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/30 14:36:43 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ void handle_execve(t_mini *mini, int i)
 	if (!is_a_cmd(mini->args[i], mini))
 	{
 		print_cmd(mini, i);
-		free_struct_2(mini);
+		exit_fork(mini);
 	}
 	if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
 	{
 		ft_printf("Minishell: Execve Error\n");
-		free_struct_2(mini);
+		exit_fork(mini);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 16:08:48 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/30 16:59:47 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 int g_signal;
 
-static void	init_all(t_mini *mini)
+static void init_all(t_mini *mini)
 {
 	g_signal = 0;
-	mini->exit_code = 0;
 	mini->newenvp = NULL;
 	mini->path_to_cmd = NULL;
 	mini->exec_args = NULL;
@@ -37,10 +36,10 @@ static void	init_all(t_mini *mini)
 	mini->st_dout = 1;
 }
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	t_mini		mini;
-	extern char	**environ;
+	t_mini mini;
+	extern char **environ;
 
 	if (ac >= 2 && av)
 		return (ft_printf("pls do not use arguments :(\n"));
@@ -49,7 +48,7 @@ int	main(int ac, char **av)
 	parser(&mini);
 }
 
-void	parser(t_mini *mini)
+void parser(t_mini *mini)
 {
 	while (1)
 	{

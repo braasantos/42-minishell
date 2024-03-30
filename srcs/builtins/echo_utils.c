@@ -6,29 +6,53 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/29 17:04:49 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/03/30 17:30:16 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char **add_option_echo(t_mini *mini, int i, char *temp)
+char	*hndl_quotes_echo(t_mini *mini, int i)
 {
-	char *result;
-	char *new_result;
-	char **ret;
+	char	*s;
+	char	*temp;
+
+	s = NULL;
+	temp = NULL;
+	s = ft_strdup(mini->args[i]);
+	temp = ft_strjoin(s, " ");
+	free(s);
+	return (temp);
+}
+
+int	save_lines3(t_mini *mini, char *temp, int i)
+{
+	if (is_a_pipe(mini->args[i]))
+	{
+		mini->pipe_or_redirect_found = true;
+		free(temp);
+		return (1);
+	}
+	return (0);
+}
+
+char	**add_option_echo(t_mini *mini, int i, char *temp)
+{
+	char	*result;
+	char	*new_result;
+	char	**ret;
 
 	result = NULL;
 	mini->pipe_or_redirect_found = false;
 	while (mini->args[i] && !mini->pipe_or_redirect_found)
 	{
-		temp = hndl_quotes(mini, i);
+		temp = hndl_quotes_echo(mini, i);
 		if (result == NULL)
 			result = ft_strdup(temp);
 		else
 		{
-			if (save_lines2(mini, temp, i))
-				break;
+			if (save_lines3(mini, temp, i))
+				break ;
 			new_result = ft_strjoin(result, temp);
 			free(result);
 			result = ft_strdup(new_result);
@@ -38,6 +62,8 @@ char **add_option_echo(t_mini *mini, int i, char *temp)
 		i++;
 	}
 	ret = ft_split(result, ' ');
+	while_loop(ret);
+	ft_printf("\n");
 	return (free(result), ret);
 }
 
@@ -70,68 +96,66 @@ char **new_args(char **s, int k, int k1)
 	return (newenvp);
 }
 
-int	echo_w_red(t_mini *mini)
+char	**echo_w_red(char **s)
 {
-	int	i;
-	int	k1;
+	int		i;
+	int		k1;
+	char	**str;
 
 	i = -1;
-	while (mini->args[++i])
+	str = NULL;
+	while (s[++i])
 	{
-		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], "<") || !ft_strcmp(mini->args[i], ">>") || !ft_strcmp(mini->args[i], "<<"))
+		if (!ft_strcmp(s[i], ">") || !ft_strcmp(s[i], "<") || !ft_strcmp(s[i], ">>") || !ft_strcmp(s[i], "<<"))
 		{
 			k1 = i + 1;
-			if (mini->args[k1])
+			if (s[k1])
 			{
-				if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], ">>"))
-					if (file_ok(mini->args[k1], 1))
-						return (1);
-				if (!ft_strcmp(mini->args[i], "<") || !ft_strcmp(mini->args[i], "<<"))
-					if (file_ok(mini->args[k1], 2))
-						return (1);
+				if (!ft_strcmp(s[i], ">") || !ft_strcmp(s[i], ">>"))
+					if (file_ok(s[k1], 1))
+						return (NULL);
+				if (!ft_strcmp(s[i], "<") || !ft_strcmp(s[i], "<<"))
+					if (file_ok(s[k1], 2))
+						return (NULL);
 			}
-			mini->echo_split = new_args(mini->args, i, k1);
+			str = new_args(s, i, k1);
 		}
 	}
-	return (0);
+	return (str);
 }
 
-int handle_split_args(t_mini *mini)
+int	handle_split_args(t_mini *mini, int i)
 {
-	int i;
-	char *temp;
+	char	*temp;
+	char	**s;
 
-	i = -1;
 	temp = NULL;
 	mini->free_flag = 0;
-	while (mini->args[++i])
+	mini->free_flag = 1;
+	mini->echo_flag = 1;
+	mini->echo_split = add_option_echo(mini, i, temp);
+	if (have_redirect(mini))
 	{
-		if (!ft_strcmp(mini->args[i], "echo"))
-		{
-			mini->free_flag = 1;
-			mini->echo_flag = 1;
-			if (count_pipes(mini) > 0)
-				mini->echo_split = add_option_echo(mini, i, temp);
-			if (count_red(mini) > 0)
-			{
-				if (echo_w_red(mini))
-					return (1);
-			}
-			else
-				mini->echo_split = get_newenvp(mini->args);
-		}
+		s = echo_w_red(mini->echo_split);
+		if (!ft_strcmp(s[0] ,"NULL"))
+			return (1);
+		ft_free_arr(mini->echo_split);
+		mini->echo_split = get_newenvp(s);
+		while_loop(mini->echo_split);
+		ft_printf("\n");
+		return (0);
 	}
 	return (0);
 }
 
-void check_comand(t_mini *mini)
+void	check_comand(t_mini *mini)
 {
-	int i;
-	char *temp;
+	int		i;
+	char	*temp;
 
 	i = 0;
 	if (!mini->args)
-		return;
+		return ;
 	while (mini->args[i])
 	{
 		if (is_a_cmd(mini->args[i], mini))
