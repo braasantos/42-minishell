@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:19:23 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/30 14:45:37 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/01 14:54:24 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_add(t_mini *mini, char *ag)
 	str = get_path(mini->newenvp);
 	if (access(ag, X_OK) == 0)
 		return (ft_free_arr(str), ft_strdup(ag));
-	if (!*str)
+	if (!str || !*str)
 		return (NULL);
 	i = 0;
 	while (str[i])
@@ -48,7 +48,8 @@ char	**get_path(char **newenv)
 
 	i = 0;
 	newstr = NULL;
-	if (!newenv[i])
+	str = NULL;
+	if (!newenv)
 		return (NULL);
 	while (newenv[i])
 	{
@@ -57,8 +58,10 @@ char	**get_path(char **newenv)
 		i++;
 	}
 	if (str)
+	{
 		newstr = ft_split(str, ':');
-	free(str);
+		free(str);
+	}
 	return (newstr);
 }
 

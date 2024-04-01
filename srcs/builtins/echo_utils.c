@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/03/30 17:30:16 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/01 18:30:06 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ char	**add_option_echo(t_mini *mini, int i, char *temp)
 		i++;
 	}
 	ret = ft_split(result, ' ');
-	while_loop(ret);
-	ft_printf("\n");
 	return (free(result), ret);
 }
 
@@ -106,7 +104,8 @@ char	**echo_w_red(char **s)
 	str = NULL;
 	while (s[++i])
 	{
-		if (!ft_strcmp(s[i], ">") || !ft_strcmp(s[i], "<") || !ft_strcmp(s[i], ">>") || !ft_strcmp(s[i], "<<"))
+		if (!ft_strcmp(s[i], ">") || !ft_strcmp(s[i], "<") || 
+			!ft_strcmp(s[i], ">>") || !ft_strcmp(s[i], "<<"))
 		{
 			k1 = i + 1;
 			if (s[k1])
@@ -131,8 +130,6 @@ int	handle_split_args(t_mini *mini, int i)
 
 	temp = NULL;
 	mini->free_flag = 0;
-	mini->free_flag = 1;
-	mini->echo_flag = 1;
 	mini->echo_split = add_option_echo(mini, i, temp);
 	if (have_redirect(mini))
 	{
@@ -141,8 +138,7 @@ int	handle_split_args(t_mini *mini, int i)
 			return (1);
 		ft_free_arr(mini->echo_split);
 		mini->echo_split = get_newenvp(s);
-		while_loop(mini->echo_split);
-		ft_printf("\n");
+		mini->echo_flag = 1;
 		return (0);
 	}
 	return (0);
@@ -169,7 +165,7 @@ void	check_comand(t_mini *mini)
 			}
 		}
 		if (!have_here_doc(mini))
-			if (bingo(mini->args[i], '$'))
+			if (bingo(mini->args[i], '$') && ft_strlen(mini->args[i]) > 1)
 				expand_str(mini, i);
 		if (bingo(mini->args[i], '\''))
 			time_to_remove(mini, i);

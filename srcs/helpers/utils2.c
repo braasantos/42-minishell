@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 13:13:46 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/01 14:10:29 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	ft_strcmp(char *str1, char *str2)
 	int	i;
 
 	i = 0;
+	if (!str1 || !str2)
+		return (1);
 	while (str1[i] || str2[i])
 	{
 		if (str1[i] == str2[i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/30 14:36:23 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/01 14:20:49 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,11 @@ int	builtins(t_mini *mini, int i)
 	if ((!ft_strcmp(mini->args[i], "env")))
 		return (get_envp(mini));
 	if ((!ft_strcmp(mini->args[i], "export")))
+	{
+		if (check_env(mini))
+			return (1);
 		return (get_export(mini));
+	}
 	if ((!ft_strcmp(mini->args[i], "unset")))
 		return (get_unset(mini));
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:05:54 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 12:16:52 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:25:41 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,19 @@ char	*export_no_option_util(char *s)
 	free(value);
 	return (tempv);
 }
+int	export_wo_equal(char *s, char *c)
+{
+	if (bingo(s, '='))
+		return (0);
+	else
+	{
+		ft_printf("%s\n", s);
+		free(s);
+		free(c);
+		return (1);
+	}
+	return (0);
+}
 
 void	export_no_option(t_mini *mini)
 {
@@ -95,6 +108,8 @@ void	export_no_option(t_mini *mini)
 	{
 		key = export_key(env[i]);
 		tempv = export_no_option_util(env[i]);
+		if (export_wo_equal(tempv, key))
+			continue ;
 		tempk = ft_strjoin(tempv, "\"");
 		free(tempv);
 		tempv = ft_strjoin(tempk, key);

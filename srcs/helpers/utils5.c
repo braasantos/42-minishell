@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:08:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 17:05:58 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/01 15:15:55 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,13 @@ char	*export_var(char *s)
 			break ;
 		i++;
 	}
-	str[i] = '=';
-	str[i + 1] = '\0';
+	if ( s[i] == '=')
+	{
+		str[i] = '=';
+		str[i + 1] = '\0';
+	}
+	else
+		str[i] = '\0';
 	return (str);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/26 16:19:06 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/01 13:52:55 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	*get_env(char *var, t_mini *mini)
 	str = ft_remove_quotes(var);
 	tmp = ft_strjoin(str, "=");
 	free(str);
+	if (check_env(mini))
+		return (NULL);
 	while (mini->newenvp[++i])
 	{
 		if (ft_strstartswith(mini->newenvp[i], tmp))
@@ -32,6 +34,13 @@ char	*get_env(char *var, t_mini *mini)
 	}
 	free(tmp);
 	return (NULL);
+}
+
+int	check_env(t_mini *mini)
+{
+	if (!mini->newenvp)
+		return (1);
+	return (0);
 }
 
 void	change_dir(char *path, t_mini *mini)

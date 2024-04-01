@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 17:00:44 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/01 17:22:34 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,33 @@ int	var_exists(t_mini *mini, char *var)
 	free(new_var);
 	return (0);
 }
-int	check_var(t_mini *mini, int i)
+int	check_var(t_mini *mini)
 {
 	int	j;
+	int	i;
+	int	print_flag;
 
 	j = 0;
-	while(mini->args[i][j])
+	i = 1;
+	print_flag = 0;
+	while (mini->args[i])
 	{
-		if (!ft_isalpha(mini->args[i][j]))
-			return (1);
-		j++;
+		while (mini->args[i][j])
+		{
+			if (mini->args[i][0] == '_')
+				return (0);
+			if (!ft_isalpha(mini->args[i][0]))
+			{
+				ft_printf("Minishell: export: `%s': ", mini->args[i]);
+				ft_printf("not a valid identifier\n");
+				print_flag = 1;
+			}
+			j++;
+		}
+		i++;
 	}
+	if (print_flag)
+		return (1);
 	return (0);
 }
 
@@ -55,11 +71,8 @@ int	get_export(t_mini *mini)
 	i = 0;
 	while (mini->args[++i] && !check_options(mini->args[i]))
 	{
-		if (!ft_isalpha(mini->args[i][0]) || check_var(mini, i))
-		{
-			ft_printf("Minishell: export: `%s': ", mini->args[i]);
-			return (ft_printf("not a valid identifier\n"), 1);
-		}
+		if (check_var(mini))
+			return (1);
 		if (var_exists(mini, mini->args[i]))
 		{
 			delete_replace(mini, newvar, i);

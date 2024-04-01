@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/30 17:02:27 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/01 13:53:22 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,4 +339,5 @@ void	parser(t_mini *mini);
 int		file_ok(char *s, int flag);
 int		null_args(t_mini *mini, int i);
 void	exit_fork(t_mini *mini);
+int		check_env(t_mini *mini);
 #endif
