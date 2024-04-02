@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/30 14:39:21 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/02 14:59:40 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void parsing(t_mini *mini, char *str)
 	if (!ft_check_open_quotes(str))
 		return ;
 	if (!redirect_basic_check(str))
-		ft_printf("invalid redirect\n");
+		ft_putendl_fd("invalid redirect", 2);
 	if (!pipe_check(mini, str))
 		return ;
 	if (nAAAAAAAAAAAA(mini))

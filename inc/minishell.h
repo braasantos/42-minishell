@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/01 13:53:22 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:01:02 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ void	get_exit_status(t_mini *mini);
 /* ******************** */
 /*			pipes.c		*/
 /* ******************** */
-void	through_pipes(t_mini *mini, int i);
+void	through_pipes(t_mini *mini, int i, int flag);
 int		count_pipes(t_mini *mini);
 void	close_pipes(t_mini *mini);
 /* ************************************************************************** */
@@ -305,17 +305,17 @@ void	close_pipes(t_mini *mini);
 /* ******************** */
 /*	append_heredoc.c	*/
 /* ******************** */
-int		handle_red(t_mini *mini, int i);
-int		handle_append(t_mini *mini, int i);
-int		handle_heredoc(t_mini *mini, int i);
+int		handle_red(t_mini *mini, char *s, char *ss);
+int		handle_append(char *s);
+int		handle_heredoc(t_mini *mini, char *s);
 int		handle_heredoc2(char *delimiter);
 /* ******************** */
 /*		redirects.c	    */
 /* ******************** */
 int		count_red(t_mini *mini);
-int		redirect_output(int i, t_mini *mini);
-int		redirect_input(int i, t_mini *mini);
-int		hanlde_redirects(t_mini *mini);
+int		redirect_output(char *s);
+int		redirect_input(char *s);
+int		hanlde_redirects(t_mini *mini, char **s);
 void	redirect(t_mini *mini);
 /* ************************************************************************** */
 /*								signals									  */
@@ -340,4 +340,5 @@ int		file_ok(char *s, int flag);
 int		null_args(t_mini *mini, int i);
 void	exit_fork(t_mini *mini);
 int		check_env(t_mini *mini);
+int	pre_echo(t_mini *mini, int i);
 #endif

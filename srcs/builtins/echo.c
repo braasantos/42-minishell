@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:54:16 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 16:07:15 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/02 18:09:59 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,34 +62,6 @@ void	ft_print_new_line(int flag_nl)
 {
 	if (flag_nl)
 		ft_printf("\n");
-}
-
-int	redirect_output_echo(int i, t_mini *mini)
-{
-	int	file_fd;
-
-	while (mini->args[i])
-	{
-		if (!ft_strcmp(mini->args[i], ">"))
-		{
-			if (!mini->args[i + 1])
-				return (1);
-			file_fd = open(mini->args[i + 1],
-					O_WRONLY | O_CREAT | O_TRUNC, 0664);
-			if (!file_fd)
-			{
-				ft_putstr_fd("Minishell: no filespecified", 2);
-				ft_putstr_fd("in redirect '>' . \n", 2);
-				return (1);
-			}
-			dup2(file_fd, STDOUT_FILENO);
-			close(file_fd);
-		}
-		if (!ft_strcmp(mini->args[i], ">>"))
-			handle_append(mini, i);
-		i++;
-	}
-	return (0);
 }
 
 bool	db_quotes(char *str)

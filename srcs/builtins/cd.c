@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/01 13:52:55 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:37:06 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,26 @@ int	check_env(t_mini *mini)
 	return (0);
 }
 
+int	chech_path(char *s)
+{
+	if (!s)
+		return (ft_putendl_fd("Minishell: cd: HOME not set", 2), 1);
+	return (0);
+}
+
 void	change_dir(char *path, t_mini *mini)
 {
 	char	*cwd;
 	char	buff[4097];
 	char	*env;
 
+	if (chech_path(path))
+		return ;
 	cwd = getcwd(buff, 4096);
 	if (!chdir(path))
 	{
+		if (check_env(mini))
+			return ;
 		set_env_var("OLDPWD", cwd, mini);
 		env = getcwd(0, 0);
 		set_env_var("PWD", env, mini);
@@ -59,14 +70,14 @@ void	change_dir(char *path, t_mini *mini)
 	}
 	else
 	{
-		ft_printf("cd: ");
+		ft_putstr_fd("cd: ", 2);
 		if (access(path, F_OK) == -1)
-			ft_printf("no such file or directory: ");
+			ft_putendl_fd("no such file or directory: ", 2);
 		else if (access(path, R_OK) == -1)
-			ft_printf("permission denied: ");
+			ft_putendl_fd("permission denied: ", 2);
 		else
-			ft_printf("not a directory: ");
-		ft_putendl_fd(path, 1);
+			ft_putendl_fd("not a directory: ", 2);
+		write(2, path, 1);
 	}
 }
 
@@ -76,7 +87,7 @@ static int	has_two_args(char **args, t_mini *mini)
 	{
 		if (args[2])
 		{
-			ft_putendl_fd("cd: too many arguments", 1);
+			ft_putendl_fd("cd: too many arguments", 2);
 			return (1);
 		}
 		if (!ft_strcmp(args[1], "-"))

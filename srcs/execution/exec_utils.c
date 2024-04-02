@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/30 14:36:43 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/02 17:40:51 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void handle_execve(t_mini *mini, int i)
 	}
 	if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
 	{
-		ft_printf("Minishell: Execve Error\n");
+		ft_putendl_fd("Minishell: Execve Error", 2);
 		exit_fork(mini);
 	}
 }

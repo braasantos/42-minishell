@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/01 17:22:34 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:14:16 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,20 @@ int	var_exists(t_mini *mini, char *var)
 }
 int	check_var(t_mini *mini)
 {
-	int	j;
 	int	i;
-	int	print_flag;
 
-	j = 0;
 	i = 1;
-	print_flag = 0;
 	while (mini->args[i])
 	{
-		while (mini->args[i][j])
+		if (mini->args[i][0] == '_')
+			return (0);
+		if (!ft_isalpha(mini->args[i][0]))
 		{
-			if (mini->args[i][0] == '_')
-				return (0);
-			if (!ft_isalpha(mini->args[i][0]))
-			{
-				ft_printf("Minishell: export: `%s': ", mini->args[i]);
-				ft_printf("not a valid identifier\n");
-				print_flag = 1;
-			}
-			j++;
+			ft_putendl_fd("not a valid identifier", 2);
+			return (1);
 		}
 		i++;
 	}
-	if (print_flag)
-		return (1);
 	return (0);
 }
 

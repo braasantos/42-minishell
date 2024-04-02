@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/01 14:10:29 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 15:45:22 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ int	ft_check_open_quotes(char *str)
 int	print(t_op op, char *ag)
 {
 	if (op == COMMAND_NOT_FOUND)
-		ft_printf("%s: command not found\n", ag);
+	{
+		ft_putstr_fd(ag, 2);
+		ft_putendl_fd(": command not found", 2);
+	}
 	return (1);
 }
 

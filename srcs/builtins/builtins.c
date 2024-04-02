@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/01 14:20:49 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:47:06 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ int	have_here_doc(t_mini *mini)
 	}
 	return (0);
 }
+int	pre_echo(t_mini *mini, int i)
+{
+	handle_split_args(mini, i);
+	return (0);
+}
 
 int	builtins(t_mini *mini, int i)
 {
@@ -67,7 +72,10 @@ int	builtins(t_mini *mini, int i)
 	if (!ft_strcmp(mini->args[i], "pwd"))
 		return (print_pwd());
 	if (!ft_strcmp(mini->args[i], "echo"))
+	{
+		pre_echo(mini, i);
 		return (echo_cmd(mini->echo_split, mini));
+	}
 	if ((!ft_strcmp(mini->args[i], "cd")))
 		return (get_cd(mini, i));
 	if ((!ft_strcmp(mini->args[i], "env")))

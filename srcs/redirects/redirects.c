@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/30 15:32:39 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/02 18:00:26 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ int	count_red(t_mini *mini)
 	return (count);
 }
 
-int	redirect_output(int i, t_mini *mini)
+int	redirect_output(char *s)
 {
 	int	file_fd;
 
-	if (!mini->args[i + 1])
+	if (!s)
 		return (1);
-	file_fd = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (file_ok(mini->args[i + 1], 1))
+	file_fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (file_ok(s, 1))
 		return (1);
 	if (!file_fd)
 	{
@@ -50,12 +50,12 @@ int	redirect_output(int i, t_mini *mini)
 	return (0);
 }
 
-int	redirect_input(int i, t_mini *mini)
+int	redirect_input(char *s)
 {
 	int	file_fd;
 
-	file_fd = open(mini->args[i + 1], O_RDONLY);
-	if (file_ok(mini->args[i + 1], 2))
+	file_fd = open(s, O_RDONLY);
+	if (file_ok(s, 2))
 		return (1);
 	if (!file_fd)
 	{
@@ -67,20 +67,20 @@ int	redirect_input(int i, t_mini *mini)
 	return (0);
 }
 
-int	hanlde_redirects(t_mini *mini)
+int	hanlde_redirects(t_mini *mini, char **s)
 {
 	int	i;
 
 	i = 0;
-	while (mini->args[i])
+	while (s[i])
 	{
-		if (!ft_strcmp(mini->args[i], ">"))
-			if (redirect_output(i, mini))
+		if (!ft_strcmp(s[i], ">"))
+			if (redirect_output(s[i + 1]))
 				return (1);
 		if (!ft_strcmp(mini->args[i], "<"))
-			if (redirect_input(i, mini))
+			if (redirect_input(s[i + 1]))
 				return (1);
-		if (handle_red(mini, i))
+		if (handle_red(mini, s[i], s[i + 1]))
 			return (1);
 		i++;
 	}
@@ -104,7 +104,7 @@ int	file_ok(char *s, int flag)
 		if (fd == -1)
 		{
 			close(fd);
-			return (ft_printf("Minishell: %s: Permission denied\n", s), 1);
+			return (ft_putendl_fd("Permission denied", 2), 1);
 		}
 	}
 	if (flag == 2)
@@ -113,7 +113,7 @@ int	file_ok(char *s, int flag)
 		if (fd == -1)
 		{
 			close(fd);
-			return (ft_printf("Minishell: %s: Permission denied\n", s), 1);
+			return (ft_putendl_fd("Permission denied", 2), 1);
 		}
 	}
 	close(fd);

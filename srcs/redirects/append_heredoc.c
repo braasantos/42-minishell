@@ -3,35 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   append_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:56 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/30 15:31:35 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/02 18:06:59 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	handle_red(t_mini *mini, int i)
+int	handle_red(t_mini *mini, char *s, char *ss)
 {
-	if (!ft_strcmp(mini->args[i], ">>"))
-		if (handle_append(mini, i))
+	if (!ft_strcmp(s, ">>"))
+		if (handle_append(ss))
 			return (1);
-	if (!ft_strcmp(mini->args[i], "<<"))
-		if (handle_heredoc(mini, i))
+	if (!ft_strcmp(s, "<<"))
+		if (handle_heredoc(mini, ss))
 			return (1);
 	return (0);
 }
 
-int	handle_append(t_mini *mini, int i)
+int	handle_append(char *s)
 {
 	int	file;
 
-	if (mini->args[i + 1])
+	if (s)
 	{
-		if (file_ok(mini->args[i + 1], 1))
+		if (file_ok(s, 1))
 			return (1);
-		file = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0664);
+		file = open(s, O_WRONLY | O_CREAT | O_APPEND, 0664);
 		if (!file)
 		{
 			ft_putstr_fd("Minishell: no file specified in redirect '>>'.\n", 2);
@@ -45,9 +45,9 @@ int	handle_append(t_mini *mini, int i)
 	return (0);
 }
 
-int	handle_heredoc(t_mini *mini, int i)
+int	handle_heredoc(t_mini *mini, char *s)
 {
-	if (handle_heredoc2(mini->args[i + 1]))
+	if (handle_heredoc2(s))
 	{
 		unlink(".heredoc");
 		return (1);

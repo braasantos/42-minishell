@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/01 18:22:09 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:51:57 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,14 +129,12 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 	mini->newpro[j] = fork();
 	if (!mini->newpro[j])
 	{
-		if (!ft_strcmp(mini->args[i], "echo"))
-			handle_split_args(mini, i);
-		if (hanlde_redirects(mini))
-			exit_fork(mini);
-		if (flag == 1)
-			through_pipes(mini, j);
+		if (ft_strcmp(mini->args[i], "echo"))
+			if (hanlde_redirects(mini, mini->args))
+				exit_fork(mini);
 		if (builtins(mini, i))
 			exit_fork(mini);
+		through_pipes(mini, j, flag);
 		redirect(mini);
 		handle_execve(mini, i);
 	}

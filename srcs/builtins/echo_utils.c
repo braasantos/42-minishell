@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/01 18:30:06 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 18:35:10 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,26 @@ char	**echo_w_red(char **s)
 	return (str);
 }
 
+int	have_redi(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (ft_strcmp(s[i], ">") == 0)
+			return (1);
+		if (ft_strcmp(s[i], "<") == 0)
+			return (1);
+		if (ft_strcmp(s[i], ">>") == 0)
+			return (1);
+		if (ft_strcmp(s[i], "<<") == 0)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	handle_split_args(t_mini *mini, int i)
 {
 	char	*temp;
@@ -131,8 +151,9 @@ int	handle_split_args(t_mini *mini, int i)
 	temp = NULL;
 	mini->free_flag = 0;
 	mini->echo_split = add_option_echo(mini, i, temp);
-	if (have_redirect(mini))
+	if (have_redi(mini->echo_split))
 	{
+		hanlde_redirects(mini, mini->echo_split);
 		s = echo_w_red(mini->echo_split);
 		if (!ft_strcmp(s[0] ,"NULL"))
 			return (1);

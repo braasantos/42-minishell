@@ -3,27 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:27 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 13:23:46 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:50:10 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	through_pipes(t_mini *mini, int i)
+void	through_pipes(t_mini *mini, int i, int flag)
 {
-	if (i == 0)
-		dup2(mini->pipes_fd[1], STDOUT_FILENO);
-	else if (i == count_pipes(mini))
-		dup2(mini->pipes_fd[2 * i - 2], STDIN_FILENO);
-	else
+	if (flag == 1)
 	{
-		dup2(mini->pipes_fd[2 * i - 2], STDIN_FILENO);
-		dup2(mini->pipes_fd[2 * i + 1], STDOUT_FILENO);
+		if (i == 0)
+			dup2(mini->pipes_fd[1], STDOUT_FILENO);
+		else if (i == count_pipes(mini))
+			dup2(mini->pipes_fd[2 * i - 2], STDIN_FILENO);
+		else
+		{
+			dup2(mini->pipes_fd[2 * i - 2], STDIN_FILENO);
+			dup2(mini->pipes_fd[2 * i + 1], STDOUT_FILENO);
+		}
+		close_pipes(mini);
 	}
-	close_pipes(mini);
 }
 
 int	count_pipes(t_mini *mini)
