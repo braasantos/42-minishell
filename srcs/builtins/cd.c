@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 15:37:06 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/03 16:23:05 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,14 @@ void	change_dir(char *path, t_mini *mini)
 	{
 		ft_putstr_fd("cd: ", 2);
 		if (access(path, F_OK) == -1)
+		{
+			g_signal = 1;
 			ft_putendl_fd("no such file or directory: ", 2);
+		}
 		else if (access(path, R_OK) == -1)
 			ft_putendl_fd("permission denied: ", 2);
 		else
 			ft_putendl_fd("not a directory: ", 2);
-		write(2, path, 1);
 	}
 }
 
@@ -88,6 +90,7 @@ static int	has_two_args(char **args, t_mini *mini)
 		if (args[2])
 		{
 			ft_putendl_fd("cd: too many arguments", 2);
+			g_signal = 1;
 			return (1);
 		}
 		if (!ft_strcmp(args[1], "-"))
@@ -113,7 +116,7 @@ int	get_cd(t_mini *mini, int i)
 	{
 		if (is_a_pipe(mini->args[i + 1]) || is_a_red(mini->args[i + 1])
 			|| is_a_append_here(mini->args[i + 1]))
-			return (1);
+				return (1);
 		if (has_two_args(mini->args, mini))
 			return (1);
 	}
