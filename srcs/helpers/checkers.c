@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:37 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/21 13:09:57 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 08:49:58 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,24 @@ bool	is_a_red(char *s)
 	return (false);
 }
 
+bool	is_a_quote(char *s)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (s[i])
+	{
+		if (s[i] == '\'' || s[i] == '\"')
+			count++;
+		i++;
+	}
+	if (count == i)
+		return (true);
+	return (false);
+}
+
 bool	is_a_cmd(char *s, t_mini *mini)
 {
 	char	*str;
@@ -49,11 +67,18 @@ bool	is_a_cmd(char *s, t_mini *mini)
 	bool	result;
 
 	result = false;
+	if (is_a_quote(s))
+		return (result);
 	if (count_quotes(mini->new_str) > 0)
 		temp = ft_remove_quotes(s);
 	else
 		temp = ft_strdup(s);
 	str = ft_add(mini, temp);
+	if (!str)
+	{
+		free(temp);
+		return (false);
+	}
 	if (str)
 	{
 		if (access(str, X_OK) == 0)

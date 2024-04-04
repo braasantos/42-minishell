@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 15:37:06 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 08:42:14 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*get_env(char *var, t_mini *mini)
 	char	*str;
 
 	i = -1;
+	if (!var)
+		return (NULL);
 	str = ft_remove_quotes(var);
 	tmp = ft_strjoin(str, "=");
 	free(str);

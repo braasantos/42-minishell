@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 14:59:40 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 09:25:58 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int nAAAAAAAAAAAA(t_mini *mini)
 	c = get_env("PWD", mini);
 	while (mini->args[i])
 	{
-		if (!ft_strcmp(mini->args[0], c))
+		if (!ft_strcmp(mini->args[i], c))
 		{
 			ft_printf("Minishell: %s Is a directory\n", mini->args[i]);
 			return (1);

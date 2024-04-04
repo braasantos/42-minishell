@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 18:01:02 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 08:38:20 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,5 +340,6 @@ int		file_ok(char *s, int flag);
 int		null_args(t_mini *mini, int i);
 void	exit_fork(t_mini *mini);
 int		check_env(t_mini *mini);
-int	pre_echo(t_mini *mini, int i);
+int		pre_echo(t_mini *mini, int i);
+bool	is_a_quote(char *s);
 #endif
