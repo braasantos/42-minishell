@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 17:51:57 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 10:47:46 by gamoreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	execute(t_mini *mini)
 		return ;
 	if (check_here(mini) == 1)
 		return ;
-	if ((n_pipes == 0))
+	if (n_pipes == 0)
 	{
 		if (builtins_check(mini, 0))
 			return ;

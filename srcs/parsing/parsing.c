@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 14:59:40 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 13:21:20 by gamoreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ int nAAAAAAAAAAAA(t_mini *mini)
 	{
 		if (!ft_strcmp(mini->args[0], c))
 		{
-			ft_printf("Minishell: %s Is a directory\n", mini->args[i]);
+			//ft_printf("Minishell: %s Is a directory\n", mini->args[i]);
+			g_signal = 126;
 			return (1);
 		}
 		if (!ft_strcmp(mini->args[i], "1801"))
@@ -84,7 +85,10 @@ void parsing(t_mini *mini, char *str)
 	if (!pipe_check(mini, str))
 		return ;
 	if (nAAAAAAAAAAAA(mini))
+	{
+		ft_putendl_fd(" Is a directory", 2);
 		return ;
+	}
 	execute(mini);
 }
 
