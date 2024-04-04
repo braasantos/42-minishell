@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/03 16:23:05 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/04 15:23:44 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	*get_env(char *var, t_mini *mini)
 		}
 	}
 	free(tmp);
+	if (is_a_quote(var))
+		return (NULL);
 	return (NULL);
 }
 

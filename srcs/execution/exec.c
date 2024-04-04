@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 10:47:46 by gamoreir         ###   ########.fr       */
+/*   Updated: 2024/04/04 15:05:14 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,9 @@ void create_flow(t_mini *mini)
 				break ;
 			j++;
 		}
-		if (!ft_strcmp(mini->args[i], "echo"))
-			while (mini->args[i] && check_options(mini->args[i]) == false)
+		if (is_not_a_cmd(mini->args[i]))
+			while (mini->args[i] && ft_strcmp(mini->args[i], "|"))
 				i++;
-		if (mini->args[i] && !ft_strcmp(mini->args[i], "grep"))
-			i++;
 		if (mini->args[i])
 			i++;
 	}
@@ -132,9 +130,9 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 		if (ft_strcmp(mini->args[i], "echo"))
 			if (hanlde_redirects(mini, mini->args))
 				exit_fork(mini);
+		through_pipes(mini, j, flag);
 		if (builtins(mini, i))
 			exit_fork(mini);
-		through_pipes(mini, j, flag);
 		redirect(mini);
 		handle_execve(mini, i);
 	}

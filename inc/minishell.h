@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 18:01:02 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 15:52:45 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ int		count_quote_pairs(char *str);
 void	print_arg(char *str, t_mini *mini, int current, int flag);
 int		echo_cmd(char **tokens, t_mini *mini);
 void	ft_print_new_line(int flag_nl);
-int		redirect_output_echo(int i, t_mini *mini);
 bool	db_quotes(char *str);
 /* ******************** */
 /* 			env			*/
@@ -197,8 +196,7 @@ int		create_child(t_mini *mini, int i, int flag, int j);
 /* ******************** */
 /*	checkers_tuils.c	*/
 /* ******************** */
-bool	is_a_file_to_create(char *s, t_mini *mini);
-void	create_file(t_mini *mini);
+
 char	*do_sum(t_mini *mini, int i);
 int		count_quotes(char *str);
 int		count_dquotes(char *str);
@@ -277,7 +275,7 @@ int		get_qmark(t_mini *mini, int i);
 /* ******************** */
 /*		utils6.c		*/
 /* ******************** */
-int	have_here_doc(t_mini *mini);
+int		have_here_doc(t_mini *mini);
 
 /* ************************************************************************** */
 /*								parsing									  */
@@ -340,5 +338,6 @@ int		file_ok(char *s, int flag);
 int		null_args(t_mini *mini, int i);
 void	exit_fork(t_mini *mini);
 int		check_env(t_mini *mini);
-int	pre_echo(t_mini *mini, int i);
+int		pre_echo(t_mini *mini, int i);
+bool	is_a_quote(char *s);
 #endif

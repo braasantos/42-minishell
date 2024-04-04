@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/01 14:36:20 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:59:00 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ char	*get_expand(char *s)
 			break ;
 	}
 	str[j] = '\0';
+	if (is_a_quote(str))
+		return (free(str), NULL);
 	return (str);
 }
 
@@ -70,6 +72,18 @@ void	ohhh_boy(t_mini *mini, int i)
 	free(s);
 }
 
+int	exit_expand(char *s, t_mini *mini)
+{
+	if (!s)
+	{
+		free(s);
+		free(mini->before);
+		free(mini->after);
+		return (1);
+	}
+	return (0);
+}
+
 int	expand_str(t_mini *mini, int i)
 {
 	char	*s;
@@ -99,7 +113,6 @@ int	expand_str(t_mini *mini, int i)
 	return (1);
 }
 
-
 void	do_all(t_mini *mini, int i, char *env)
 {
 	char	*str;
@@ -118,4 +131,5 @@ void	do_all(t_mini *mini, int i, char *env)
 		free(str);
 	if (temp)
 		free(temp);
+
 }

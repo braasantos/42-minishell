@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 13:21:20 by gamoreir         ###   ########.fr       */
+/*   Updated: 2024/04/04 18:03:58 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,53 @@ int bingo(char *s, char c)
 	return (0);
 }
 
-int nAAAAAAAAAAAA(t_mini *mini)
+int	check_pwd(char *s, t_mini *mini)
 {
-	char **s;
-	char *c;
-	int i;
-
-	s = NULL;
-	i = 0;
-	c = get_env("PWD", mini);
-	while (mini->args[i])
+	if (!ft_strcmp(s, get_env("PWD", mini)))
 	{
-		if (!ft_strcmp(mini->args[0], c))
-		{
-			//ft_printf("Minishell: %s Is a directory\n", mini->args[i]);
-			g_signal = 126;
-			return (1);
-		}
-		if (!ft_strcmp(mini->args[i], "1801"))
-		{
-			s = remove_var(mini->args, mini->args[i]);
-			ft_free_arr(mini->args);
-			mini->args = get_newenvp(s);
-			ft_free_arr(s);
-		}
-		i++;
+		g_signal = 126;
+		return (1);
 	}
 	return (0);
 }
+
+char	*cut_lines(t_mini *mini, char *s, int i)
+{
+	char	*temp;
+
+	temp = NULL;
+	temp = ft_strjoin(s, " ");
+	free(s);
+	s = ft_strjoin(temp, mini->args[i]);
+	free(temp);
+	return (s);
+}
+
+int	nAAAAAAAAAAAA(t_mini *mini)
+{
+	int		i = 0;
+	char	*ss;
+
+	i = -1;
+	ss = NULL;
+	while (mini->args[++i])
+	{
+		if (check_pwd(mini->args[0], mini))
+			return (1);
+		if (ft_strcmp(mini->args[i], "1801"))
+		{
+			if (ss == NULL)
+				ss = ft_strdup(mini->args[i]);
+			else
+				ss = cut_lines(mini, ss, i);
+		}
+	}
+	ft_free_arr(mini->args);
+	mini->args = ft_split(ss, ' ');
+	free(ss);
+	return (0);
+}
+
 
 void parsing(t_mini *mini, char *str)
 {
@@ -89,6 +108,8 @@ void parsing(t_mini *mini, char *str)
 		ft_putendl_fd(" Is a directory", 2);
 		return ;
 	}
+	if (!mini->args)
+		return ;
 	execute(mini);
 }
 
