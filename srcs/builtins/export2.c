@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 15:14:16 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 18:18:53 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,23 @@ int	var_exists(t_mini *mini, char *var)
 	free(new_var);
 	return (0);
 }
+
+bool	is_special(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '_' || s[i] == '=')
+			return (false);
+		if (!((s[i] >= 65 && s[i] <= 90) || (s[i] >= 97 && s[i] <= 122)))
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 int	check_var(t_mini *mini)
 {
 	int	i;
@@ -38,18 +55,18 @@ int	check_var(t_mini *mini)
 	i = 1;
 	while (mini->args[i])
 	{
-		if (mini->args[i][0] == '_')
-			return (0);
-		if (!ft_isalpha(mini->args[i][0]))
+		// if (mini->args[i][0] == '_')
+		// 	return (0);
+		if (is_special(mini->args[i]) == true)
 		{
-			ft_putendl_fd("not a valid identifier", 2);
+			ft_putendl_fd(" not a valid identifier", 2);
+			g_signal = 1;
 			return (1);
 		}
 		i++;
 	}
 	return (0);
 }
-
 
 int	get_export(t_mini *mini)
 {
