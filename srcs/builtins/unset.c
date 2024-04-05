@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:04 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 15:59:51 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/05 15:50:16 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	**remove_var(char **newenvp, char *var_name)
 	num_vars = 0;
 	while (newenvp[num_vars])
 		num_vars++;
-	num_vars--;
 	newenvp_new = (char **)malloc((num_vars + 1) * sizeof(char *));
 	if (newenvp_new == NULL)
 		return (NULL);

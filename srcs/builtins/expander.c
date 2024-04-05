@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 19:37:53 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/05 19:46:56 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	time_to_remove(t_mini *mini, int i)
 			free(s);
 		}
 	}
-	if (d_quotes == 0 && s_quotes > 0)
-		ohhh_boy(mini, i);
+	// if (d_quotes == 0 && s_quotes > 0)
+	// 	ohhh_boy(mini, i);
 }
 
 void	ohhh_boy(t_mini *mini, int i)

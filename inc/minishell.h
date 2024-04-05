@@ -6,7 +6,11 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/04/04 19:37:04 by braasantos       ###   ########.fr       */
+=======
+/*   Updated: 2024/04/05 18:45:52 by bjorge-m         ###   ########.fr       */
+>>>>>>> refs/remotes/origin/master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +146,7 @@ void	export_no_option(t_mini *mini);
 /* ******************** */
 char	**add_var(char **newenvp, char *new_var);
 char	*get_var(char *s);
-int		export_unset(t_mini *mini);
+int		export_unset(t_mini *mini, int i);
 void	export_woquotes(char **newvar, t_mini *mini, int i);
 char	*ft_remove_squotes(const char *str);
 /* ******************** */
@@ -340,4 +344,5 @@ void	exit_fork(t_mini *mini);
 int		check_env(t_mini *mini);
 int		pre_echo(t_mini *mini, int i);
 bool	is_a_quote(char *s);
+char	*create_export(char **str, t_mini *mini, int i);
 #endif
