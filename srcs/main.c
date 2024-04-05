@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 14:12:34 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/05 14:08:08 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main(int ac, char **av)
 	extern char **environ;
 
 	if (ac >= 2 && av)
-		return (ft_putstr_fd("pls do not use arguments :(", 2), 0);
+		return (ft_putstr_fd("pls do not use arguments :(\n", 2), 0);
 	init_all(&mini);
 	mini.newenvp = get_newenvp(environ);
 	parser(&mini);

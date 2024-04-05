@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:00:21 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/28 10:46:27 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/05 18:12:42 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ char	*get_var(char *s)
 	return (str);
 }
 
-int	export_unset(t_mini *mini)
+int	export_unset(t_mini *mini, int i)
 {
 	char	*var_name;
 	char	**newvar;
 
-	if (mini->args[1])
+	if (mini->args[i])
 	{
-		var_name = get_var(mini->args[1]);
+		var_name = get_var(mini->args[i]);
 		newvar = remove_var(mini->newenvp, var_name);
 		ft_free_arr(mini->newenvp);
 		mini->newenvp = get_newenvp(newvar);
