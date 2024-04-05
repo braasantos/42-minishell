@@ -6,11 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/04/04 19:36:55 by braasantos       ###   ########.fr       */
-=======
-/*   Updated: 2024/04/05 14:08:08 by bjorge-m         ###   ########.fr       */
->>>>>>> refs/remotes/origin/master
+/*   Updated: 2024/04/05 19:59:30 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
