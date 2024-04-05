@@ -6,11 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/04/04 09:20:04 by braasantos       ###   ########.fr       */
-=======
-/*   Updated: 2024/04/04 16:59:00 by bjorge-m         ###   ########.fr       */
->>>>>>> refs/remotes/origin/master
+/*   Updated: 2024/04/04 19:37:53 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +78,7 @@ int	exit_expand(char *s, t_mini *mini)
 	{
 		free(s);
 		free(mini->before);
-<<<<<<< HEAD
-		mini->before = NULL;
 		free(mini->after);
-		mini->after = NULL;
-=======
-		free(mini->after);
->>>>>>> refs/remotes/origin/master
 		return (1);
 	}
 	return (0);
@@ -141,10 +131,4 @@ void	do_all(t_mini *mini, int i, char *env)
 		free(str);
 	if (temp)
 		free(temp);
-<<<<<<< HEAD
-	free(mini->before);
-	free(mini->after);
-=======
-
->>>>>>> refs/remotes/origin/master
 }
