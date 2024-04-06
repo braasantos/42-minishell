@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/06 18:17:16 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/06 20:03:03 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ void	check_comand(t_mini *mini)
 		return ;
 	while (mini->args[i])
 	{
-		if (is_a_cmd(mini->args[i], mini))
+		if (is_a_cmd(mini->args[i], mini) || is_a_file(mini->args[i]))
 		{
 			if (count_quotes(mini->args[i]) > 0)
 			{

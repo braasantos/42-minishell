@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:54:16 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/06 17:16:40 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/06 20:19:38 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,19 @@ void	print_arg(char *str, int current, int flag, char **args)
 	total = str_len(args);
 	while (str[i])
 	{
-		if (ft_strstartswith(str, "\""))
+		if (ft_strstartswith(str, "\"") || ft_strendswith(str, "\""))
 		{
 			if (str[i] != '\"')
 				write(1, &str[i], 1);
 		}
-		if (ft_strstartswith(str, "\'"))
+		else if (ft_strstartswith(str, "\'") || ft_strendswith(str, "\'"))
 		{
 			if (str[i] != '\'')
 				write(1, &str[i], 1);
 		}
+		else
+			if (str[i] != '\"' && str[i] != '\'')
+				write(1, &str[i], 1);
 		i++;
 	}
 	if (flag == 0)

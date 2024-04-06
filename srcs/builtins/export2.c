@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/06 15:53:49 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/06 20:27:26 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	var_exists(t_mini *mini, char *var)
 
 bool	is_special(char s)
 {
-	if (s == '_' || s == '=' || s == '\'' || s == '\"')
+	if (s == '_'  || s == '\'' || s == '\"')
 		return (false);
 	if (!((s >= 65 && s <= 90) || (s >= 97 && s <= 122)))
 		return (true);
@@ -43,11 +43,24 @@ bool	is_special(char s)
 
 int	check_var(char *s)
 {
-	if (is_special(s[0]) == true)
+	int i;
+
+	i = 0;
+	if (s[i] == '=')
 	{
 		ft_putendl_fd(" not a valid identifier", 2);
 		g_signal = 1;
 		return (1);
+	}
+	while (s[i] && s[i] != '=')
+	{
+		if (is_special(s[i]) == true)
+		{
+			ft_putendl_fd(" not a valid identifier", 2);
+			g_signal = 1;
+			return (1);
+		}
+		i++;
 	}
 	return (0);
 }
@@ -148,11 +161,6 @@ int	get_export(t_mini *mini)
 
 	newvar = NULL;
 	i = 1;
-	if (!mini->args[1])
-	{
-		export_no_option(mini);
-		return (1);
-	}
 	change_args(mini);
 	while (mini->args[i] && !check_options(mini->args[i]))
 	{
@@ -167,6 +175,8 @@ int	get_export(t_mini *mini)
 			export_woquotes(newvar, mini, i);
 		i++;
 	}
+	if (!mini->args[1])
+		export_no_option(mini);
 	return (1);
 }
 
