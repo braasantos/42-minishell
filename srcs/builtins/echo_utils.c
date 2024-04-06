@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/03 22:09:02 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/06 18:17:16 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,10 @@ int	handle_split_args(t_mini *mini, int i)
 
 	temp = NULL;
 	mini->free_flag = 0;
-	mini->echo_split = add_option_echo(mini, i, temp);
+	if (!mini->flag_echo)
+		mini->echo_split = add_option_echo(mini, i, temp);
+	else
+		mini->echo_split = get_newenvp(mini->args);
 	if (have_redi(mini->echo_split))
 	{
 		hanlde_redirects(mini, mini->echo_split);
@@ -194,7 +197,7 @@ void	check_comand(t_mini *mini)
 	}
 }
 
-int count_quote_pairs(char *str)
+int count_dquote_pairs(char *str)
 {
 	int pairs;
 	int open_quote;
@@ -205,7 +208,32 @@ int count_quote_pairs(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '"')
+		if (str[i] == '\"')
+		{
+			if (open_quote == 0)
+				open_quote = 1;
+			else
+			{
+				pairs++;
+				open_quote = 0;
+			}
+		}
+		i++;
+	}
+	return (pairs);
+}
+int count_squote_pairs(char *str)
+{
+	int pairs;
+	int open_quote;
+	int i;
+
+	pairs = 0;
+	open_quote = 0;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\'')
 		{
 			if (open_quote == 0)
 				open_quote = 1;

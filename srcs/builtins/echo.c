@@ -3,26 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:54:16 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 13:47:15 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/06 17:16:40 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	print_arg(char *str, t_mini *mini, int current, int flag)
+void	print_arg(char *str, int current, int flag, char **args)
 {
 	int	i;
 	int	total;
 
 	i = 0;
-	total = str_len(mini->echo_split);
+	total = str_len(args);
 	while (str[i])
 	{
-		if (str[i] != '"')
-			write(1, &str[i], 1);
+		if (ft_strstartswith(str, "\""))
+		{
+			if (str[i] != '\"')
+				write(1, &str[i], 1);
+		}
+		if (ft_strstartswith(str, "\'"))
+		{
+			if (str[i] != '\'')
+				write(1, &str[i], 1);
+		}
 		i++;
 	}
 	if (flag == 0)
@@ -51,7 +59,7 @@ int	echo_cmd(char **tokens, t_mini *mini)
 			option = 0;
 		if (!option)
 		{
-			print_arg(tokens[i], mini, i, mini->echo_flag);
+			print_arg(tokens[i], i, mini->echo_flag, tokens);
 			i++;
 		}
 	}

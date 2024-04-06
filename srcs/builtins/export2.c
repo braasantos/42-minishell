@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/05 21:26:53 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/06 15:53:49 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,102 +52,127 @@ int	check_var(char *s)
 	return (0);
 }
 
-char **create_export(char **str)
+int	export_len(char **s)
 {
-    char	**s;
-    char	*merged_string;
-	char	*temp;
-	int		i;
-	char	**newarr;
+	int i;
+	int j;
 
-	s = get_newenvp(str);
-	i = 0;
-	merged_string = NULL;
-	int j = 0;
-	while (s[i])
-	{
-        if (count_dquotes(s[i]) == 1 || count_squotes(s[i]) == 1)
-		{
-            while (s[i + 1] && (count_dquotes(s[i + 1]) != 1 && count_squotes(s[i + 1]) != 1))
-                i++;
-            if (s[i + 1])
-                i++;
-        }
-		i++;
-        j++;
-    }
-	newarr = (char **)malloc(sizeof(char *) * (j + 1));
 	i = 0;
 	j = 0;
-    while (s[i])
+	while (s[i])
 	{
-        merged_string = ft_strdup(s[i]);
-        if (count_dquotes(s[i]) == 1 || count_squotes(s[i]) == 1)
+		if (count_dquotes(s[i]) == 1 || count_squotes(s[i]) == 1)
 		{
-            while (s[i + 1] && (count_dquotes(s[i + 1]) != 1 && count_squotes(s[i + 1]) != 1))
-			{
-                temp = ft_strjoin(merged_string, " ");
-                free(merged_string);
-                merged_string = ft_strjoin(temp, s[i + 1]);
-                free(temp);
-                i++;
-            }
-            if (s[i + 1])
-			{
-                temp = ft_strjoin(merged_string, " ");
-                free(merged_string);
-                merged_string = ft_strjoin(temp, s[i + 1]);
-                free(temp);
-                i++;
-            }
-        }
-		newarr[j] = malloc(sizeof(char) * (ft_strlen(merged_string) + 1));
-		ft_strcpy(newarr[j], merged_string);
-        i++;
+			while (s[i + 1] && (count_dquotes(s[i + 1]) != 1 
+				&& count_squotes(s[i + 1]) != 1))
+				i++;
+			if (s[i + 1])
+				i++;
+		}
+		i++;
 		j++;
-    }
-	newarr[j] = NULL;
+	}
+	return (j);
+}
+
+char **coverup(char **str)
+{
+	int		j;
+	char	**newarr;
+	char	**result;
+	int		i;
+
+	j = export_len(str);
+	newarr = (char **)malloc(sizeof(char *) * (j + 1));
+	j = -1;
+	i = 0;
+	result = create_export(str, newarr, j, i);
+	j = export_len(str);
+	result[j++] = NULL;
+	return (result);
+}
+
+void	return_merged(char *s, char **merged_string)
+{
+	char	*temp;
+
+	temp = ft_strjoin(*merged_string, " ");
+	free(*merged_string);
+	*merged_string = ft_strjoin(temp, s);
+	free(temp);
+}
+
+char **create_export(char **str, char **newarr, int j, int i)
+{
+	char	*merged_string;
+
+	while (str[i])
+	{
+		merged_string = ft_strdup(str[i]);
+		if (count_dquotes(str[i]) == 1 || count_squotes(str[i]) == 1)
+		{
+			while (str[i + 1] && (count_dquotes(str[i + 1]) != 1 && count_squotes(str[i + 1]) != 1))
+			{
+				return_merged(str[i + 1], &merged_string);
+				i++;
+			}
+			if (str[i + 1])
+			{
+				return_merged(str[i + 1], &merged_string);
+				i++;
+			}
+		}
+		newarr[++j] = malloc(sizeof(char) * (ft_strlen(merged_string) + 1));
+		ft_strcpy(newarr[j], merged_string);
+		i++;
+		free(merged_string);
+	}
 	return (newarr);
+}
+
+void	change_args(t_mini *mini)
+{
+	char	**args;
+
+	args = get_newenvp(mini->args);
+	ft_free_arr(mini->args);
+	mini->args = coverup(args);
+	ft_free_arr(args);
 }
 
 int	get_export(t_mini *mini)
 {
 	char	**newvar;
-	char	**args;
 	int		flag;
 	int		i;
 
 	newvar = NULL;
 	i = 1;
-	flag = 0;
-	args = get_newenvp(mini->args);
-	ft_free_arr(mini->args);
-	mini->args = create_export(args);
+	if (!mini->args[1])
+	{
+		export_no_option(mini);
+		return (1);
+	}
+	change_args(mini);
 	while (mini->args[i] && !check_options(mini->args[i]))
 	{
 		flag = 0;
 		if (check_var(mini->args[i]))
 			return (1);
 		if (var_exists(mini, mini->args[i]))
-		{
-			flag = 1;
-			delete_replace(mini, newvar, i);
-		}
+			delete_replace(mini, newvar, i, &flag);
 		if (count_quotes(mini->new_str) == 0 && !flag)
 			export_quotes(newvar, mini, i);
 		else if (count_quotes(mini->new_str) > 0 && !flag)
 			export_woquotes(newvar, mini, i);
 		i++;
 	}
-	ft_free_arr(mini->args);
-	mini->args = get_newenvp(args);
-	if (!mini->args[1])
-		export_no_option(mini);
 	return (1);
 }
 
-void	delete_replace(t_mini *mini, char **str, int i)
+void	delete_replace(t_mini *mini, char **str, int i, int *flag)
 {
+	*flag = 1;
 	export_unset(mini, i);
 	if (count_quotes(mini->new_str) == 0)
 		export_quotes(str, mini, i);

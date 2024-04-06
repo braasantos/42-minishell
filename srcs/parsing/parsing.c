@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 19:36:52 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/06 17:35:44 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,23 @@ char	*cut_lines(t_mini *mini, char *s, int i)
 	return (s);
 }
 
+int	help_lines(char *s, t_mini *mini)
+{
+	ft_free_arr(mini->args);
+	mini->args = ft_split(s, ' ');
+	free(s);
+	return (1);
+}
+
 int	nAAAAAAAAAAAA(t_mini *mini)
 {
-	int		i = 0;
+	int		i ;
 	char	*ss;
+	int len;
 
 	i = -1;
 	ss = NULL;
+	len = str_len(mini->args);
 	while (mini->args[++i])
 	{
 		if (check_pwd(mini->args[0], mini))
@@ -87,9 +97,10 @@ int	nAAAAAAAAAAAA(t_mini *mini)
 			else
 				ss = cut_lines(mini, ss, i);
 		}
+		if (i == len)
+			if (help_lines(ss, mini))
+				return (0);
 	}
-	ft_free_arr(mini->args);
-	mini->args = ft_split(ss, ' ');
 	free(ss);
 	return (0);
 }

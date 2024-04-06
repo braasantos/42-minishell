@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/05 19:59:30 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/06 18:02:52 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void init_all(t_mini *mini)
 {
 	g_signal = 0;
 	mini->newenvp = NULL;
+	mini->another_split = NULL;
 	mini->path_to_cmd = NULL;
 	mini->exec_args = NULL;
 	mini->args = NULL;
@@ -31,6 +32,7 @@ static void init_all(t_mini *mini)
 	mini->stdout_fd = 1;
 	mini->exit_flag = 0;
 	mini->echo_flag = 0;
+	mini->flag_echo = 0;
 	mini->free_flag = 0;
 	mini->st_din = 0;
 	mini->st_dout = 1;
@@ -48,6 +50,34 @@ int main(int ac, char **av)
 	parser(&mini);
 }
 
+void	check_echo(t_mini *mini)
+{
+	int		i;
+
+	i = -1;
+	while (mini->args[++i])
+	{
+		if (!ft_strcmp(mini->args[i], "echo"))
+		{
+			if (mini->args[i + 1])
+			{
+				if (ft_strstartswith(mini->args[i + 1], "\"")
+					|| (ft_strstartswith(mini->args[i + 1], "\'")))
+				{
+					mini->flag_echo = 1;
+					mini->another_split = coverup(mini->args);
+				}
+			}
+		}
+	}
+	if (mini->flag_echo)
+	{
+		ft_free_arr(mini->args);
+		mini->args = get_newenvp(mini->another_split);
+		ft_free_arr(mini->another_split);
+	}
+}
+
 void parser(t_mini *mini)
 {
 	while (1)
@@ -59,6 +89,7 @@ void parser(t_mini *mini)
 		mini->new_str = pad_central(mini->str);
 		mini->args = ft_split(mini->new_str, ' ');
 		check_comand(mini);
+		check_echo(mini);
 		if (!mini->args[0])
 		{
 			free_struct(mini);
