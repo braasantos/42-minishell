@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 13:11:07 by gamoreir         ###   ########.fr       */
+/*   Updated: 2024/04/08 13:27:22 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	print(t_op op, char *ag)
 {
 	if (op == COMMAND_NOT_FOUND)
 	{
+		g_signal = 127;
 		ft_putstr_fd(ag, 2);
 		ft_putendl_fd(": command not found", 2);
 	}

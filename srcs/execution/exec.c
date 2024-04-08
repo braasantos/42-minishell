@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/06 18:16:21 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 14:49:34 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int	builtins_check(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "exit"))
+	{
 		free_struct_2(mini);
+		return (1);
+	}
 	if (!ft_strcmp(mini->args[i], "pwd"))
 		return (print_pwd(mini, i));
 	if ((!ft_strcmp(mini->args[i], "cd")))
