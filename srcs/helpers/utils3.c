@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 15:45:56 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/08 18:15:36 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int	check_parser3(t_mini *mini, int i)
 		else
 		{
 			g_signal = 1;
-			ft_putstr_fd("Minishell: No such ", 2);
-			ft_putendl_fd(" file or directory", 2);
+			ft_putendl_fd(" No such file or directory", 2);
 			return (1);
 		}
 	}

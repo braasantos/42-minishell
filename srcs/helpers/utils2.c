@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 17:45:16 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 18:11:32 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,13 @@ int	ft_strcmp(char *str1, char *str2)
 
 bool	is_a_folder(char *s)
 {
-	if (access(s, F_OK) == -1)
-		return (false);
-	return (true);
+	char	*str;
+
+	if (count_quotes(s))
+		str =ft_remove_quotes(s);
+	else
+		str = ft_strdup(s);
+	if (access(str, F_OK) == -1)
+		return (free(str), false);
+	return (free(str), true);
 }

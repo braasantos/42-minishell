@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:37 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 19:36:37 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 18:11:07 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,15 @@ bool	is_a_cmd(char *s, t_mini *mini)
 
 bool	is_a_file(char *s)
 {
-	if (access(s, R_OK) == -1)
-		return (false);
-	return (true);
+	char	*str;
+
+	if (count_quotes(s))
+		str =ft_remove_quotes(s);
+	else
+		str = ft_strdup(s);
+	if (access(str, R_OK) == -1)
+		return (free(str), false);
+	return (free(str), true);
 }
 
 bool	is_a_option(char *s, t_mini *mini)

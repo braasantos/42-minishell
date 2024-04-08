@@ -6,64 +6,11 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/08 17:43:32 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 19:47:56 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-// char	*hndl_quotes_echo(t_mini *mini, int i)
-// {
-// 	char	*s;
-// 	char	*temp;
-
-// 	s = NULL;
-// 	temp = NULL;
-// 	s = ft_strdup(mini->args[i]);
-// 	temp = ft_strjoin(s, " ");
-// 	free(s);
-// 	return (temp);
-// }
-
-// int	save_lines3(t_mini *mini, char *temp, int i)
-// {
-// 	if (is_a_pipe(mini->args[i]))
-// 	{
-// 		mini->pipe_or_redirect_found = true;
-// 		free(temp);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
-// char	**add_option_echo(t_mini *mini, int i, char *temp)
-// {
-// 	char	*result;
-// 	char	*new_result;
-// 	char	**ret;
-
-// 	result = NULL;
-// 	mini->pipe_or_redirect_found = false;
-// 	while (mini->args[i] && !mini->pipe_or_redirect_found)
-// 	{
-// 		temp = hndl_quotes_echo(mini, i);
-// 		if (result == NULL)
-// 			result = ft_strdup(temp);
-// 		else
-// 		{
-// 			if (save_lines3(mini, temp, i))
-// 				break ;
-// 			new_result = ft_strjoin(result, temp);
-// 			free(result);
-// 			result = ft_strdup(new_result);
-// 			free(new_result);
-// 		}
-// 		free(temp);
-// 		i++;
-// 	}
-// 	ret = ft_split(result, ' ');
-// 	return (free(result), ret);
-// }
 
 char **new_args(char **s, int k, int k1)
 {
@@ -186,13 +133,12 @@ char **forming_echo_args(char **s, int i)
 	return new_args;
 }
 
-
-
 int	handle_split_args(t_mini *mini, int i)
 {
 	char	**s;
 
 	mini->free_flag = 0;
+	change_args(mini, 1);
 	mini->echo_split = forming_echo_args(mini->args, i);
 	if (have_redi(mini->echo_split))
 	{
@@ -218,7 +164,7 @@ void	check_comand(t_mini *mini)
 		return ;
 	while (mini->args[i])
 	{
-		if (is_a_cmd(mini->args[i], mini) || is_a_file(mini->args[i]))
+		if (is_a_cmd(mini->args[i], mini) || is_a_file(mini->args[i]) || is_a_folder(mini->args[i]))
 		{
 			if (count_quotes(mini->args[i]) > 0)
 			{

@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 13:33:15 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 19:50:03 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,23 @@ int	nAAAAAAAAAAAA(t_mini *mini)
 	return (0);
 }
 
+int	doredirect(t_mini *mini)
+{
+	char	**str;
+
+	if (!ft_strcmp(mini->args[0], "echo"))
+		return (0);
+	if (have_redirect(mini))
+	{
+		str = echo_w_red(mini->args);
+		if (!str)
+			return (1);
+		ft_free_arr(mini->args);
+		mini->args = get_newenvp(str);
+		ft_free_arr(str);
+	}
+	return (0);
+}
 
 void parsing(t_mini *mini, char *str)
 {
@@ -105,6 +122,8 @@ void parsing(t_mini *mini, char *str)
 	}
 	if (!mini->args[0])
 		return ;
+	// if (doredirect(mini))
+	// 	return ;
 	execute(mini);
 }
 

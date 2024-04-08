@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 17:45:04 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 19:37:05 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int main(int ac, char **av)
 	parser(&mini);
 }
 
-
 void parser(t_mini *mini)
 {
 	while (1)
@@ -61,8 +60,8 @@ void parser(t_mini *mini)
 			signals(3, mini);
 		mini->new_str = pad_central(mini->str);
 		mini->args = ft_split(mini->new_str, ' ');
-		change_args(mini, 0);
 		check_comand(mini);
+		change_args(mini, 0);
 		if (!mini->args[0])
 		{
 			free_struct(mini);
