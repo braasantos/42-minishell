@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/06 19:39:52 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 13:33:15 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,51 +57,35 @@ int	check_pwd(char *s, t_mini *mini)
 	return (0);
 }
 
-char	*cut_lines(t_mini *mini, char *s, int i)
+int	remove_str(t_mini *mini, int i)
 {
-	char	*temp;
+	char	**newvar;
 
-	temp = NULL;
-	temp = ft_strjoin(s, " ");
-	free(s);
-	s = ft_strjoin(temp, mini->args[i]);
-	free(temp);
-	return (s);
-}
-
-int	help_lines(char *s, t_mini *mini)
-{
-	ft_free_arr(mini->args);
-	mini->args = ft_split(s, ' ');
-	free(s);
+	if (mini->args[i])
+	{
+		newvar = remove_var(mini->args, mini->args[i]);
+		ft_free_arr(mini->args);
+		mini->args = get_newenvp(newvar);
+		ft_free_arr(newvar);
+	}
 	return (1);
 }
 
 int	nAAAAAAAAAAAA(t_mini *mini)
 {
 	int		i ;
-	char	*ss;
-	int len;
+	char	**str;
 
-	i = -1;
-	ss = NULL;
-	len = str_len(mini->args);
-	while (mini->args[++i])
+	i = 0;
+	str = get_newenvp(mini->args);
+	while (str[i])
 	{
-		if (check_pwd(mini->args[0], mini))
+		if (check_pwd(str[0], mini))
 			return (1);
-		if (ft_strcmp(mini->args[i], "1801"))
-		{
-			if (ss == NULL)
-				ss = ft_strdup(mini->args[i]);
-			else
-				ss = cut_lines(mini, ss, i);
-		}
-		if (i == len)
-			if (help_lines(ss, mini))
-				return (0);
+		if (!ft_strcmp(str[i], "1801"))
+			remove_str(mini, i);
+		i++;
 	}
-	free(ss);
 	return (0);
 }
 
@@ -119,7 +103,7 @@ void parsing(t_mini *mini, char *str)
 		ft_putendl_fd(" Is a directory", 2);
 		return ;
 	}
-	if (!mini->args)
+	if (!mini->args[0])
 		return ;
 	execute(mini);
 }

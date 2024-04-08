@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/06 20:27:26 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 16:53:31 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,15 +124,31 @@ char **create_export(char **str, char **newarr, int j, int i)
 		merged_string = ft_strdup(str[i]);
 		if (count_dquotes(str[i]) == 1 || count_squotes(str[i]) == 1)
 		{
-			while (str[i + 1] && (count_dquotes(str[i + 1]) != 1 && count_squotes(str[i + 1]) != 1))
+			if (ft_strstartswith(str[i], "\""))
 			{
-				return_merged(str[i + 1], &merged_string);
-				i++;
+				while (str[i + 1] && (count_dquotes(str[i + 1]) != 1))
+				{
+					return_merged(str[i + 1], &merged_string);
+					i++;
+				}
+				if (str[i + 1])
+				{
+					return_merged(str[i + 1], &merged_string);
+					i++;
+				}
 			}
-			if (str[i + 1])
+			else if (ft_strstartswith(str[i], "\'"))
 			{
-				return_merged(str[i + 1], &merged_string);
-				i++;
+				while (str[i + 1] && (count_squotes(str[i + 1]) != 1))
+				{
+					return_merged(str[i + 1], &merged_string);
+					i++;
+				}
+				if (str[i + 1])
+				{
+					return_merged(str[i + 1], &merged_string);
+					i++;
+				}
 			}
 		}
 		newarr[++j] = malloc(sizeof(char) * (ft_strlen(merged_string) + 1));
@@ -143,14 +159,26 @@ char **create_export(char **str, char **newarr, int j, int i)
 	return (newarr);
 }
 
-void	change_args(t_mini *mini)
+void	change_args(t_mini *mini, int flag)
 {
 	char	**args;
 
-	args = get_newenvp(mini->args);
-	ft_free_arr(mini->args);
-	mini->args = coverup(args);
-	ft_free_arr(args);
+	if (!flag)
+	{
+		args = get_newenvp(mini->args);
+		ft_free_arr(mini->args);
+		mini->args = coverup(args);
+		ft_free_arr(args);
+		return ;
+	}
+	if (flag)
+	{
+		args = get_newenvp(mini->echo_split);
+		ft_free_arr(mini->echo_split);
+		mini->echo_split = coverup(args);
+		ft_free_arr(args);
+		return ;
+	}
 }
 
 int	get_export(t_mini *mini)
@@ -161,7 +189,7 @@ int	get_export(t_mini *mini)
 
 	newvar = NULL;
 	i = 1;
-	change_args(mini);
+	change_args(mini, 0);
 	while (mini->args[i] && !check_options(mini->args[i]))
 	{
 		flag = 0;

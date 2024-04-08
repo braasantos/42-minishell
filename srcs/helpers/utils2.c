@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 13:11:07 by gamoreir         ###   ########.fr       */
+/*   Updated: 2024/04/08 13:44:39 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_strcmp(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	if (!str1 || !str2)
+	if (!str1[i] || !str2[i])
 		return (1);
 	while (str1[i] || str2[i])
 	{

@@ -6,64 +6,64 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/06 20:03:03 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 17:43:32 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	*hndl_quotes_echo(t_mini *mini, int i)
-{
-	char	*s;
-	char	*temp;
+// char	*hndl_quotes_echo(t_mini *mini, int i)
+// {
+// 	char	*s;
+// 	char	*temp;
 
-	s = NULL;
-	temp = NULL;
-	s = ft_strdup(mini->args[i]);
-	temp = ft_strjoin(s, " ");
-	free(s);
-	return (temp);
-}
+// 	s = NULL;
+// 	temp = NULL;
+// 	s = ft_strdup(mini->args[i]);
+// 	temp = ft_strjoin(s, " ");
+// 	free(s);
+// 	return (temp);
+// }
 
-int	save_lines3(t_mini *mini, char *temp, int i)
-{
-	if (is_a_pipe(mini->args[i]))
-	{
-		mini->pipe_or_redirect_found = true;
-		free(temp);
-		return (1);
-	}
-	return (0);
-}
+// int	save_lines3(t_mini *mini, char *temp, int i)
+// {
+// 	if (is_a_pipe(mini->args[i]))
+// 	{
+// 		mini->pipe_or_redirect_found = true;
+// 		free(temp);
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 
-char	**add_option_echo(t_mini *mini, int i, char *temp)
-{
-	char	*result;
-	char	*new_result;
-	char	**ret;
+// char	**add_option_echo(t_mini *mini, int i, char *temp)
+// {
+// 	char	*result;
+// 	char	*new_result;
+// 	char	**ret;
 
-	result = NULL;
-	mini->pipe_or_redirect_found = false;
-	while (mini->args[i] && !mini->pipe_or_redirect_found)
-	{
-		temp = hndl_quotes_echo(mini, i);
-		if (result == NULL)
-			result = ft_strdup(temp);
-		else
-		{
-			if (save_lines3(mini, temp, i))
-				break ;
-			new_result = ft_strjoin(result, temp);
-			free(result);
-			result = ft_strdup(new_result);
-			free(new_result);
-		}
-		free(temp);
-		i++;
-	}
-	ret = ft_split(result, ' ');
-	return (free(result), ret);
-}
+// 	result = NULL;
+// 	mini->pipe_or_redirect_found = false;
+// 	while (mini->args[i] && !mini->pipe_or_redirect_found)
+// 	{
+// 		temp = hndl_quotes_echo(mini, i);
+// 		if (result == NULL)
+// 			result = ft_strdup(temp);
+// 		else
+// 		{
+// 			if (save_lines3(mini, temp, i))
+// 				break ;
+// 			new_result = ft_strjoin(result, temp);
+// 			free(result);
+// 			result = ft_strdup(new_result);
+// 			free(new_result);
+// 		}
+// 		free(temp);
+// 		i++;
+// 	}
+// 	ret = ft_split(result, ' ');
+// 	return (free(result), ret);
+// }
 
 char **new_args(char **s, int k, int k1)
 {
@@ -143,17 +143,57 @@ int	have_redi(char **s)
 	return (0);
 }
 
+int echo_len(char **s)
+{
+	int i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (ft_strcmp(s[i], "|") == 0)
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
+char **forming_echo_args(char **s, int i)
+{
+	char *string;
+	char **new_args;
+	int j;
+
+	new_args = (char **)malloc(sizeof(char *) * (echo_len(s) + 1));
+	j = 0;
+	while (s[i])
+	{
+		string = strdup(s[i]);
+		if (ft_strcmp(s[i], "|") != 0)
+		{
+			new_args[j] = (char *)malloc(sizeof(char) * (strlen(string) + 1));
+			ft_strcpy(new_args[j], string);
+			j++;
+		}
+		else
+		{
+			new_args[j] = NULL;
+			return (free(string), new_args);
+		}
+		free(string);
+		i++;
+	}
+	new_args[j] = NULL;
+	return new_args;
+}
+
+
+
 int	handle_split_args(t_mini *mini, int i)
 {
-	char	*temp;
 	char	**s;
 
-	temp = NULL;
 	mini->free_flag = 0;
-	if (!mini->flag_echo)
-		mini->echo_split = add_option_echo(mini, i, temp);
-	else
-		mini->echo_split = get_newenvp(mini->args);
+	mini->echo_split = forming_echo_args(mini->args, i);
 	if (have_redi(mini->echo_split))
 	{
 		hanlde_redirects(mini, mini->echo_split);

@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/06 17:15:05 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 16:44:59 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,7 +345,7 @@ int		pre_echo(t_mini *mini, int i);
 bool	is_a_quote(char *s);
 char	**create_export(char **str, char **newarr, int j, int i);
 char	**coverup(char **str);
-void	change_args(t_mini *mini);
+void	change_args(t_mini *mini, int flag);
 void	return_merged(char *s, char **merged_string);
 int		export_len(char **s);
 char	*ft_remove_dquotes(const char *str);

@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/06 19:43:14 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 17:02:14 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,33 +50,6 @@ int main(int ac, char **av)
 	parser(&mini);
 }
 
-void	check_echo(t_mini *mini)
-{
-	int		i;
-
-	i = -1;
-	while (mini->args[++i])
-	{
-		if (!ft_strcmp(mini->args[i], "echo"))
-		{
-			if (mini->args[i + 1])
-			{
-				if (ft_strstartswith(mini->args[i + 1], "\"")
-					|| (ft_strstartswith(mini->args[i + 1], "\'")))
-				{
-					mini->flag_echo = 1;
-					mini->another_split = coverup(mini->args);
-				}
-			}
-		}
-	}
-	if (mini->flag_echo)
-	{
-		ft_free_arr(mini->args);
-		mini->args = get_newenvp(mini->another_split);
-		ft_free_arr(mini->another_split);
-	}
-}
 
 void parser(t_mini *mini)
 {
@@ -88,8 +61,8 @@ void parser(t_mini *mini)
 			signals(3, mini);
 		mini->new_str = pad_central(mini->str);
 		mini->args = ft_split(mini->new_str, ' ');
+		change_args(mini, 0);
 		check_comand(mini);
-		check_echo(mini);
 		if (!mini->args[0])
 		{
 			free_struct(mini);
