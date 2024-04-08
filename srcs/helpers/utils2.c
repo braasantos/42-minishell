@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 13:44:39 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/08 17:45:16 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	print(t_op op, char *ag)
 {
 	if (op == COMMAND_NOT_FOUND)
 	{
+		g_signal = 127;
 		ft_putstr_fd(ag, 2);
 		ft_putendl_fd(": command not found", 2);
 	}
