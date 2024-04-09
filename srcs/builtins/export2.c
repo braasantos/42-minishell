@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/04/09 13:55:45 by bjorge-m         ###   ########.fr       */
+=======
+/*   Updated: 2024/04/08 19:48:58 by braasantos       ###   ########.fr       */
+>>>>>>> refs/remotes/origin/master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +36,27 @@ int	var_exists(t_mini *mini, char *var)
 	return (0);
 }
 
-bool	is_special(char *s)
+bool	is_special(char s)
 {
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '_' || s[i] == '=' || s[i] == '\'' || s[i] == '\"')
-			return (false);
-		if (!((s[i] >= 65 && s[i] <= 90) || (s[i] >= 97 && s[i] <= 122)))
-			return (true);
-		i++;
-	}
+	if (s == '_'  || s == '\'' || s == '\"')
+		return (false);
+	if (!((s >= 65 && s <= 90) || (s >= 97 && s <= 122)))
+		return (true);
 	return (false);
 }
 
-int	check_var(char **s)
+int	check_var(char *s)
 {
-	int	i;
+	int i;
 
-	i = 1;
-	while (s[i])
+	i = 0;
+	if (s[i] == '=')
+	{
+		ft_putendl_fd(" not a valid identifier", 2);
+		g_signal = 1;
+		return (1);
+	}
+	while (s[i] && s[i] != '=')
 	{
 		if (is_special(s[i]) == true)
 		{
@@ -66,49 +69,151 @@ int	check_var(char **s)
 	return (0);
 }
 
-char *create_export(char **str, t_mini *mini, int i)
+int	export_len(char **s)
 {
-    char **s;
-    char *merged_string;
-	char *temp;
+	int i;
+	int j;
 
-	s = get_newenvp(str);
-	merged_string = NULL;
-    while (s[i])
+	i = 0;
+	j = 0;
+	while (s[i])
 	{
-        if (count_dquotes(s[i]) == 1 || count_squotes(s[i]) == 1)
+		if (count_dquotes(s[i]) == 1 || count_squotes(s[i]) == 1)
 		{
-            merged_string = ft_strdup(s[i]);
-			free(s[i]);
-			s[i] = NULL;
-            while (s[i + 1] && (count_dquotes(s[i + 1]) != 1 && count_squotes(s[i + 1]) != 1))
+			while (s[i + 1] && (count_dquotes(s[i + 1]) != 1 
+				&& count_squotes(s[i + 1]) != 1))
+				i++;
+			if (s[i + 1])
+				i++;
+		}
+		i++;
+		j++;
+	}
+	return (j);
+}
+
+char **coverup(char **str, int flag)
+{
+	int		j;
+	char	**newarr;
+	char	**result;
+	int		i;
+
+	j = export_len(str);
+	newarr = (char **)malloc(sizeof(char *) * (j + 1));
+	j = -1;
+	i = 0;
+	if (!flag)
+		result = create_echo(str, newarr, j, i);
+	else
+		result = create_export(str, newarr, j, i);
+	j = export_len(str);
+	result[j++] = NULL;
+	return (result);
+}
+
+void	return_merged(char *s, char **merged_string)
+{
+	char	*temp;
+
+	temp = ft_strjoin(*merged_string, " ");
+	free(*merged_string);
+	*merged_string = ft_strjoin(temp, s);
+	free(temp);
+}
+
+char **create_echo(char **str, char **newarr, int j, int i)
+{
+	char	*merged_string;
+
+	while (str[i])
+	{
+		merged_string = ft_strdup(str[i]);
+		if (count_dquotes(str[i]) == 1 || count_squotes(str[i]) == 1)
+		{
+			while (str[i + 1] && (count_dquotes(str[i + 1]) != 1) && (count_squotes(str[i + 1]) != 1))
 			{
-                temp = ft_strjoin(merged_string, " ");
-                free(merged_string);
-                merged_string = ft_strjoin(temp, s[i + 1]);
-                free(temp);
-                i++;
-				free(s[i]);
-				s[i] = NULL;
-            }
-            if (s[i + 1])
+				return_merged(str[i + 1], &merged_string);
+				i++;
+			}
+			if (str[i + 1])
 			{
-                temp = ft_strjoin(merged_string, " ");
-                free(merged_string);
-                merged_string = ft_strjoin(temp, s[i + 1]);
-                free(temp);
-                i++;
-				free(s[i]);
-				s[i] = NULL;
-            }
-        }
-        i++;
-    }
-	s[1] = ft_strdup(merged_string);
-	s[2] = NULL;
-	ft_free_arr(mini->args);
-	mini->args = get_newenvp(s);
-	return (merged_string);
+				return_merged(str[i + 1], &merged_string);
+				i++;
+			}
+		}
+		newarr[++j] = malloc(sizeof(char) * (ft_strlen(merged_string) + 1));
+		ft_strcpy(newarr[j], merged_string);
+		i++;
+		free(merged_string);
+	}
+	return (newarr);
+}
+
+char **create_export(char **str, char **newarr, int j, int i)
+{
+	char	*merged_string;
+
+	while (str[i])
+	{
+		merged_string = ft_strdup(str[i]);
+		if (count_dquotes(str[i]) == 1 || count_squotes(str[i]) == 1)
+		{
+			if (ft_strstartswith(str[i], "\""))
+			{
+				while (str[i + 1] && (count_dquotes(str[i + 1]) != 1))
+				{
+					return_merged(str[i + 1], &merged_string);
+					i++;
+				}
+				if (str[i + 1])
+				{
+					return_merged(str[i + 1], &merged_string);
+					i++;
+				}
+			}
+			else if (ft_strstartswith(str[i], "\'"))
+			{
+				while (str[i + 1] && (count_squotes(str[i + 1]) != 1))
+				{
+					return_merged(str[i + 1], &merged_string);
+					i++;
+				}
+				if (str[i + 1])
+				{
+					return_merged(str[i + 1], &merged_string);
+					i++;
+				}
+			}
+		}
+		newarr[++j] = malloc(sizeof(char) * (ft_strlen(merged_string) + 1));
+		ft_strcpy(newarr[j], merged_string);
+		i++;
+		free(merged_string);
+	}
+	return (newarr);
+}
+
+void	change_args(t_mini *mini, int flag)
+{
+	char	**args;
+
+	if (!flag)
+	{
+		args = get_newenvp(mini->args);
+		ft_free_arr(mini->args);
+		mini->args = coverup(args, flag);
+		ft_free_arr(args);
+		return ;
+	}
+	if (flag)
+	{
+		args = get_newenvp(mini->args);
+		ft_free_arr(mini->args);
+		mini->args = coverup(args, flag);
+		ft_free_arr(args);
+		return ;
+	}
 }
 
 int	get_export(t_mini *mini)
@@ -118,35 +223,29 @@ int	get_export(t_mini *mini)
 	int		i;
 
 	newvar = NULL;
-	i = 0;
-	flag = 0;
-	while_loop(mini->args);
-	while (mini->args[++i] && !check_options(mini->args[i]))
+	i = 1;
+	change_args(mini, 0);
+	while (mini->args[i] && !check_options(mini->args[i]))
 	{
 		flag = 0;
-		if (check_var(mini->args))
+		if (check_var(mini->args[i]))
 			return (1);
 		if (var_exists(mini, mini->args[i]))
-		{
-			flag = 1;
-			delete_replace(mini, newvar, i);
-		}
+			delete_replace(mini, newvar, i, &flag);
 		if (count_quotes(mini->new_str) == 0 && !flag)
 			export_quotes(newvar, mini, i);
 		else if (count_quotes(mini->new_str) > 0 && !flag)
-		{
-			create_export(mini->args, mini, i);
-			while_loop(mini->args);
 			export_woquotes(newvar, mini, i);
-		}
+		i++;
 	}
 	if (!mini->args[1])
 		export_no_option(mini);
 	return (1);
 }
 
-void	delete_replace(t_mini *mini, char **str, int i)
+void	delete_replace(t_mini *mini, char **str, int i, int *flag)
 {
+	*flag = 1;
 	export_unset(mini, i);
 	if (count_quotes(mini->new_str) == 0)
 		export_quotes(str, mini, i);

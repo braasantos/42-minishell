@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 13:11:07 by gamoreir         ###   ########.fr       */
+/*   Updated: 2024/04/08 18:11:32 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	print(t_op op, char *ag)
 {
 	if (op == COMMAND_NOT_FOUND)
 	{
+		g_signal = 127;
 		ft_putstr_fd(ag, 2);
 		ft_putendl_fd(": command not found", 2);
 	}
@@ -68,7 +69,7 @@ int	ft_strcmp(char *str1, char *str2)
 	int	i;
 
 	i = 0;
-	if (!str1 || !str2)
+	if (!str1[i] || !str2[i])
 		return (1);
 	while (str1[i] || str2[i])
 	{
@@ -82,7 +83,13 @@ int	ft_strcmp(char *str1, char *str2)
 
 bool	is_a_folder(char *s)
 {
-	if (access(s, F_OK) == -1)
-		return (false);
-	return (true);
+	char	*str;
+
+	if (count_quotes(s))
+		str =ft_remove_quotes(s);
+	else
+		str = ft_strdup(s);
+	if (access(str, F_OK) == -1)
+		return (free(str), false);
+	return (free(str), true);
 }

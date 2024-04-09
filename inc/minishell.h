@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/05 18:45:52 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 19:32:13 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_mini
 	char	*new_str;
 	int		*pipes_fd;
 	char	**echo_split;
+	char	**another_split;
 	int		fd1;
 	int		fd0;
 	int		st_din;
@@ -55,6 +56,7 @@ typedef struct s_mini
 	char	*before;
 	char	*after;
 	int		free_flag;
+	int		flag_echo;
 	bool	pipe_or_redirect_found;
 	bool	interact;
 }		t_mini;
@@ -94,11 +96,12 @@ int		ft_strstartswith(char *s1, char *s2);
 char	**add_option_echo(t_mini *mini, int i, char *temp);
 int		handle_split_args(t_mini *mini, int i);
 void	check_comand(t_mini *mini);
-int		count_quote_pairs(char *str);
+int		count_dquote_pairs(char *str);
+int		count_squote_pairs(char *str);
 /* ******************** */
 /* 		echo.c			*/
 /* ******************** */
-void	print_arg(char *str, t_mini *mini, int current, int flag);
+void	print_arg(char *str, int current, int flag, char **args);
 int		echo_cmd(char **tokens, t_mini *mini);
 void	ft_print_new_line(int flag_nl);
 bool	db_quotes(char *str);
@@ -150,7 +153,7 @@ char	*ft_remove_squotes(const char *str);
 /* ******************** */
 int		get_export(t_mini *mini);
 int		var_exists(t_mini *mini, char *var);
-void	delete_replace(t_mini *mini, char **str, int i);
+void	delete_replace(t_mini *mini, char **str, int i, int *flag);
 void	export_quotes(char **newvar, t_mini *mini, int i);
 /* ******************** */
 /*		   pwd.c		*/
@@ -340,5 +343,12 @@ void	exit_fork(t_mini *mini);
 int		check_env(t_mini *mini);
 int		pre_echo(t_mini *mini, int i);
 bool	is_a_quote(char *s);
-char	*create_export(char **str, t_mini *mini, int i);
+char	**create_export(char **str, char **newarr, int j, int i);
+char	**create_echo(char **str, char **newarr, int j, int i);
+char	**coverup(char **str, int flag);
+void	change_args(t_mini *mini, int flag);
+void	return_merged(char *s, char **merged_string);
+int		export_len(char **s);
+char	*ft_remove_dquotes(const char *str);
+char	**echo_w_red(char **s);
 #endif

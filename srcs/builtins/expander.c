@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/05 18:00:33 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 13:21:43 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,33 @@ void	time_to_remove(t_mini *mini, int i)
 	int		s_quotes;
 	char	*s;
 
-	d_quotes = count_quote_pairs(mini->new_str);
-	s_quotes = count_squotes(mini->new_str);
-	if (d_quotes > 0 && s_quotes > 0)
+	d_quotes = count_dquote_pairs(mini->args[i]);
+	s_quotes = count_squote_pairs(mini->args[i]);
+	if (ft_strstartswith(mini->args[i], "\""))
 	{
-		if (d_quotes % 2 == 0)
+		if (d_quotes > 0 && s_quotes > 1)
 		{
-			s = ft_remove_squotes(mini->args[i]);
-			free(mini->args[i]);
-			mini->args[i] = ft_strdup(s);
-			free(s);
+			if (d_quotes % 2 == 0)
+			{
+				s = ft_remove_squotes(mini->args[i]);
+				free(mini->args[i]);
+				mini->args[i] = ft_strdup(s);
+				free(s);
+			}
+		}
+	}
+	s_quotes = count_squote_pairs(mini->args[i]);
+	if (ft_strstartswith(mini->args[i], "\'"))
+	{
+		if (d_quotes > 1 && s_quotes > 0)
+		{
+			if (s_quotes % 2 == 0)
+			{
+				s = ft_remove_dquotes(mini->args[i]);
+				free(mini->args[i]);
+				mini->args[i] = ft_strdup(s);
+				free(s);
+			}
 		}
 	}
 	// if (d_quotes == 0 && s_quotes > 0)
@@ -88,10 +105,8 @@ int	expand_str(t_mini *mini, int i)
 {
 	char	*s;
 	char	*env;
-	int		count_quotes;
 
-	count_quotes = count_dquotes(mini->new_str);
-	if (count_quotes == 0 && count_squotes(mini->new_str) > 0)
+	if (count_dquotes(mini->new_str) == 0 && count_squotes(mini->new_str) > 0)
 		return (ohhh_boy(mini, i), 1);
 	mini->before = ft_before(mini->args[i]);
 	mini->after = ft_after(mini->args[i]);
@@ -100,6 +115,8 @@ int	expand_str(t_mini *mini, int i)
 	else
 	{
 		s = get_expand(mini->args[i]);
+		if (exit_expand(s, mini))
+			return (1);
 		env = get_env(s, mini);
 		free(s);
 		free(mini->args[i]);
@@ -131,5 +148,4 @@ void	do_all(t_mini *mini, int i, char *env)
 		free(str);
 	if (temp)
 		free(temp);
-
 }

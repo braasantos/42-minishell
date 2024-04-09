@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 17:47:06 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/06 17:46:57 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,8 @@ int	pre_echo(t_mini *mini, int i)
 
 int	builtins(t_mini *mini, int i)
 {
-	if (!ft_strcmp(mini->args[i], "exit"))
-	{
-		mini->exit_flag = 1;
-		unlink(".heredoc");
+	if (!ft_strcmp(mini->args[i], "exit"))		
 		free_struct_2(mini);
-	}
 	if (!ft_strcmp(mini->args[i], "pwd"))
 		return (print_pwd());
 	if (!ft_strcmp(mini->args[i], "echo"))

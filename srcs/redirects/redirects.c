@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 18:00:26 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 19:45:40 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	redirect_input(char *s)
 
 int	hanlde_redirects(t_mini *mini, char **s)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	while (s[i])
@@ -104,7 +104,7 @@ int	file_ok(char *s, int flag)
 		if (fd == -1)
 		{
 			close(fd);
-			return (ft_putendl_fd("Permission denied", 2), 1);
+			return (ft_putendl_fd(" No such file or directory", 2), 1);
 		}
 	}
 	if (flag == 2)
@@ -113,7 +113,7 @@ int	file_ok(char *s, int flag)
 		if (fd == -1)
 		{
 			close(fd);
-			return (ft_putendl_fd("Permission denied", 2), 1);
+			return (ft_putendl_fd(" No such file or directory", 2), 1);
 		}
 	}
 	close(fd);

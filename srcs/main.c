@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/05 14:08:08 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 19:37:05 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void init_all(t_mini *mini)
 {
 	g_signal = 0;
 	mini->newenvp = NULL;
+	mini->another_split = NULL;
 	mini->path_to_cmd = NULL;
 	mini->exec_args = NULL;
 	mini->args = NULL;
@@ -31,6 +32,7 @@ static void init_all(t_mini *mini)
 	mini->stdout_fd = 1;
 	mini->exit_flag = 0;
 	mini->echo_flag = 0;
+	mini->flag_echo = 0;
 	mini->free_flag = 0;
 	mini->st_din = 0;
 	mini->st_dout = 1;
@@ -59,6 +61,7 @@ void parser(t_mini *mini)
 		mini->new_str = pad_central(mini->str);
 		mini->args = ft_split(mini->new_str, ' ');
 		check_comand(mini);
+		change_args(mini, 0);
 		if (!mini->args[0])
 		{
 			free_struct(mini);

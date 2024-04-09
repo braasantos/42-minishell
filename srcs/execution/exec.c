@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 15:05:14 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 17:49:42 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ int	builtins_check(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "exit"))
 	{
-		mini->exit_flag = 1;
-		unlink(".heredoc");
 		free_struct_2(mini);
+		return (1);
 	}
 	if (!ft_strcmp(mini->args[i], "pwd"))
 		return (print_pwd(mini, i));
@@ -120,6 +119,7 @@ void create_flow(t_mini *mini)
 
 int	create_child(t_mini *mini, int i, int flag, int j)
 {
+	mini->exit_flag = 0;
 	if (is_a_builtin(mini, i) == false && is_a_cmd(mini->args[i], mini))
 		update_path(mini, i);
 	if (null_args(mini, i))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:05:54 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/01 15:25:41 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/08 12:57:04 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	export_no_option(t_mini *mini)
 	int		i;
 
 	i = -1;
-	env = get_alpha(bb_sort(mini->newenvp));
+	env = get_alpha(coverup(mini->newenvp));
 	while (env[++i])
 	{
 		key = export_key(env[i]);
