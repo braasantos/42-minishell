@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 14:13:08 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:52:26 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ void parser(t_mini *mini)
 			signals(3, mini);
 		mini->new_str = pad_central(mini->str);
 		mini->args = new_split(mini->new_str);
-		while_loop(mini->args);
 		check_comand(mini);
 		if (!mini->args[0])
 		{
