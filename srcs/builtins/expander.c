@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 14:09:19 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/10 16:13:52 by gamoreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,23 @@ int	exit_expand(char *s, t_mini *mini)
 	return (0);
 }
 
+int	qmark_and_dollar(char *str)
+{
+	while (*str)
+	{
+		if (*str == '$')
+		{
+			str++;
+			if (*str == '?')
+				return (1);
+			else
+				return (0);
+		}
+		str++;
+	}
+	return (0);
+}
+
 int	expand_str(t_mini *mini, int i)
 {
 	char	*s;
@@ -109,13 +126,13 @@ int	expand_str(t_mini *mini, int i)
 	if (count_dquotes(mini->new_str) == 0 && count_squotes(mini->new_str) > 0)
 		return (ohhh_boy(mini, i), 1);
 	mini->before = ft_before(mini->args[i]);
-	printf("%s\n", mini->before);
 	mini->after = ft_after(mini->args[i]);
-	printf("%s\n", mini->after);
-	// if (bingo(mini->args[i], '?'))
-	// 	get_qmark(mini, i);
-	// else
-	// {
+	if (bingo(mini->args[i], '?') && qmark_and_dollar(mini->args[i]))
+		get_qmark(mini, i);
+	while (bingo(mini->args[i], '$'))
+	{
+		mini->before = ft_before(mini->args[i]);
+		mini->after = ft_after(mini->args[i]);
 		s = get_expand(mini->args[i]);
 		if (exit_expand(s, mini))
 			return (1);
@@ -126,9 +143,9 @@ int	expand_str(t_mini *mini, int i)
 			do_all(mini, i, env);
 		else
 			mini->args[i] = ft_strdup("1801");
-	// }
-	free(mini->before);
-	free(mini->after);
+		free(mini->before);
+		free(mini->after);
+	}
 	return (1);
 }
 

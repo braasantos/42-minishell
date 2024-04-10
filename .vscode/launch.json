@@ -1,25 +1,16 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "C/C++ Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "/home/braasantos/minishell/minishell", // Path to your executable
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "/home/braasantos/minishell",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "C/C++: gcc build active file"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "name": "C/C++ Runner: Debug Session",
+        "type": "cppdbg",
+        "request": "launch",
+        "args": [],
+        "cwd": "/home/gamoreir/42-projects/minishell",
+        "program": "/home/gamoreir/42-projects/minishell/minishell",
+        "setupCommands": [
+                {"text": "-gdb-set follow-fork-mode child"}
+            ]
+    }
+  ]
 }
