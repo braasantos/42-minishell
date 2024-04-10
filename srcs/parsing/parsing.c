@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 19:50:03 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/10 16:49:10 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,15 @@ int	nAAAAAAAAAAAA(t_mini *mini)
 	while (str[i])
 	{
 		if (check_pwd(str[0], mini))
+		{
+			ft_free_arr(str);
 			return (1);
+		}
 		if (!ft_strcmp(str[i], "1801"))
 			remove_str(mini, i);
 		i++;
 	}
+	ft_free_arr(str);
 	return (0);
 }
 
@@ -95,9 +99,10 @@ int	doredirect(t_mini *mini)
 
 	if (!ft_strcmp(mini->args[0], "echo"))
 		return (0);
-	if (have_redirect(mini))
+	if (count_red(mini) > 1)
 	{
 		str = echo_w_red(mini->args);
+		while_loop(str);
 		if (!str)
 			return (1);
 		ft_free_arr(mini->args);
@@ -107,24 +112,29 @@ int	doredirect(t_mini *mini)
 	return (0);
 }
 
-void parsing(t_mini *mini, char *str)
+int parsing(t_mini *mini, char *str)
 {
 	if (!ft_check_open_quotes(str))
-		return ;
+		return (1);
 	if (!redirect_basic_check(str))
-		ft_putendl_fd("invalid redirect", 2);
+	{
+		ft_putendl_fd(" syntax error near unexpected token `>'", 2);
+		return (1);
+	}
 	if (!pipe_check(mini, str))
-		return ;
+		return (1);
 	if (nAAAAAAAAAAAA(mini))
 	{
 		ft_putendl_fd(" Is a directory", 2);
-		return ;
+		return (0);
 	}
 	if (!mini->args[0])
-		return ;
+		return (2);
 	// if (doredirect(mini))
-	// 	return ;
-	execute(mini);
+	// 	return (1);
+	if (execute(mini))
+		return (1);
+	return (0);
 }
 
 void sigint_on_child(int signal)

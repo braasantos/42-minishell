@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/09 21:00:29 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/10 18:42:04 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void init_all(t_mini *mini)
 	mini->st_dout = 1;
 }
 
-char	*ft_strncpy(char* destination, char* source, size_t num)
+char	*ft_strncpy(char* destination, const char* source, size_t num)
 {
 	size_t i;
 
@@ -48,58 +48,82 @@ char	*ft_strncpy(char* destination, char* source, size_t num)
 		destination[i] = source[i];
 		i++;
 	}
-	while (i < num)
-	{
-		destination[i] = '\0';
-		i++;
-	}
+	destination[i] = '\0';
 	return (destination);
 }
 
-char	**parseString(char* str)
+void init_split(t_split *split, char *str)
 {
-	int capacity = 20;
-	char** tokens = (char**)malloc(capacity * sizeof(char*));
-	int token_count = 0;
-	bool in_quote = false;
-	int token_start = 0;
-	int i;
+	int len;
 
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '"' || str[i] == '\'')
-			in_quote = !in_quote;
-		else if (str[i] == ' ' && !in_quote)
-		{
-			int token_length = i - token_start;
-			if (token_length > 0)
-			{
-				tokens[token_count] = (char*)malloc((token_length + 1) * sizeof(char));
-				ft_strncpy(tokens[token_count], &str[token_start], token_length);
-				tokens[token_count][token_length] = '\0';
-				++token_count;
-				if (token_count >= capacity)
-				{
-					capacity *= 2;
-					tokens = (char**)realloc(tokens, capacity * sizeof(char*));
-				}
-			}
-			token_start = i + 1;
-		}
-		i++;
-	}
-	int token_length = i - token_start;
-	if (token_length > 0)
-	{
-		tokens[token_count] = (char*)malloc((token_length + 1) * sizeof(char));
-		ft_strncpy(tokens[token_count], &str[token_start], token_length);
-		tokens[token_count][token_length] = '\0';
-		++token_count;
-	}
-	tokens[token_count] = NULL;
-	return (tokens);
+	split->i = 0;
+	split->start = 0;
+	split->words = 0;
+	split->temp = ft_split(str, ' ');
+	len = export_len(split->temp);
+	ft_free_arr(split->temp);
+	split->quotes = false;
+	split->s = (char **)malloc((len + 1) * sizeof(char *));
 }
+
+char **return_split(t_split *split, char *str)
+{
+	split->tokens = split->i - split->start;
+	if (split->tokens > 0)
+	{
+		split->s[split->words] = (char *)malloc((split->tokens + 1) * sizeof(char));
+		ft_strncpy(split->s[split->words], &str[split->start], split->tokens);
+		split->words++;
+	}
+	split->s[split->words] = NULL;
+	return (split->s);
+}
+
+void	middle_split(t_split *split, char *str)
+{
+	if (count_dquotes(str) > 1)
+	{
+		if (str[split->i] == '\"')
+			split->quotes = !split->quotes;
+		else if (str[split->i] == ' ' && !split->quotes)
+		{
+			return_split(split, str);
+			split->start = split->i + 1;
+		}
+	}
+	if (count_squotes(str) > 1)
+	{
+		if (str[split->i] == '\'')
+			split->quotes = !split->quotes;
+		else if (str[split->i] == ' ' && !split->quotes)
+		{
+			return_split(split, str);
+			split->start = split->i + 1;
+		}
+	}
+}
+char **new_split(char *str)
+{
+	t_split split;
+
+	init_split(&split, str);
+	while (str[split.i])
+	{
+		if (count_quotes(str) > 0)
+			middle_split(&split, str);
+		else
+		{
+			if (str[split.i] == ' ')
+			{
+				return_split(&split, str);
+				split.start = split.i + 1;
+			}
+		}
+		split.i++;
+	}
+	return (return_split(&split, str));
+}
+
 int main(int ac, char **av)
 {
 	t_mini mini;
@@ -121,10 +145,8 @@ void parser(t_mini *mini)
 		if (!mini->str)
 			signals(3, mini);
 		mini->new_str = pad_central(mini->str);
-		mini->args = parseString(mini->new_str);
-		// while_loop(mini->args);
+		mini->args = new_split(mini->new_str);
 		check_comand(mini);
-		// change_args(mini, 0);
 		if (!mini->args[0])
 		{
 			free_struct(mini);

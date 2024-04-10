@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/09 20:19:07 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/10 18:42:12 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,130 +88,6 @@ int	export_len(char **s)
 	return (j);
 }
 
-char **coverup(char **str, int flag)
-{
-	int		j;
-	char	**newarr;
-	char	**result;
-	int		i;
-
-	j = export_len(str);
-	newarr = (char **)malloc(sizeof(char *) * (j + 1));
-	j = -1;
-	i = 0;
-	if (!flag)
-		result = create_echo(str, newarr, j, i);
-	else
-		result = create_export(str, newarr, j, i);
-	j = export_len(str);
-	result[j++] = NULL;
-	return (result);
-}
-
-void	return_merged(char *s, char **merged_string)
-{
-	char	*temp;
-
-	temp = ft_strjoin(*merged_string, " ");
-	free(*merged_string);
-	*merged_string = ft_strjoin(temp, s);
-	free(temp);
-}
-
-char **create_echo(char **str, char **newarr, int j, int i)
-{
-	char	*merged_string;
-
-	while (str[i])
-	{
-		merged_string = ft_strdup(str[i]);
-		if (count_dquotes(str[i]) == 1 || count_squotes(str[i]) == 1)
-		{
-			while (str[i + 1] && (count_dquotes(str[i + 1]) != 1) && (count_squotes(str[i + 1]) != 1))
-			{
-				return_merged(str[i + 1], &merged_string);
-				i++;
-			}
-			if (str[i + 1])
-			{
-				return_merged(str[i + 1], &merged_string);
-				i++;
-			}
-		}
-		newarr[++j] = malloc(sizeof(char) * (ft_strlen(merged_string) + 1));
-		ft_strcpy(newarr[j], merged_string);
-		i++;
-		free(merged_string);
-	}
-	return (newarr);
-}
-
-char **create_export(char **str, char **newarr, int j, int i)
-{
-	char	*merged_string;
-
-	while (str[i])
-	{
-		merged_string = ft_strdup(str[i]);
-		if (count_dquotes(str[i]) == 1 || count_squotes(str[i]) == 1)
-		{
-			if (ft_strstartswith(str[i], "\""))
-			{
-				while (str[i + 1] && (count_dquotes(str[i + 1]) != 1))
-				{
-					return_merged(str[i + 1], &merged_string);
-					i++;
-				}
-				if (str[i + 1])
-				{
-					return_merged(str[i + 1], &merged_string);
-					i++;
-				}
-			}
-			else if (ft_strstartswith(str[i], "\'"))
-			{
-				while (str[i + 1] && (count_squotes(str[i + 1]) != 1))
-				{
-					return_merged(str[i + 1], &merged_string);
-					i++;
-				}
-				if (str[i + 1])
-				{
-					return_merged(str[i + 1], &merged_string);
-					i++;
-				}
-			}
-		}
-		newarr[++j] = malloc(sizeof(char) * (ft_strlen(merged_string) + 1));
-		ft_strcpy(newarr[j], merged_string);
-		i++;
-		free(merged_string);
-	}
-	return (newarr);
-}
-
-void	change_args(t_mini *mini, int flag)
-{
-	char	**args;
-
-	if (!flag)
-	{
-		args = get_newenvp(mini->args);
-		ft_free_arr(mini->args);
-		mini->args = coverup(args, flag);
-		ft_free_arr(args);
-		return ;
-	}
-	if (flag)
-	{
-		args = get_newenvp(mini->args);
-		ft_free_arr(mini->args);
-		mini->args = coverup(args, flag);
-		ft_free_arr(args);
-		return ;
-	}
-}
-
 int	get_export(t_mini *mini)
 {
 	char	**newvar;
@@ -220,7 +96,6 @@ int	get_export(t_mini *mini)
 
 	newvar = NULL;
 	i = 1;
-	// change_args(mini, 0);
 	while (mini->args[i] && !check_options(mini->args[i]))
 	{
 		flag = 0;

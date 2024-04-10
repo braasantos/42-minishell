@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 18:15:36 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/09 14:11:41 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_parser(t_mini *mini)
 				return (check_parser2(mini, (i + 1)));
 			else
 			{
-				ft_putstr_fd("minishell: syntax error ", 2);
+				ft_putstr_fd("Minishell: syntax error near ", 2);
 				ft_putendl_fd("unexpected token `newline'", 2);
 				return (1);
 			}
@@ -73,7 +73,7 @@ int	do_redirects(t_mini *mini, int i)
 		}
 		else
 		{
-			ft_putstr_fd("minishell: syntax error ", 2);
+			ft_putstr_fd("Minishell: syntax error ", 2);
 			ft_putendl_fd("near unexpected token `newline'", 2);
 			return (1);
 		}
@@ -82,7 +82,7 @@ int	do_redirects(t_mini *mini, int i)
 	{
 		if (mini->args[i + 1])
 			return (0);
-		ft_putstr_fd("minishell: syntax error ", 2);
+		ft_putstr_fd("Minishell: syntax error ", 2);
 		ft_putendl_fd("near unexpected token `newline'", 2);
 		return (1);
 	}

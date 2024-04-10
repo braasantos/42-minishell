@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 17:49:42 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/09 14:23:52 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,19 @@ int	builtins_check(t_mini *mini, int i)
 	return (0);
 }
 
-void	execute(t_mini *mini)
+int	execute(t_mini *mini)
 {
 	int	n_pipes;
 
 	n_pipes = count_pipes(mini);
 	if (check_parser(mini) == 1)
-		return ;
+		return (1);
 	if (check_here(mini) == 1)
-		return ;
+		return (1);
 	if (n_pipes == 0)
 	{
 		if (builtins_check(mini, 0))
-			return ;
+			return (0);
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
 		create_child(mini, 0, 0, 0);
 		free(mini->newpro);
@@ -63,6 +63,7 @@ void	execute(t_mini *mini)
 		create_flow(mini);
 		free(mini->newpro);
 	}
+	return (0);
 }
 
 int	pipe_creation(t_mini *mini)

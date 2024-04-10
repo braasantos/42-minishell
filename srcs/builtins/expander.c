@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 13:21:43 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/10 16:33:43 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,36 @@ int	exit_expand(char *s, t_mini *mini)
 	return (0);
 }
 
+int	qmark_and_dollar(char *str)
+{
+	while (*str)
+	{
+		if (*str == '$')
+		{
+			str++;
+			if (*str == '?')
+				return (1);
+			else
+				return (0);
+		}
+		str++;
+	}
+	return (0);
+}
+void	free_expand2(t_mini *mini, int flag, int i)
+{
+	if (flag)
+	{
+		mini->before = ft_before(mini->args[i]);
+		mini->after = ft_after(mini->args[i]);
+	}
+	else
+	{
+		free(mini->before);
+		free(mini->after);
+	}
+}
+
 int	expand_str(t_mini *mini, int i)
 {
 	char	*s;
@@ -108,15 +138,16 @@ int	expand_str(t_mini *mini, int i)
 
 	if (count_dquotes(mini->new_str) == 0 && count_squotes(mini->new_str) > 0)
 		return (ohhh_boy(mini, i), 1);
-	mini->before = ft_before(mini->args[i]);
-	mini->after = ft_after(mini->args[i]);
-	if (bingo(mini->args[i], '?'))
+	free_expand2(mini, 1, i);
+	if (bingo(mini->args[i], '?') && qmark_and_dollar(mini->args[i]))
 		get_qmark(mini, i);
-	else
+	free_expand2(mini, 0, i);
+	while (bingo(mini->args[i], '$'))
 	{
+		free_expand2(mini, 1, i);
 		s = get_expand(mini->args[i]);
 		if (exit_expand(s, mini))
-			return (1);
+			 return (1);
 		env = get_env(s, mini);
 		free(s);
 		free(mini->args[i]);
@@ -124,9 +155,8 @@ int	expand_str(t_mini *mini, int i)
 			do_all(mini, i, env);
 		else
 			mini->args[i] = ft_strdup("1801");
+		free_expand2(mini, 0, i);
 	}
-	free(mini->before);
-	free(mini->after);
 	return (1);
 }
 
