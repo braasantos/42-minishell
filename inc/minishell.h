@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 18:42:25 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/10 21:04:03 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,7 +327,7 @@ int		handle_heredoc2(char *delimiter);
 int		count_red(t_mini *mini);
 int		redirect_output(char *s);
 int		redirect_input(char *s);
-int		hanlde_redirects(t_mini *mini, char **s);
+int		hanlde_redirects(t_mini *mini, char **s, int i);
 void	redirect(t_mini *mini);
 /* ************************************************************************** */
 /*								signals									  */

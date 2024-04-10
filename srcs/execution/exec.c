@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/09 14:23:52 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/10 21:28:52 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,10 @@ int	execute(t_mini *mini)
 	int	n_pipes;
 
 	n_pipes = count_pipes(mini);
-	if (check_parser(mini) == 1)
-		return (1);
-	if (check_here(mini) == 1)
-		return (1);
 	if (n_pipes == 0)
 	{
+		if (check_parser(mini) == 1 || check_here(mini) == 1)
+			return (1);
 		if (builtins_check(mini, 0))
 			return (0);
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
@@ -128,10 +126,10 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 	mini->newpro[j] = fork();
 	if (!mini->newpro[j])
 	{
-		if (ft_strcmp(mini->args[i], "echo"))
-			if (hanlde_redirects(mini, mini->args))
-				exit_fork(mini);
 		through_pipes(mini, j, flag);
+		if (ft_strcmp(mini->args[i], "echo"))
+			if (hanlde_redirects(mini, mini->args, i))
+				exit_fork(mini);
 		if (builtins(mini, i))
 			exit_fork(mini);
 		redirect(mini);

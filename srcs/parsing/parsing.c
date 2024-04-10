@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 16:49:10 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/10 19:41:30 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,31 @@ int	nAAAAAAAAAAAA(t_mini *mini)
 	return (0);
 }
 
+int	count_files(char **s)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (s[i])
+	{
+		if (is_a_file(s[i]))
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 int	doredirect(t_mini *mini)
 {
 	char	**str;
 
 	if (!ft_strcmp(mini->args[0], "echo"))
 		return (0);
-	if (count_red(mini) > 1)
+	if (count_files(mini->args) > 1)
 	{
 		str = echo_w_red(mini->args);
-		while_loop(str);
 		if (!str)
 			return (1);
 		ft_free_arr(mini->args);
@@ -130,8 +145,8 @@ int parsing(t_mini *mini, char *str)
 	}
 	if (!mini->args[0])
 		return (2);
-	// if (doredirect(mini))
-	// 	return (1);
+	if (doredirect(mini))
+		return (1);
 	if (execute(mini))
 		return (1);
 	return (0);

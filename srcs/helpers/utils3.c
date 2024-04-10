@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/09 14:11:41 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/10 21:29:33 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_parser3(t_mini *mini, int i)
 		else
 		{
 			g_signal = 1;
-			ft_putendl_fd(" No such file or directory", 2);
+			// ft_putendl_fd(" No such file or directory", 2);
 			return (1);
 		}
 	}

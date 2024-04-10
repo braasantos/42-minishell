@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/10 14:54:21 by gamoreir         ###   ########.fr       */
+/*   Updated: 2024/04/10 21:04:14 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	**echo_w_red(char **s)
 						return (NULL);
 			}
 			str = new_args(s, i, k1);
+			return (str);
 		}
 	}
 	return (str);
@@ -141,7 +142,7 @@ int	handle_split_args(t_mini *mini, int i)
 	mini->echo_split = forming_echo_args(mini->args, i);
 	if (have_redi(mini->echo_split))
 	{
-		hanlde_redirects(mini, mini->echo_split);
+		hanlde_redirects(mini, mini->echo_split, i);
 		s = echo_w_red(mini->echo_split);
 		if (!ft_strcmp(s[0] ,"NULL"))
 			return (1);

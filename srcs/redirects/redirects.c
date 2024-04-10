@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 19:45:40 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/10 21:28:04 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,8 @@ int	redirect_input(char *s)
 	return (0);
 }
 
-int	hanlde_redirects(t_mini *mini, char **s)
+int	hanlde_redirects(t_mini *mini, char **s, int i)
 {
-	int		i;
-
-	i = 0;
 	while (s[i])
 	{
 		if (!ft_strcmp(s[i], ">"))
