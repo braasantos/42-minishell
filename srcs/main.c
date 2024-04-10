@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/04/10 14:52:26 by bjorge-m         ###   ########.fr       */
-=======
-/*   Updated: 2024/04/10 14:30:50 by gamoreir         ###   ########.fr       */
->>>>>>> refs/remotes/origin/master
+/*   Updated: 2024/04/10 16:44:13 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,10 +146,6 @@ void parser(t_mini *mini)
 			signals(3, mini);
 		mini->new_str = pad_central(mini->str);
 		mini->args = new_split(mini->new_str);
-<<<<<<< HEAD
-=======
-		//while_loop(mini->args);
->>>>>>> refs/remotes/origin/master
 		check_comand(mini);
 		if (!mini->args[0])
 		{
