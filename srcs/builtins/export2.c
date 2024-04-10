@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 19:48:58 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/09 20:19:07 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ int	get_export(t_mini *mini)
 
 	newvar = NULL;
 	i = 1;
-	change_args(mini, 0);
+	// change_args(mini, 0);
 	while (mini->args[i] && !check_options(mini->args[i]))
 	{
 		flag = 0;

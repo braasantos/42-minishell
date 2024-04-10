@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 19:32:13 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/09 20:20:26 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,4 +351,5 @@ void	return_merged(char *s, char **merged_string);
 int		export_len(char **s);
 char	*ft_remove_dquotes(const char *str);
 char	**echo_w_red(char **s);
+int		export_len(char **s);
 #endif
