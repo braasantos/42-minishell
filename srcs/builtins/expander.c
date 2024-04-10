@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/04/10 15:17:48 by bjorge-m         ###   ########.fr       */
+=======
+/*   Updated: 2024/04/10 16:13:52 by gamoreir         ###   ########.fr       */
+>>>>>>> refs/remotes/origin/master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +107,7 @@ int	exit_expand(char *s, t_mini *mini)
 
 int	qmark_and_dollar(char *str)
 {
-	while(*str)
+	while (*str)
 	{
 		if (*str == '$')
 		{
@@ -128,20 +132,24 @@ int	expand_str(t_mini *mini, int i)
 	mini->before = ft_before(mini->args[i]);
 	mini->after = ft_after(mini->args[i]);
 	if (bingo(mini->args[i], '?') && qmark_and_dollar(mini->args[i]))
-		if (get_qmark(mini, i))
-			return (0);
-	s = get_expand(mini->args[i]);
-	if (exit_expand(s, mini))
-		return (1);
-	env = get_env(s, mini);
-	free(s);
-	free(mini->args[i]);
-	if (env)
-		do_all(mini, i, env);
-	else
-		mini->args[i] = ft_strdup("1801");
-	free(mini->before);
-	free(mini->after);
+		get_qmark(mini, i);
+	while (bingo(mini->args[i], '$'))
+	{
+		mini->before = ft_before(mini->args[i]);
+		mini->after = ft_after(mini->args[i]);
+		s = get_expand(mini->args[i]);
+		if (exit_expand(s, mini))
+			return (1);
+		env = get_env(s, mini);
+		free(s);
+		free(mini->args[i]);
+		if (env)
+			do_all(mini, i, env);
+		else
+			mini->args[i] = ft_strdup("1801");
+		free(mini->before);
+		free(mini->after);
+	}
 	return (1);
 }
 
