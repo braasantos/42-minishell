@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 18:11:32 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/09 14:16:47 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	ft_check_open_quotes(char *str)
 		str++;
 	}
 	if (state && write(2, "Error: Open quotes\n", 19))
+	{
+		g_signal = 2;
 		return (0);
+	}
 	return (1);
 }
 

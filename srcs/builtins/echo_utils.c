@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/08 19:47:56 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/10 14:02:48 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ int	handle_split_args(t_mini *mini, int i)
 	char	**s;
 
 	mini->free_flag = 0;
-	change_args(mini, 1);
 	mini->echo_split = forming_echo_args(mini->args, i);
 	if (have_redi(mini->echo_split))
 	{

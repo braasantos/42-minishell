@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:05:54 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 12:57:04 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/10 14:03:53 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,35 +41,6 @@ char	**get_alpha(char **str)
 	return (str);
 }
 
-char	**bb_sort(char **s)
-{
-	int		i;
-	char	*temp;
-	char	*t;
-	char	**str;
-	char	*new_t;
-
-	t = NULL;
-	i = -1;
-	while (s[++i] != NULL)
-	{
-		temp = ft_strdup(s[i]);
-		if (t == NULL)
-			t = strdup(temp);
-		else
-		{
-			new_t = ft_strjoin(t, temp);
-			free(t);
-			t = ft_strjoin(new_t, " ");
-			free(new_t);
-		}
-		free(temp);
-	}
-	str = ft_split(t, ' ');
-	free(t);
-	return (str);
-}
-
 char	*export_no_option_util(char *s)
 {
 	char	*value;
@@ -80,6 +51,7 @@ char	*export_no_option_util(char *s)
 	free(value);
 	return (tempv);
 }
+
 int	export_wo_equal(char *s, char *c)
 {
 	if (bingo(s, '='))
@@ -103,7 +75,7 @@ void	export_no_option(t_mini *mini)
 	int		i;
 
 	i = -1;
-	env = get_alpha(coverup(mini->newenvp));
+	env = get_alpha(mini->newenvp);
 	while (env[++i])
 	{
 		key = export_key(env[i]);

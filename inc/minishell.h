@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 19:32:13 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/10 13:00:11 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,17 @@ typedef enum e_op
 {
 	COMMAND_NOT_FOUND,
 }		t_op;
+
+typedef struct s_split
+{
+	int		i;
+	int		start;
+	char	**s;
+	char	**temp;
+	bool	quotes;
+	int		words;
+	int		tokens;
+}		t_split;
 
 typedef struct s_mini
 {
@@ -188,7 +199,7 @@ void	handle_execve(t_mini *mini, int i);
 /* ******************** */
 /*			exec.c		*/
 /* ******************** */
-void	execute(t_mini *mini);
+int	execute(t_mini *mini);
 int		pipe_creation(t_mini *mini);
 bool	is_not_a_cmd(char *s);
 void	create_flow(t_mini *mini);
@@ -288,7 +299,7 @@ int		have_here_doc(t_mini *mini);
 /* ******************** */
 void	ft_exit(t_mini *mini, int i);
 int		bingo(char *s, char c);
-void	parsing(t_mini *mini, char *str);
+int	parsing(t_mini *mini, char *str);
 void	sigint_on_child(int signal);
 void	get_exit_status(t_mini *mini);
 /* ************************************************************************** */
