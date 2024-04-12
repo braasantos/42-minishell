@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/06 17:46:57 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/12 19:12:21 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	builtins(t_mini *mini, int i)
 	if (!ft_strcmp(mini->args[i], "exit"))		
 		free_struct_2(mini);
 	if (!ft_strcmp(mini->args[i], "pwd"))
-		return (print_pwd());
+		return (print_pwd(mini));
 	if (!ft_strcmp(mini->args[i], "echo"))
 	{
 		pre_echo(mini, i);
@@ -89,16 +89,27 @@ int	builtins(t_mini *mini, int i)
 
 int	check_parser2(t_mini *mini, int i)
 {
-	int	file_fd;
+	int		file_fd;
+	char	*s;
+
+	if (count_quotes(mini->args[i]))
+		s = ft_remove_quotes(mini->args[i]);
+	else
+		s = ft_strdup(mini->args[i]);
 
 	file_fd = 0;
-	file_fd = open(mini->args[i], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (check_options(s))
+	{
+		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
+		return (free(s), 1);
+	}
+	file_fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (!file_fd)
 	{
 		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
-		return (1);
+		return (free(s), 1);
 	}
-	return (0);
+	return (free(s), 0);
 }
 
 bool	is_a_builtin(t_mini *mini, int i)

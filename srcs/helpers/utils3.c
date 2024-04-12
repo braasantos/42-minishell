@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/11 11:00:38 by gamoreir         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:29:19 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+//check_parser2(mini, (i + 1)
 
 int	check_parser(t_mini *mini)
 {
@@ -67,10 +69,7 @@ int	do_redirects(t_mini *mini, int i)
 	if (!ft_strcmp(mini->args[i], "<<"))
 	{
 		if (mini->args[i + 1])
-		{
-			return (print_error(mini->args[i + 1]));
 			return (0);
-		}
 		else
 		{
 			ft_putstr_fd("Minishell: syntax error ", 2);

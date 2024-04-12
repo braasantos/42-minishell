@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:44 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 16:26:31 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:46:49 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,8 @@ void ft_free_arr(char **str)
 
 void	free_struct(t_mini *mini)
 {
-	if (mini->echo_flag)
-	{
-		ft_free_arr(mini->echo_split);
-		mini->echo_flag = 0;
-	}
-	mini->flag_echo = 0;
+	free(mini->pwd);
+	mini->pwd = NULL;
 	ft_free_arr(mini->args);
 	free(mini->new_str);
 	free(mini->str);
@@ -116,11 +112,7 @@ void free_struct_2(t_mini *mini)
 		return ;
 	mini->exit_flag = 1;
 	unlink(".heredoc");
-	if (mini->echo_flag)
-	{
-		ft_free_arr(mini->echo_split);
-		mini->echo_flag = 0;
-	}
+	free(mini->pwd);
 	ft_free_arr(mini->args);
 	if (mini->new_str)
 		free(mini->new_str);

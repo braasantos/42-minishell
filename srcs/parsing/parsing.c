@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 19:41:30 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/12 18:33:26 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 void	exit_fork(t_mini *mini)
 {
-	int		devnull;
-	char	*argv[3];
-
-	(void)mini;
-	devnull = open("/dev/null", O_WRONLY);
-	if (dup2(devnull, STDOUT_FILENO) == -1
-		|| dup2(devnull, STDERR_FILENO) == -1)
+	if (mini->echo_split)
 	{
-		close(devnull);
-		exit(EXIT_FAILURE);
+		ft_free_arr(mini->echo_split);
+		mini->echo_split = NULL;
 	}
-	close(devnull);
-	argv[0] = "/bin/echo";
-	argv[1] = "Hello, World!";
-	argv[2] = NULL;
-	execve(argv[0], argv, NULL);
-	exit(EXIT_FAILURE);
+	mini->exit_flag = 1;
+	unlink(".heredoc");
+	free(mini->pwd);
+	ft_free_arr(mini->args);
+	if (mini->new_str)
+		free(mini->new_str);
+	if (mini->str)
+		free(mini->str);
+	if (mini->newenvp)
+		ft_free_arr(mini->newenvp);
+	free(mini->newpro);
+	exit(0);
 }
 
 int bingo(char *s, char c)
@@ -49,7 +49,12 @@ int bingo(char *s, char c)
 
 int	check_pwd(char *s, t_mini *mini)
 {
-	if (!ft_strcmp(s, get_env("PWD", mini)))
+	char	*str;
+
+	str = get_env("PWD", mini);
+	if (!str)
+		return (0);
+	if (!ft_strcmp(s, str))
 	{
 		g_signal = 126;
 		return (1);
@@ -113,8 +118,6 @@ int	doredirect(t_mini *mini)
 {
 	char	**str;
 
-	if (!ft_strcmp(mini->args[0], "echo"))
-		return (0);
 	if (count_files(mini->args) > 1)
 	{
 		str = echo_w_red(mini->args);

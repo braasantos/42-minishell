@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 21:04:03 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/12 17:51:07 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_mini
 	char	**args;
 	pid_t	*newpro;
 	char	*str;
+	char	*pwd;
 	char	*new_str;
 	int		*pipes_fd;
 	char	**echo_split;
@@ -99,12 +100,13 @@ void	change_dir(char *path, t_mini *mini);
 int		get_cd(t_mini *mini, int i);
 int		ft_strstartswith(char *s1, char *s2);
 /* ******************** */
-/* 		echo_split.c	*/
+/* 		new_split.c		*/
 /* ******************** */
+char	**new_split(char *str);
 /* ******************** */
 /* 		echo_utils.c	*/
 /* ******************** */
-char	**add_option_echo(t_mini *mini, int i, char *temp);
+// char	**add_option_echo(t_mini *mini, int i, char *temp);
 int		handle_split_args(t_mini *mini, int i);
 void	check_comand(t_mini *mini);
 int		count_dquote_pairs(char *str);
@@ -149,7 +151,7 @@ int		ft_before_exp(char *str);
 /* ******************** */
 char	**get_alpha(char **str);
 char	*export_no_option_util(char *s);
-char	**bb_sort(char **s);
+// char	**bb_sort(char **s);
 void	export_no_option(t_mini *mini);
 /* ******************** */
 /* 		export.c		*/
@@ -169,7 +171,7 @@ void	export_quotes(char **newvar, t_mini *mini, int i);
 /* ******************** */
 /*		   pwd.c		*/
 /* ******************** */
-int		print_pwd();
+int		print_pwd(t_mini *mini);
 /* ******************** */
 /* 		unset.c			*/
 /* ******************** */
@@ -199,7 +201,7 @@ void	handle_execve(t_mini *mini, int i);
 /* ******************** */
 /*			exec.c		*/
 /* ******************** */
-int	execute(t_mini *mini);
+int		execute(t_mini *mini);
 int		pipe_creation(t_mini *mini);
 bool	is_not_a_cmd(char *s);
 void	create_flow(t_mini *mini);
@@ -246,7 +248,6 @@ char	**get_path(char **newenv);
 char	**get_newenvp(char **envp);
 bool	is_a_append_here(char *s);
 bool	is_a_number(char *s);
-
 /* ******************** */
 /*		utils.c			*/
 /* ******************** */
@@ -290,16 +291,15 @@ int		get_qmark(t_mini *mini, int i);
 /*		utils6.c		*/
 /* ******************** */
 int		have_here_doc(t_mini *mini);
-
 /* ************************************************************************** */
 /*								parsing									  */
 /* ************************************************************************** */
 /* ******************** */
 /*		parsing.c		*/
 /* ******************** */
-void	ft_exit(t_mini *mini, int i);
+// void	ft_exit(t_mini *mini, int i);
 int		bingo(char *s, char c);
-int	parsing(t_mini *mini, char *str);
+int		parsing(t_mini *mini, char *str);
 void	sigint_on_child(int signal);
 void	get_exit_status(t_mini *mini);
 /* ************************************************************************** */
@@ -343,24 +343,21 @@ void	signals(int sig, t_mini *mini);
 /*									main									  */
 /* ************************************************************************** */
 void	parser(t_mini *mini);
-
-
-
-
-
 int		file_ok(char *s, int flag);
 int		null_args(t_mini *mini, int i);
 void	exit_fork(t_mini *mini);
 int		check_env(t_mini *mini);
 int		pre_echo(t_mini *mini, int i);
 bool	is_a_quote(char *s);
-char	**create_export(char **str, char **newarr, int j, int i);
-char	**create_echo(char **str, char **newarr, int j, int i);
-char	**coverup(char **str, int flag);
-void	change_args(t_mini *mini, int flag);
-void	return_merged(char *s, char **merged_string);
+void	update_pwd(t_mini *mini);
+// char	**create_export(char **str, char **newarr, int j, int i);
+// char	**create_echo(char **str, char **newarr, int j, int i);
+// char	**coverup(char **str, int flag);
+// void	change_args(t_mini *mini, int flag);
+// void	return_merged(char *s, char **merged_string);
 int		export_len(char **s);
 char	*ft_remove_dquotes(const char *str);
 char	**echo_w_red(char **s);
 int		export_len(char **s);
+int	get_grep(t_mini *mini, int i);
 #endif

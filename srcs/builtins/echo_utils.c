@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/10 21:04:14 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/12 19:01:56 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ char	**echo_w_red(char **s)
 	str = NULL;
 	while (s[++i])
 	{
-		if (!ft_strcmp(s[i], ">") || !ft_strcmp(s[i], "<") || 
-			!ft_strcmp(s[i], ">>") || !ft_strcmp(s[i], "<<"))
+		if (is_a_red(s[i]))
 		{
 			k1 = i + 1;
 			if (s[k1])
@@ -139,16 +138,24 @@ int	handle_split_args(t_mini *mini, int i)
 	char	**s;
 
 	mini->free_flag = 0;
+	if (mini->echo_split)
+	{
+		ft_free_arr(mini->echo_split);
+		mini->echo_split = NULL;
+	}
 	mini->echo_split = forming_echo_args(mini->args, i);
 	if (have_redi(mini->echo_split))
 	{
-		hanlde_redirects(mini, mini->echo_split, i);
+		if (hanlde_redirects(mini, mini->echo_split, i))
+			return (0);
 		s = echo_w_red(mini->echo_split);
 		if (!ft_strcmp(s[0] ,"NULL"))
 			return (1);
 		ft_free_arr(mini->echo_split);
+		mini->echo_split = NULL;
 		mini->echo_split = get_newenvp(s);
 		mini->echo_flag = 1;
+		ft_free_arr(s);
 		return (0);
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 21:28:04 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/12 19:15:57 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,26 @@ int	count_red(t_mini *mini)
 
 int	redirect_output(char *s)
 {
-	int	file_fd;
+	int		file_fd;
+	char	*str;
 
 	if (!s)
 		return (1);
-	file_fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (file_ok(s, 1))
-		return (1);
+	if (count_quotes(s))
+		str = ft_remove_quotes(s);
+	else
+		str = ft_strdup(s);
+	file_fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (file_ok(str, 1))
+		return (free(str), 1);
 	if (!file_fd)
 	{
 		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
-		return (1);
+		return (free(str), 1);
 	}
 	dup2(file_fd, STDOUT_FILENO);
 	close(file_fd);
-	return (0);
+	return (free(str), 0);
 }
 
 int	redirect_input(char *s)
@@ -73,12 +78,22 @@ int	hanlde_redirects(t_mini *mini, char **s, int i)
 	{
 		if (!ft_strcmp(s[i], ">"))
 			if (redirect_output(s[i + 1]))
+			{
+				g_signal = 1;
 				return (1);
+			}
 		if (!ft_strcmp(mini->args[i], "<"))
 			if (redirect_input(s[i + 1]))
+			{
+				g_signal = 1;
 				return (1);
+			}
 		if (handle_red(mini, s[i], s[i + 1]))
+		{
+				g_signal = 1;
+
 			return (1);
+		}
 		i++;
 	}
 	return (0);
@@ -97,6 +112,8 @@ int	file_ok(char *s, int flag)
 	fd = 0;
 	if (flag == 1)
 	{
+		if (access(s, W_OK) == -1)
+			return (ft_putendl_fd(" Permission denied", 2), 1);
 		fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 		if (fd == -1)
 		{

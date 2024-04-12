@@ -6,18 +6,14 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:03:47 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/01 14:06:28 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/12 15:16:58 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	print_pwd()
+int	print_pwd(t_mini *mini)
 {
-	char	*env;
-
-	env = getcwd(0, 0);
-	ft_printf("%s\n", env);
-	free(env);
+	ft_printf("%s\n", mini->pwd);
 	return (1);
 }

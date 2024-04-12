@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 21:28:52 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/12 17:58:44 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	builtins_check(t_mini *mini, int i)
 		return (1);
 	}
 	if (!ft_strcmp(mini->args[i], "pwd"))
-		return (print_pwd(mini, i));
+		return (print_pwd(mini));
 	if ((!ft_strcmp(mini->args[i], "cd")))
 		return (get_cd(mini, i));
 	if ((!ft_strcmp(mini->args[i], "env")))
@@ -37,6 +37,12 @@ int	builtins_check(t_mini *mini, int i)
 			return (1);
 		return (get_unset(mini));
 	}
+	if (!ft_strcmp(mini->args[i], "grep"))
+	{
+		if (get_grep(mini, i))
+			return(1);
+	}
+	return (0);
 	return (0);
 }
 

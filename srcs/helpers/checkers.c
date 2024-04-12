@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:37 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 18:11:07 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/12 14:38:16 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ bool	is_a_file(char *s)
 		str =ft_remove_quotes(s);
 	else
 		str = ft_strdup(s);
-	if (access(str, R_OK) == -1)
+	if (access(str, F_OK) == -1)
 		return (free(str), false);
 	return (free(str), true);
 }

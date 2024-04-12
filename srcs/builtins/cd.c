@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 21:23:04 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/12 15:25:51 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	update_envs(char *cwd, t_mini *mini)
 	env = getcwd(0, 0);
 	set_env_var("PWD", env, mini);
 	free(env);
+	update_pwd(mini);
 }
 
 void	change_dir(char *path, t_mini *mini)
@@ -103,7 +104,7 @@ static int	has_two_args(char **args, t_mini *mini)
 			return (1);
 		}
 		if (!ft_strcmp(args[1], "-"))
-			print_pwd(mini, 0);
+			print_pwd(mini);
 		else
 			change_dir(args[1], mini);
 		return (1);
@@ -119,6 +120,7 @@ int	get_cd(t_mini *mini, int i)
 	if ((!mini->args[i + 1]))
 	{
 		change_dir(home_dir, mini);
+		update_pwd(mini);
 		return (1);
 	}
 	else

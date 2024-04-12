@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:56 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 18:06:59 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/12 18:35:23 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	handle_append(char *s)
 
 	if (s)
 	{
+		file = open(s, O_WRONLY | O_CREAT | O_APPEND, 0664);
 		if (file_ok(s, 1))
 			return (1);
-		file = open(s, O_WRONLY | O_CREAT | O_APPEND, 0664);
 		if (!file)
 		{
 			ft_putstr_fd("Minishell: no file specified in redirect '>>'.\n", 2);
