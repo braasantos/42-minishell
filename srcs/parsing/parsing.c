@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 18:33:26 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 13:49:30 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,20 @@ int	count_files(char **s)
 	return (count);
 }
 
+int	command(t_mini *mini)
+{
+	if (!ft_strcmp(mini->args[0], "grep"))
+		return (1);
+	if (!ft_strcmp(mini->args[0], "cat"))
+		return (1);
+	return (0);
+}
+
 int	doredirect(t_mini *mini)
 {
 	char	**str;
 
-	if (count_files(mini->args) > 1)
+	if (count_files(mini->args) > 1 && command(mini))
 	{
 		str = echo_w_red(mini->args);
 		if (!str)

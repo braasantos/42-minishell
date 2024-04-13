@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:54:16 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/08 16:50:46 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/13 18:17:32 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,47 @@ void	print_arg(char *str, int current, int flag, char **args)
 	if (flag == 0)
 		if (total - 1 > current)
 			write(1, " ", 1);
+}
+
+int	check_pos_str(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_strcmp(s[i], ">"))
+			return (i);
+		if (!ft_strcmp(s[i], "<"))
+			return (i);
+		if (!ft_strcmp(s[i], ">>"))
+			return (i);
+		if (!ft_strcmp(s[i], "<<"))
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+void	check_echo(t_mini *mini)
+{
+	char	**s;
+	int		pos_red;
+	int		pos_file;
+
+	s = NULL;
+	while (have_redi(mini->echo_split))
+	{
+		pos_red = check_pos_str(mini->echo_split);
+		pos_file = pos_red + 1;
+		s = new_args(mini->echo_split, pos_red, pos_file);
+		if (mini->echo_split)
+		{
+			ft_free_arr(mini->echo_split);
+		}
+		mini->echo_split = get_newenvp(s);
+		ft_free_arr(s);
+	}
 }
 
 int	echo_cmd(char **tokens, t_mini *mini)

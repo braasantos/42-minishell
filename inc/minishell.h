@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 17:51:07 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:05:49 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,7 +317,7 @@ void	close_pipes(t_mini *mini);
 /* ******************** */
 /*	append_heredoc.c	*/
 /* ******************** */
-int		handle_red(t_mini *mini, char *s, char *ss);
+int		handle_red(t_mini *mini, char *s, char *ss, int flag);
 int		handle_append(char *s);
 int		handle_heredoc(t_mini *mini, char *s);
 int		handle_heredoc2(char *delimiter);
@@ -327,7 +327,7 @@ int		handle_heredoc2(char *delimiter);
 int		count_red(t_mini *mini);
 int		redirect_output(char *s);
 int		redirect_input(char *s);
-int		hanlde_redirects(t_mini *mini, char **s, int i);
+int		hanlde_redirects(t_mini *mini, char **s, int i, int flag);
 void	redirect(t_mini *mini);
 /* ************************************************************************** */
 /*								signals									  */
@@ -359,5 +359,9 @@ int		export_len(char **s);
 char	*ft_remove_dquotes(const char *str);
 char	**echo_w_red(char **s);
 int		export_len(char **s);
-int	get_grep(t_mini *mini, int i);
+int		get_grep(t_mini *mini, int i);
+int		have_redi(char **s);
+int		check_pos_str(char **s);
+char	**new_args(char **s, int k, int k1);
+void	check_echo(t_mini *mini);
 #endif

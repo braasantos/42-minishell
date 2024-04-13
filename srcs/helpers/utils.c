@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:17:31 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 14:11:35 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 13:32:51 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ int	pipe_check(t_mini *mini, char *str)
 	}
 	return (1);
 }
-
-
 
 int	redirect_basic_check(char *str)
 {

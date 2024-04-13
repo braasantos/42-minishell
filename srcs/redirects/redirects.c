@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 19:15:57 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:04:41 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	count_red(t_mini *mini)
 	{
 		if (ft_strcmp(mini->args[i], "<") == 0
 			|| ft_strcmp(mini->args[i], ">") == 0
-			|| !ft_strcmp(mini->args[i], ">>")
 			|| !ft_strcmp(mini->args[i], ">>"))
 			count++;
 		i++;
@@ -72,7 +71,7 @@ int	redirect_input(char *s)
 	return (0);
 }
 
-int	hanlde_redirects(t_mini *mini, char **s, int i)
+int	hanlde_redirects(t_mini *mini, char **s, int i, int flag)
 {
 	while (s[i])
 	{
@@ -88,7 +87,7 @@ int	hanlde_redirects(t_mini *mini, char **s, int i)
 				g_signal = 1;
 				return (1);
 			}
-		if (handle_red(mini, s[i], s[i + 1]))
+		if (handle_red(mini, s[i], s[i + 1], flag))
 		{
 				g_signal = 1;
 

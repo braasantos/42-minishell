@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 18:29:19 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:31:07 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ int	check_parser(t_mini *mini)
 		if (!ft_strcmp(mini->args[i], ">"))
 		{
 			if (mini->args[i + 1])
-				return (check_parser2(mini, (i + 1)));
+			{
+				if (check_parser2(mini, (i + 1)))
+					return (1);
+			}
 			else
 			{
 				ft_putstr_fd("Minishell: syntax error near ", 2);
@@ -33,7 +36,8 @@ int	check_parser(t_mini *mini)
 			}
 		}
 		if (!ft_strcmp(mini->args[i], "<"))
-			return (check_parser3(mini, i));
+			if (check_parser3(mini, i))
+				return (1);
 		if (do_redirects(mini, i) == 1)
 			return (1);
 		i++;
@@ -58,6 +62,7 @@ int	check_parser3(t_mini *mini, int i)
 	}
 	else
 	{
+		g_signal = 1;
 		ft_putendl_fd("Minishell: syntax error near unexpected token `newline'", 2);
 		return (1);
 	}
@@ -72,6 +77,7 @@ int	do_redirects(t_mini *mini, int i)
 			return (0);
 		else
 		{
+			g_signal = 1;
 			ft_putstr_fd("Minishell: syntax error ", 2);
 			ft_putendl_fd("near unexpected token `newline'", 2);
 			return (1);
@@ -81,6 +87,7 @@ int	do_redirects(t_mini *mini, int i)
 	{
 		if (mini->args[i + 1])
 			return (0);
+		g_signal = 1;
 		ft_putstr_fd("Minishell: syntax error ", 2);
 		ft_putendl_fd("near unexpected token `newline'", 2);
 		return (1);

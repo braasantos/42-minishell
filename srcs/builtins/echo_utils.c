@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/12 19:01:56 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:08:56 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,49 @@ char **forming_echo_args(char **s, int i)
 	return new_args;
 }
 
+int	havehere_doc(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_strcmp(s[i], "<<"))
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+void	heredoc_first(t_mini *mini)
+{
+	int	here_pos;
+	int	delimiter_pos;
+	char **s;
+	int	i;
+
+	i = 0;
+	if (havehere_doc(mini->echo_split))
+	{
+		here_pos = havehere_doc(mini->echo_split);
+		delimiter_pos = here_pos + 1;
+		while (mini->echo_split[i])
+		{
+			if (!ft_strcmp(mini->echo_split[i], "<<"))
+					handle_heredoc(mini, mini->echo_split[i + 1]);
+			i++;
+		}
+		s = new_args(mini->echo_split, here_pos, delimiter_pos);
+		if (mini->echo_split)
+		{
+			ft_free_arr(mini->echo_split);
+			mini->echo_split = NULL;
+		}
+		mini->echo_split = get_newenvp(s);
+		ft_free_arr(s);
+	}
+}
+
 int	handle_split_args(t_mini *mini, int i)
 {
 	char	**s;
@@ -146,11 +189,12 @@ int	handle_split_args(t_mini *mini, int i)
 	mini->echo_split = forming_echo_args(mini->args, i);
 	if (have_redi(mini->echo_split))
 	{
-		if (hanlde_redirects(mini, mini->echo_split, i))
+		heredoc_first(mini);
+		if (hanlde_redirects(mini, mini->echo_split, i, 0))
 			return (0);
 		s = echo_w_red(mini->echo_split);
 		if (!ft_strcmp(s[0] ,"NULL"))
-			return (1);
+			return (g_signal = 1, 1);
 		ft_free_arr(mini->echo_split);
 		mini->echo_split = NULL;
 		mini->echo_split = get_newenvp(s);
@@ -161,12 +205,29 @@ int	handle_split_args(t_mini *mini, int i)
 	return (0);
 }
 
+
+int	condition_to_expand(t_mini *mini, int i)
+{
+	if (!ft_strcmp(mini->args[i], "<<"))
+	{
+		if (mini->args[i + 1])
+		{
+			if (bingo(mini->args[i + 1], '$'))
+					return (1);
+		}
+	}
+	if (bingo(mini->args[i], '\''))
+			time_to_remove(mini, i);
+	return (0);
+}
 void	check_comand(t_mini *mini)
 {
 	int		i;
 	char	*temp;
+	int		flag;
 
 	i = 0;
+	flag = 1;
 	if (!mini->args)
 		return ;
 	while (mini->args[i])
@@ -181,11 +242,13 @@ void	check_comand(t_mini *mini)
 				free(temp);
 			}
 		}
-		if (!have_here_doc(mini))
-			if (bingo(mini->args[i], '$') && ft_strlen(mini->args[i]) > 1)
-				expand_str(mini, i);
-		if (bingo(mini->args[i], '\''))
-			time_to_remove(mini, i);
+		if (condition_to_expand(mini, i))
+				flag = 0;
+		if (bingo(mini->args[i], '$') && ft_strlen(mini->args[i]) > 1 && flag)
+		{
+			flag = 1;
+			expand_str(mini, i);
+		}
 		i++;
 	}
 }

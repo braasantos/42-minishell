@@ -3,23 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   append_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:56 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 18:35:23 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 22:08:25 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	handle_red(t_mini *mini, char *s, char *ss)
+int	handle_red(t_mini *mini, char *s, char *ss, int flag)
 {
 	if (!ft_strcmp(s, ">>"))
 		if (handle_append(ss))
 			return (1);
-	if (!ft_strcmp(s, "<<"))
-		if (handle_heredoc(mini, ss))
-			return (1);
+	if (flag)
+	{
+		if (!ft_strcmp(s, "<<"))
+		{
+			if (handle_heredoc(mini, ss))
+				return (1);
+		}
+	}
 	return (0);
 }
 

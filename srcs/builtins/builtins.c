@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 19:12:21 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 14:15:49 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	have_here_doc(t_mini *mini)
 int	pre_echo(t_mini *mini, int i)
 {
 	handle_split_args(mini, i);
+	check_echo(mini);
 	return (0);
 }
 
@@ -100,12 +101,14 @@ int	check_parser2(t_mini *mini, int i)
 	file_fd = 0;
 	if (check_options(s))
 	{
+		g_signal = 1;
 		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
 		return (free(s), 1);
 	}
 	file_fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (!file_fd)
 	{
+		g_signal = 1;
 		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
 		return (free(s), 1);
 	}

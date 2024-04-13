@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 19:23:59 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:14:29 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,13 @@ void parser(t_mini *mini)
 			signals(3, mini);
 		mini->new_str = pad_central(mini->str);
 		mini->args = new_split(mini->new_str);
-		update_pwd(mini);
-		check_comand(mini);
 		if (!mini->args[0])
 		{
 			free_struct(mini);
 			continue ;
 		}
+		update_pwd(mini);
+		check_comand(mini);
 		add_history(mini->str);
 		parsing(mini, mini->new_str);
 		free_struct(mini);

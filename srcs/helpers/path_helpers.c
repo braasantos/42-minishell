@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:10 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 19:33:56 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 13:49:06 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ void	update_path(t_mini *mini, int i)
 	temp = NULL;
 	mini->flag = 0;
 	mini->path_to_cmd = ft_add(mini, mini->args[i]);
-	// if (count_pipes(mini) < 1 && count_red(mini) < 1)
-	// {
-	// 	mini->exec_args = new_split(mini->new_str);
-	// 	return ;
-	// }
 	mini->exec_args = add_option(mini, i, temp);
 }
 
