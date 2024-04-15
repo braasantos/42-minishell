@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 19:17:47 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/15 19:20:12 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exit_fork(t_mini *mini)
 {
-	fprintf(stderr, "%d\n", g_signal);
+	// fprintf(stderr, "%d\n", g_signal);
 	if (mini->echo_split)
 	{
 		ft_free_arr(mini->echo_split);
