@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/13 22:05:49 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/15 19:00:03 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,7 +325,7 @@ int		handle_heredoc2(char *delimiter);
 /*		redirects.c	    */
 /* ******************** */
 int		count_red(t_mini *mini);
-int		redirect_output(char *s);
+int		redirect_output(char *s, t_mini *mini);
 int		redirect_input(char *s);
 int		hanlde_redirects(t_mini *mini, char **s, int i, int flag);
 void	redirect(t_mini *mini);
@@ -364,4 +364,6 @@ int		have_redi(char **s);
 int		check_pos_str(char **s);
 char	**new_args(char **s, int k, int k1);
 void	check_echo(t_mini *mini);
+int		count_files(char **s);
+int		check_parser_full(t_mini *mini);
 #endif

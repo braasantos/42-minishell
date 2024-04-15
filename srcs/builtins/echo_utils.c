@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/13 22:08:56 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/15 17:22:08 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,8 @@ int	have_redi(char **s)
 	return (0);
 }
 
-int echo_len(char **s)
+int echo_len(char **s, int i)
 {
-	int i;
-
-	i = 0;
 	while (s[i])
 	{
 		if (ft_strcmp(s[i], "|") == 0)
@@ -106,32 +103,33 @@ int echo_len(char **s)
 
 char **forming_echo_args(char **s, int i)
 {
-	char *string;
-	char **new_args;
-	int j;
-
-	new_args = (char **)malloc(sizeof(char *) * (echo_len(s) + 1));
+	char	**new_args;
+	char	**str;
+	int		j;
+	
+	str = get_newenvp(s);
 	j = 0;
-	while (s[i])
+	new_args = (char **)malloc(sizeof(char *) * (echo_len(s, i) + 1));
+	while (str[i])
 	{
-		string = strdup(s[i]);
-		if (ft_strcmp(s[i], "|") != 0)
+		if (ft_strcmp(str[i], "|") != 0)
 		{
-			new_args[j] = (char *)malloc(sizeof(char) * (strlen(string) + 1));
-			ft_strcpy(new_args[j], string);
+			new_args[j] = ft_strdup(str[i]);
 			j++;
 		}
 		else
 		{
+			ft_free_arr(str);
 			new_args[j] = NULL;
-			return (free(string), new_args);
+			return (new_args);
 		}
-		free(string);
 		i++;
 	}
 	new_args[j] = NULL;
-	return new_args;
+	ft_free_arr(str);
+	return (new_args);
 }
+
 
 int	havehere_doc(char **s)
 {
@@ -190,8 +188,8 @@ int	handle_split_args(t_mini *mini, int i)
 	if (have_redi(mini->echo_split))
 	{
 		heredoc_first(mini);
-		if (hanlde_redirects(mini, mini->echo_split, i, 0))
-			return (0);
+		if (hanlde_redirects(mini, mini->echo_split, 0, 0))
+			return (1);
 		s = echo_w_red(mini->echo_split);
 		if (!ft_strcmp(s[0] ,"NULL"))
 			return (g_signal = 1, 1);

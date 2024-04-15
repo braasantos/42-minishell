@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 17:58:44 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:59:36 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	builtins_check(t_mini *mini, int i)
 			return(1);
 	}
 	return (0);
-	return (0);
 }
+
 
 int	execute(t_mini *mini)
 {
@@ -63,6 +63,8 @@ int	execute(t_mini *mini)
 	}
 	else if ((n_pipes > 0))
 	{
+		if (check_parser_full(mini) == 1)
+			return (1);
 		mini->newpro = malloc(sizeof(int) * (n_pipes + 1));
 		create_flow(mini);
 		free(mini->newpro);
@@ -134,7 +136,7 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 	{
 		through_pipes(mini, j, flag);
 		if (ft_strcmp(mini->args[i], "echo"))
-			if (hanlde_redirects(mini, mini->args, i))
+			if (hanlde_redirects(mini, mini->args, i, 1))
 				exit_fork(mini);
 		if (builtins(mini, i))
 			exit_fork(mini);

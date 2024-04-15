@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/13 14:15:49 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/15 18:53:51 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	have_here_doc(t_mini *mini)
 }
 int	pre_echo(t_mini *mini, int i)
 {
-	handle_split_args(mini, i);
+	if (handle_split_args(mini, i))
+		return (1);
 	check_echo(mini);
 	return (0);
 }
@@ -70,7 +71,8 @@ int	builtins(t_mini *mini, int i)
 		return (print_pwd(mini));
 	if (!ft_strcmp(mini->args[i], "echo"))
 	{
-		pre_echo(mini, i);
+		if (pre_echo(mini, i))
+			return (1);
 		return (echo_cmd(mini->echo_split, mini));
 	}
 	if ((!ft_strcmp(mini->args[i], "cd")))
@@ -97,8 +99,9 @@ int	check_parser2(t_mini *mini, int i)
 		s = ft_remove_quotes(mini->args[i]);
 	else
 		s = ft_strdup(mini->args[i]);
-
 	file_fd = 0;
+	if (access(s, W_OK) == -1)
+			return (free(s), 1);
 	if (check_options(s))
 	{
 		g_signal = 1;

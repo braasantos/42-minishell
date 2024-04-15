@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/13 14:31:07 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/15 19:08:56 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-//check_parser2(mini, (i + 1)
 
 int	check_parser(t_mini *mini)
 {
@@ -26,7 +25,7 @@ int	check_parser(t_mini *mini)
 			if (mini->args[i + 1])
 			{
 				if (check_parser2(mini, (i + 1)))
-					return (1);
+					break ;
 			}
 			else
 			{
@@ -44,6 +43,31 @@ int	check_parser(t_mini *mini)
 	}
 	return (0);
 }
+
+int	check_parser_full(t_mini *mini)
+{
+	int	i;
+	int fd;
+
+	i = 0;
+	while (mini->args[i])
+	{
+		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], ">>"))
+		{
+			if (mini->args[i + 1])
+			{
+				fd = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+				if (access(mini->args[i + 1], W_OK | X_OK) == -1)
+					break ;
+			}
+		}
+		if (!ft_strcmp(mini->args[i], "<"))
+			is_a_file(mini->args[i + 1]);
+		i++;
+	}
+	return (0);
+}
+
 
 int	check_parser3(t_mini *mini, int i)
 {

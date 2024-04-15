@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/04 18:05:39 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:09:10 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,13 @@ void handle_execve(t_mini *mini, int i)
 	if (!is_a_cmd(mini->args[i], mini))
 	{
 		print_cmd(mini, i);
+		g_signal = 127;
 		exit_fork(mini);
 	}
 	if (execve(mini->path_to_cmd, mini->exec_args, mini->newenvp) == -1)
 	{
-		ft_putendl_fd("Minishell: Execve Error", 2);
+		ft_putendl_fd(" command not found", 2);
+		g_signal = 127;
 		exit_fork(mini);
 	}
 }

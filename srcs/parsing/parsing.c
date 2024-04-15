@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/13 13:49:30 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/15 19:15:11 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	exit_fork(t_mini *mini)
 {
+	fprintf(stderr, "%d\n", g_signal);
 	if (mini->echo_split)
 	{
 		ft_free_arr(mini->echo_split);
 		mini->echo_split = NULL;
 	}
-	mini->exit_flag = 1;
 	unlink(".heredoc");
 	free(mini->pwd);
 	ft_free_arr(mini->args);
@@ -30,7 +30,7 @@ void	exit_fork(t_mini *mini)
 	if (mini->newenvp)
 		ft_free_arr(mini->newenvp);
 	free(mini->newpro);
-	exit(0);
+	exit(g_signal);
 }
 
 int bingo(char *s, char c)
@@ -139,22 +139,55 @@ int	doredirect(t_mini *mini)
 	return (0);
 }
 
+
+int ft_define_error(t_mini *mini)
+{
+	struct stat path_stat;
+
+	if (!strncmp(mini->args[0], "./", 2) || !strncmp(mini->args[0], "/", 1))
+	{
+		if (stat(mini->args[0], &path_stat) == 0)
+		{
+			if (S_ISDIR(path_stat.st_mode))
+			{
+				g_signal = 126;
+				return ( ft_putendl_fd(" Is a directory", 2), 1);
+			}
+			else
+			{
+				if (access(mini->args[0], X_OK | R_OK | W_OK) == -1)
+				{
+					g_signal = 126;
+					return (ft_putendl_fd(" Permission denied", 2), 1);
+				}
+			}
+		}
+		else
+		{
+			g_signal = 127;
+			return ( ft_putendl_fd(" No such file or directory", 2), 1);
+		}
+	}
+	return (0);
+}
+
+
+
 int parsing(t_mini *mini, char *str)
 {
 	if (!ft_check_open_quotes(str))
 		return (1);
 	if (!redirect_basic_check(str))
+		return (ft_putendl_fd(" syntax error near unexpected token `>'", 2), 1);
+	if (!pipe_check(mini, str))
 	{
-		ft_putendl_fd(" syntax error near unexpected token `>'", 2);
+		g_signal = 2;
 		return (1);
 	}
-	if (!pipe_check(mini, str))
+	if (ft_define_error(mini))
 		return (1);
 	if (nAAAAAAAAAAAA(mini))
-	{
-		ft_putendl_fd(" Is a directory", 2);
-		return (0);
-	}
+		return (ft_putendl_fd(" Is a directory", 2), 0);
 	if (!mini->args[0])
 		return (2);
 	if (doredirect(mini))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/13 22:04:41 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/15 19:12:08 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ int	count_red(t_mini *mini)
 	return (count);
 }
 
-int	redirect_output(char *s)
+int	redirect_output(char *s, t_mini *mini)
 {
 	int		file_fd;
 	char	*str;
-
+	(void)mini;
 	if (!s)
 		return (1);
 	if (count_quotes(s))
@@ -71,32 +71,53 @@ int	redirect_input(char *s)
 	return (0);
 }
 
+int	more_red(t_mini *mini, int i)
+{
+	int count;
+
+	count = 0;
+	while (mini->args[++i])
+	{
+		if (!ft_strcmp(mini->args[i], ">"))
+		{
+			redirect_output(mini->args[i + 1], mini);
+			count++;
+		}
+		if (!ft_strcmp(mini->args[i], "<"))
+		{
+			redirect_output(mini->args[i + 1], mini);
+			count++;
+		}
+	}
+	return (count);
+}
+
 int	hanlde_redirects(t_mini *mini, char **s, int i, int flag)
 {
 	while (s[i])
 	{
 		if (!ft_strcmp(s[i], ">"))
-			if (redirect_output(s[i + 1]))
+			if (redirect_output(s[i + 1], mini))
 			{
 				g_signal = 1;
-				return (1);
+				return (g_signal);
 			}
 		if (!ft_strcmp(mini->args[i], "<"))
 			if (redirect_input(s[i + 1]))
 			{
 				g_signal = 1;
-				return (1);
+				return (g_signal);
 			}
 		if (handle_red(mini, s[i], s[i + 1], flag))
 		{
-				g_signal = 1;
-
-			return (1);
+			g_signal = 1;
+			return (g_signal);
 		}
 		i++;
 	}
 	return (0);
 }
+
 
 void	redirect(t_mini *mini)
 {

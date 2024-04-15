@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:37 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 14:38:16 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:43:10 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ bool	is_a_red(char *s)
 	int	i;
 
 	i = 0;
+	if (!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
+		return (true);
 	while (s[i])
 	{
 		if (s[i] == '>' || s[i] == '<')
 			return (true);
 		i++;
 	}
-	if (!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
-		return (true);
 	return (false);
 }
 
