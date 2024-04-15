@@ -1,25 +1,16 @@
 {
   "version": "0.2.0",
   "configurations": [
-      {
-          "name": "C/C++ Launch",
-          "type": "cppdbg",
-          "request": "launch",
-          "program": "/home/bjorge-m/newmini/minishell", // Path to your executable
-          "args": [],
-          "stopAtEntry": false,
-          "cwd": "/home/bjorge-m/newmini",
-          "environment": [],
-          "externalConsole": false,
-          "MIMode": "gdb",
-          "setupCommands": [
-              {
-                  "description": "Enable pretty-printing for gdb",
-                  "text": "-enable-pretty-printing",
-                  "ignoreFailures": true
-              }
-          ],
-          "preLaunchTask": "C/C++: gcc build active file"
-      }
+    {
+        "name": "C/C++ Runner: Debug Session",
+        "type": "cppdbg",
+        "request": "launch",
+        "args": [],
+        "cwd": "/home/gabe/42/minishell",
+        "program": "/home/gabe/42/minishell/minishell",
+        "setupCommands": [
+                {"text": "-gdb-set follow-fork-mode child"}
+            ]
+    }
   ]
 }

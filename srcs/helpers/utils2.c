@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/09 14:16:47 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/15 15:52:55 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,24 @@ int	print(t_op op, char *ag)
 		g_signal = 127;
 		ft_putstr_fd(ag, 2);
 		ft_putendl_fd(": command not found", 2);
+	}
+	else if (op == NO_SUCH_FILE_OR_DIR)
+	{
+		g_signal = 127;
+		ft_putstr_fd(ag, 2);
+		ft_putendl_fd(": No such file or directory", 2);
+	}
+	else if (op == NO_PERMISSION)
+	{
+		g_signal = 126;
+		ft_putstr_fd(ag, 2);
+		ft_putendl_fd(": Permission denied", 2);
+	}
+	else if (op == IS_DIR)
+	{
+		g_signal = 127;
+		ft_putstr_fd(ag, 2);
+		ft_putendl_fd(": Is a directory", 2);
 	}
 	return (1);
 }

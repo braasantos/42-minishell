@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/13 22:05:49 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/15 15:39:43 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ extern int	g_signal;
 typedef enum e_op
 {
 	COMMAND_NOT_FOUND,
+	NO_SUCH_FILE_OR_DIR,
+	NO_PERMISSION,
+	IS_DIR,
 }		t_op;
 
 typedef struct s_split

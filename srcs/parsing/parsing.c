@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/13 13:49:30 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/15 13:42:25 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	exit_fork(t_mini *mini)
 	if (mini->newenvp)
 		ft_free_arr(mini->newenvp);
 	free(mini->newpro);
-	exit(0);
+	exit(g_signal);
 }
 
 int bingo(char *s, char c)
