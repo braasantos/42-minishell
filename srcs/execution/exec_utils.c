@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 13:09:10 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/15 19:17:54 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,20 @@ void ft_exit_builtin(t_mini *mini, int i)
 
 void print_cmd(t_mini *mini, int i)
 {
-	if (is_a_cmd(mini->args[i], mini) == false && is_a_builtin(mini, i) == false)
+	struct stat stats;
+
+	stat(mini->args[i], &stats);
+	if (ft_strchr(mini->args[i], '/') && stat(mini->args[i], &stats))
+		print(NO_SUCH_FILE_OR_DIR, mini->args[i]);
+	else if (access(mini->args[i], F_OK))
+		print(COMMAND_NOT_FOUND, mini->args[i]);
+	else if (access(mini->args[i], F_OK | X_OK) && ft_strchr(mini->args[i], '/'))
+		print(NO_PERMISSION, mini->args[i]);
+	else if (S_ISDIR(stats.st_mode) && ft_strchr(mini->args[i], '/'))
+		print(IS_DIR, mini->args[i]);
+	else if (S_ISDIR(stats.st_mode))
+		print(COMMAND_NOT_FOUND, mini->args[i]);
+	else if (is_a_cmd(mini->args[i], mini) == false && is_a_builtin(mini, i) == false)
 		print(COMMAND_NOT_FOUND, mini->args[i]);
 }
 
@@ -82,4 +95,4 @@ int null_args(t_mini *mini, int i)
 	if (!ft_strcmp(mini->args[i], "e"))
 		return (1);
 	return (0);
-}
+} 

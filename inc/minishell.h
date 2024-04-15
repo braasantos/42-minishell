@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 19:00:03 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/15 19:18:00 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ extern int	g_signal;
 typedef enum e_op
 {
 	COMMAND_NOT_FOUND,
+	NO_SUCH_FILE_OR_DIR,
+	NO_PERMISSION,
+	IS_DIR,
 }		t_op;
 
 typedef struct s_split
