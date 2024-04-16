@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 16:21:21 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 17:10:35 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	remove_str(t_mini *mini, int i)
 	return (1);
 }
 
-int	naaaaaaaaaaaa(t_mini *mini)
+int	check_empty(t_mini *mini)
 {
 	int		i ;
 	char	**str;
@@ -94,55 +94,6 @@ int	naaaaaaaaaaaa(t_mini *mini)
 		i++;
 	}
 	ft_free_arr(str);
-	return (0);
-}
-
-int	count_files(char **s)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (is_a_file(s[i]))
-			count++;
-		i++;
-	}
-	return (count);
-}
-
-int	command(t_mini *mini)
-{
-	if (!ft_strcmp(mini->args[0], "grep"))
-		return (1);
-	if (!ft_strcmp(mini->args[0], "cat"))
-	{
-		if (find_char('<', mini->new_str) && find_char('>', mini->new_str))
-			return (0);
-		else
-			return (1);
-	}
-	return (0);
-}
-
-int	doredirect(t_mini *mini)
-{
-	char	**str;
-
-	if (count_files(mini->args) > 1 && command(mini))
-	{
-		str = echo_w_red(mini->args);
-		if (!str)
-		{
-			g_signal = 1;
-			return (1);
-		}
-		ft_free_arr(mini->args);
-		mini->args = get_newenvp(str);
-		ft_free_arr(str);
-	}
 	return (0);
 }
 
@@ -176,57 +127,4 @@ int ft_define_error(t_mini *mini)
 		}
 	}
 	return (0);
-}
-
-int parsing(t_mini *mini, char *str)
-{
-	if (!ft_check_open_quotes(str))
-		return (1);
-	if (!redirect_basic_check(str))
-		return (ft_putendl_fd(" syntax error near unexpected token `>'", 2), 1);
-	if (!pipe_check(mini, str))
-	{
-		g_signal = 2;
-		return (1);
-	}
-	if (ft_define_error(mini))
-		return (1);
-	if (nAAAAAAAAAAAA(mini))
-		return (ft_putendl_fd(" Is a directory", 2), 0);
-	if (!mini->args[0])
-		return (2);
-	if (doredirect(mini))
-		return (1);
-	if (execute(mini))
-		return (1);
-	return (0);
-}
-
-void sigint_on_child(int signal)
-{
-	if (signal == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-	}
-}
-
-void get_exit_status(t_mini *mini)
-{
-	int i;
-	int status;
-
-	i = 0;
-	status = 0;
-	while (i < count_pipes(mini) + 1)
-	{
-		signal(SIGINT, &sigint_on_child);
-		waitpid(mini->newpro[i], &status, 0);
-		if (WIFEXITED(status))
-			g_signal = WEXITSTATUS(status);
-		if (WIFSIGNALED(status))
-			g_signal = 128 + WTERMSIG(status);
-		i++;
-	}
 }
