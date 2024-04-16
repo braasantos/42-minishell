@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/10 18:42:12 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/16 13:22:35 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	var_exists(t_mini *mini, char *var)
 
 bool	is_special(char s)
 {
-	if (s == '_'  || s == '\'' || s == '\"')
+	if (s == '_' || s == '\'' || s == '\"')
 		return (false);
 	if (!((s >= 65 && s <= 90) || (s >= 97 && s <= 122)))
 		return (true);
@@ -43,7 +43,7 @@ bool	is_special(char s)
 
 int	check_var(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (s[i] == '=')
@@ -67,8 +67,8 @@ int	check_var(char *s)
 
 int	export_len(char **s)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -76,8 +76,8 @@ int	export_len(char **s)
 	{
 		if (count_dquotes(s[i]) == 1 || count_squotes(s[i]) == 1)
 		{
-			while (s[i + 1] && (count_dquotes(s[i + 1]) != 1 
-				&& count_squotes(s[i + 1]) != 1))
+			while (s[i + 1] && (count_dquotes(s[i + 1]) != 1
+					&& count_squotes(s[i + 1]) != 1))
 				i++;
 			if (s[i + 1])
 				i++;

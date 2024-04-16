@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 19:18:12 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:47:09 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int g_signal;
+int	g_signal;
 
-static void init_all(t_mini *mini)
+static void	init_all(t_mini *mini)
 {
 	g_signal = 0;
 	mini->newenvp = NULL;
@@ -39,10 +39,10 @@ static void init_all(t_mini *mini)
 	mini->pwd = NULL;
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_mini mini;
-	extern char **environ;
+	t_mini		mini;
+	extern char	**environ;
 
 	if (ac >= 2 && av)
 		return (ft_putstr_fd("pls do not use arguments :(\n", 2), 0);
@@ -73,8 +73,7 @@ void	update_pwd(t_mini *mini)
 	}
 }
 
-
-void parser(t_mini *mini)
+void	parser(t_mini *mini)
 {
 	while (1)
 	{
@@ -96,4 +95,3 @@ void parser(t_mini *mini)
 		free_struct(mini);
 	}
 }
-

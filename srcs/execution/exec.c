@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 19:18:23 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:35:52 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,10 @@ int	builtins_check(t_mini *mini, int i)
 	if (!ft_strcmp(mini->args[i], "grep"))
 	{
 		if (get_grep(mini, i))
-			return(1);
+			return (1);
 	}
 	return (0);
 }
-
 
 int	execute(t_mini *mini)
 {
@@ -92,17 +91,19 @@ int	pipe_creation(t_mini *mini)
 	return (0);
 }
 
-bool is_not_a_cmd(char *s)
+bool	is_not_a_cmd(char *s)
 {
-	if (is_a_pipe(s) || is_a_red(s) || ft_strstartswith(s, "-") || count_quotes(s) > 0 || is_a_append_here(s) || is_a_file(s) || is_a_number(s))
+	if (is_a_pipe(s) || is_a_red(s) || ft_strstartswith(s, "-")
+		|| count_quotes(s) > 0 || is_a_append_here(s)
+		|| is_a_file(s) || is_a_number(s))
 		return (false);
 	return (true);
 }
 
-void create_flow(t_mini *mini)
+void	create_flow(t_mini *mini)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;

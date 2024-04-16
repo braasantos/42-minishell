@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 19:18:00 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:12:43 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include "../includes/LIBFT/libft.h"
 
 extern int	g_signal;
+
+#define MINI_SINTAX_ERROR "Minishell: syntax error near unexpected token `newline'"
 
 typedef enum e_op
 {

@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/15 17:22:08 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:21:15 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char **new_args(char **s, int k, int k1)
+char	**new_args(char **s, int k, int k1)
 {
-	char **newenvp;
-	int i;
-	int j;
-	int len;
-	int new_index;
+	char	**newenvp;
+	int		i;
+	int		j;
+	int		len;
+	int		new_index;
 
 	len = str_len(s);
 	newenvp = (char **)malloc((len + 1) * sizeof(char *));
@@ -90,7 +90,7 @@ int	have_redi(char **s)
 	return (0);
 }
 
-int echo_len(char **s, int i)
+int	echo_len(char **s, int i)
 {
 	while (s[i])
 	{
@@ -101,12 +101,12 @@ int echo_len(char **s, int i)
 	return (i);
 }
 
-char **forming_echo_args(char **s, int i)
+char	**forming_echo_args(char **s, int i)
 {
 	char	**new_args;
 	char	**str;
 	int		j;
-	
+
 	str = get_newenvp(s);
 	j = 0;
 	new_args = (char **)malloc(sizeof(char *) * (echo_len(s, i) + 1));
@@ -130,7 +130,6 @@ char **forming_echo_args(char **s, int i)
 	return (new_args);
 }
 
-
 int	havehere_doc(char **s)
 {
 	int	i;
@@ -147,10 +146,10 @@ int	havehere_doc(char **s)
 
 void	heredoc_first(t_mini *mini)
 {
-	int	here_pos;
-	int	delimiter_pos;
-	char **s;
-	int	i;
+	char	**s;
+	int		here_pos;
+	int		delimiter_pos;
+	int		i;
 
 	i = 0;
 	if (havehere_doc(mini->echo_split))
@@ -160,7 +159,7 @@ void	heredoc_first(t_mini *mini)
 		while (mini->echo_split[i])
 		{
 			if (!ft_strcmp(mini->echo_split[i], "<<"))
-					handle_heredoc(mini, mini->echo_split[i + 1]);
+				handle_heredoc(mini, mini->echo_split[i + 1]);
 			i++;
 		}
 		s = new_args(mini->echo_split, here_pos, delimiter_pos);
@@ -191,7 +190,7 @@ int	handle_split_args(t_mini *mini, int i)
 		if (hanlde_redirects(mini, mini->echo_split, 0, 0))
 			return (1);
 		s = echo_w_red(mini->echo_split);
-		if (!ft_strcmp(s[0] ,"NULL"))
+		if (!ft_strcmp(s[0], "NULL"))
 			return (g_signal = 1, 1);
 		ft_free_arr(mini->echo_split);
 		mini->echo_split = NULL;
@@ -203,7 +202,6 @@ int	handle_split_args(t_mini *mini, int i)
 	return (0);
 }
 
-
 int	condition_to_expand(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "<<"))
@@ -211,13 +209,14 @@ int	condition_to_expand(t_mini *mini, int i)
 		if (mini->args[i + 1])
 		{
 			if (bingo(mini->args[i + 1], '$'))
-					return (1);
+				return (1);
 		}
 	}
 	if (bingo(mini->args[i], '\''))
-			time_to_remove(mini, i);
+		time_to_remove(mini, i);
 	return (0);
 }
+
 void	check_comand(t_mini *mini)
 {
 	int		i;
@@ -230,7 +229,8 @@ void	check_comand(t_mini *mini)
 		return ;
 	while (mini->args[i])
 	{
-		if (is_a_cmd(mini->args[i], mini) || is_a_file(mini->args[i]) || is_a_folder(mini->args[i]))
+		if (is_a_cmd(mini->args[i], mini)
+			|| is_a_file(mini->args[i]) || is_a_folder(mini->args[i]))
 		{
 			if (count_quotes(mini->args[i]) > 0)
 			{
@@ -241,7 +241,7 @@ void	check_comand(t_mini *mini)
 			}
 		}
 		if (condition_to_expand(mini, i))
-				flag = 0;
+			flag = 0;
 		if (bingo(mini->args[i], '$') && ft_strlen(mini->args[i]) > 1 && flag)
 		{
 			flag = 1;
@@ -251,11 +251,11 @@ void	check_comand(t_mini *mini)
 	}
 }
 
-int count_dquote_pairs(char *str)
+int	count_dquote_pairs(char *str)
 {
-	int pairs;
-	int open_quote;
-	int i;
+	int	pairs;
+	int	open_quote;
+	int	i;
 
 	pairs = 0;
 	open_quote = 0;
@@ -276,11 +276,12 @@ int count_dquote_pairs(char *str)
 	}
 	return (pairs);
 }
-int count_squote_pairs(char *str)
+
+int	count_squote_pairs(char *str)
 {
-	int pairs;
-	int open_quote;
-	int i;
+	int	pairs;
+	int	open_quote;
+	int	i;
 
 	pairs = 0;
 	open_quote = 0;

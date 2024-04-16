@@ -6,7 +6,7 @@
 /*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 12:41:31 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 12:47:38 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ bool	is_a_folder(char *s)
 	char	*str;
 
 	if (count_quotes(s))
-		str =ft_remove_quotes(s);
+		str = ft_remove_quotes(s);
 	else
 		str = ft_strdup(s);
 	if (access(str, F_OK) == -1)

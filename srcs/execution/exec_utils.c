@@ -6,15 +6,15 @@
 /*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 12:41:16 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 13:37:50 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void handle_append2(t_mini *mini, int i)
+void	handle_append2(t_mini *mini, int i)
 {
-	int file;
+	int	file;
 
 	if (mini->args[i + 1])
 	{
@@ -22,15 +22,15 @@ void handle_append2(t_mini *mini, int i)
 		if (!file)
 		{
 			ft_putstr_fd("Minishell: no file specified in redirect '>>'.\n", 2);
-			return;
+			return ;
 		}
 		close(file);
 	}
 	else
-		return;
+		return ;
 }
 
-int check_here(t_mini *mini)
+int	check_here(t_mini *mini)
 {
 	if (!ft_strcmp(mini->args[0], "<<"))
 	{
@@ -45,7 +45,7 @@ int check_here(t_mini *mini)
 	return (0);
 }
 
-void ft_exit_builtin(t_mini *mini, int i)
+void	ft_exit_builtin(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "exit"))
 	{
@@ -55,26 +55,28 @@ void ft_exit_builtin(t_mini *mini, int i)
 	}
 }
 
-void print_cmd(t_mini *mini, int i)
+void	print_cmd(t_mini *mini, int i)
 {
-	struct stat stats;
+	struct stat	stats;
 
 	stat(mini->args[i], &stats);
 	if (ft_strchr(mini->args[i], '/') && stat(mini->args[i], &stats))
 		print(NO_SUCH_FILE_OR_DIR, mini->args[i]);
 	else if (access(mini->args[i], F_OK))
 		print(COMMAND_NOT_FOUND, mini->args[i]);
-	else if (access(mini->args[i], F_OK | X_OK) && ft_strchr(mini->args[i], '/'))
+	else if (access(mini->args[i], F_OK | X_OK)
+		&& ft_strchr(mini->args[i], '/'))
 		print(NO_PERMISSION, mini->args[i]);
 	else if (S_ISDIR(stats.st_mode) && ft_strchr(mini->args[i], '/'))
 		print(IS_DIR, mini->args[i]);
 	else if (S_ISDIR(stats.st_mode))
 		print(COMMAND_NOT_FOUND, mini->args[i]);
-	else if (is_a_cmd(mini->args[i], mini) == false && is_a_builtin(mini, i) == false)
+	else if (is_a_cmd(mini->args[i], mini) == false
+		&& is_a_builtin(mini, i) == false)
 		print(COMMAND_NOT_FOUND, mini->args[i]);
 }
 
-void handle_execve(t_mini *mini, int i)
+void	handle_execve(t_mini *mini, int i)
 {
 	if (!is_a_cmd(mini->args[i], mini))
 	{
@@ -99,9 +101,9 @@ void handle_execve(t_mini *mini, int i)
 	}
 }
 
-int null_args(t_mini *mini, int i)
+int	null_args(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "e"))
 		return (1);
 	return (0);
-} 
+}

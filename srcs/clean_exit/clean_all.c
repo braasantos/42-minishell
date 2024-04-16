@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   clean_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:44 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 15:46:49 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:39:03 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void ft_free_arr(char **str)
+void	ft_free_arr(char **str)
 {
-	int i;
+	int	i;
 
 	if (!str || !*str)
 		return ;
@@ -71,11 +71,11 @@ int	check_signals(char *arg)
 int	get_exit_number(char *str)
 {
 	int	number;
-	
+
 	number = 0;
 	while (!ft_isdigit(*str))
 		str++;
-	while(ft_isdigit(*str))
+	while (ft_isdigit(*str))
 	{
 		number = number * 10 + *str - 48;
 		str++;
@@ -106,7 +106,7 @@ int	exit_check(t_mini *mini)
 	return (0);
 }
 
-void free_struct_2(t_mini *mini)
+void	free_struct_2(t_mini *mini)
 {
 	if (exit_check(mini))
 		return ;

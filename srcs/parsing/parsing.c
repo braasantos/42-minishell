@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 19:20:12 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:42:14 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	exit_fork(t_mini *mini)
 {
-	// fprintf(stderr, "%d\n", g_signal);
 	if (mini->echo_split)
 	{
 		ft_free_arr(mini->echo_split);
@@ -33,9 +32,9 @@ void	exit_fork(t_mini *mini)
 	exit(g_signal);
 }
 
-int bingo(char *s, char c)
+int	bingo(char *s, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -76,7 +75,7 @@ int	remove_str(t_mini *mini, int i)
 	return (1);
 }
 
-int	nAAAAAAAAAAAA(t_mini *mini)
+int	naaaaaaaaaaaa(t_mini *mini)
 {
 	int		i ;
 	char	**str;
@@ -139,10 +138,9 @@ int	doredirect(t_mini *mini)
 	return (0);
 }
 
-
-int ft_define_error(t_mini *mini)
+int	ft_define_error(t_mini *mini)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
 
 	if (!strncmp(mini->args[0], "./", 2) || !strncmp(mini->args[0], "/", 1))
 	{
@@ -151,7 +149,7 @@ int ft_define_error(t_mini *mini)
 			if (S_ISDIR(path_stat.st_mode))
 			{
 				g_signal = 126;
-				return ( ft_putendl_fd(" Is a directory", 2), 1);
+				return (ft_putendl_fd(" Is a directory", 2), 1);
 			}
 			else
 			{
@@ -165,15 +163,13 @@ int ft_define_error(t_mini *mini)
 		else
 		{
 			g_signal = 127;
-			return ( ft_putendl_fd(" No such file or directory", 2), 1);
+			return (ft_putendl_fd(" No such file or directory", 2), 1);
 		}
 	}
 	return (0);
 }
 
-
-
-int parsing(t_mini *mini, char *str)
+int	parsing(t_mini *mini, char *str)
 {
 	if (!ft_check_open_quotes(str))
 		return (1);
@@ -186,7 +182,7 @@ int parsing(t_mini *mini, char *str)
 	}
 	if (ft_define_error(mini))
 		return (1);
-	if (nAAAAAAAAAAAA(mini))
+	if (naaaaaaaaaaaa(mini))
 		return (ft_putendl_fd(" Is a directory", 2), 0);
 	if (!mini->args[0])
 		return (2);
@@ -197,7 +193,7 @@ int parsing(t_mini *mini, char *str)
 	return (0);
 }
 
-void sigint_on_child(int signal)
+void	sigint_on_child(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -207,10 +203,10 @@ void sigint_on_child(int signal)
 	}
 }
 
-void get_exit_status(t_mini *mini)
+void	get_exit_status(t_mini *mini)
 {
-	int i;
-	int status;
+	int	i;
+	int	status;
 
 	i = 0;
 	status = 0;
