@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 19:08:56 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 12:34:25 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	check_parser_full(t_mini *mini)
 	int fd;
 
 	i = 0;
+	fd = 0;
 	while (mini->args[i])
 	{
 		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], ">>"))
@@ -65,7 +66,7 @@ int	check_parser_full(t_mini *mini)
 			is_a_file(mini->args[i + 1]);
 		i++;
 	}
-	return (0);
+	return (fd);
 }
 
 
