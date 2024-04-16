@@ -6,7 +6,7 @@
 /*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:35:52 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 14:40:55 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,14 @@ int	builtins_check(t_mini *mini, int i)
 		return (get_cd(mini, i));
 	if ((!ft_strcmp(mini->args[i], "env")))
 		return (get_envp(mini));
+	if ((!ft_strcmp(mini->args[i], "export"))
+		|| (!ft_strcmp(mini->args[i], "unset")))
+		if (check_env(mini))
+			return (1);
 	if ((!ft_strcmp(mini->args[i], "export")))
-	{
-		if (check_env(mini))
-			return (1);
 		return (get_export(mini));
-	}
 	if ((!ft_strcmp(mini->args[i], "unset")))
-	{
-		if (check_env(mini))
-			return (1);
 		return (get_unset(mini));
-	}
 	if (!ft_strcmp(mini->args[i], "grep"))
 	{
 		if (get_grep(mini, i))
@@ -123,30 +119,4 @@ void	create_flow(t_mini *mini)
 			i++;
 	}
 	twenty_six_lines(mini);
-}
-
-int	create_child(t_mini *mini, int i, int flag, int j)
-{
-	mini->exit_flag = 0;
-	if (is_a_builtin(mini, i) == false && is_a_cmd(mini->args[i], mini))
-		update_path(mini, i);
-	if (null_args(mini, i))
-		return (0);
-	mini->newpro[j] = fork();
-	if (!mini->newpro[j])
-	{
-		through_pipes(mini, j, flag);
-		if (ft_strcmp(mini->args[i], "echo"))
-			if (hanlde_redirects(mini, mini->args, i, 1))
-				exit_fork(mini);
-		if (builtins(mini, i))
-			exit_fork(mini);
-		redirect(mini);
-		handle_execve(mini, i);
-	}
-	if (mini->exit_flag != 1 && flag == 0)
-		get_exit_status(mini);
-	if (is_a_builtin(mini, i) == false && is_a_cmd(mini->args[i], mini))
-		delete_path(mini);
-	return (0);
 }

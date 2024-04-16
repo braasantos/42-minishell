@@ -1,8 +1,11 @@
 NAME = minishell
 SRCS = main.c \
 parsing/parsing.c \
+parsing/parsing2.c \
+parsing/parsing3.c \
 pipes/pipes.c \
 redirects/redirects.c \
+redirects/redirects2.c \
 redirects/append_heredoc.c \
 signals/signal_handlers.c \
 helpers/utils.c \
@@ -10,29 +13,42 @@ helpers/utils2.c \
 helpers/utils3.c \
 helpers/utils4.c \
 helpers/utils5.c \
+helpers/utils6.c \
 helpers/checkers_utils.c \
 helpers/utils_commands.c \
 helpers/checkers.c \
+helpers/checkers2.c \
 helpers/parser_helpers.c \
 helpers/path_helpers.c \
+helpers/path_helpers2.c \
 execution/exec.c \
+execution/exec2.c \
 execution/exec_utils.c \
+execution/exec_utils2.c \
 builtins/builtins.c \
+builtins/builtins2.c \
 builtins/expander.c \
 builtins/expander2.c \
+builtins/expander3.c \
 builtins/export_util.c \
 builtins/pwd.c \
 builtins/env.c \
 builtins/export.c \
 builtins/export2.c \
+builtins/export3.c \
 builtins/export_utils.c \
 builtins/unset.c \
 builtins/cd.c \
+builtins/cd2.c \
 builtins/cd_util.c \
 builtins/echo.c \
+builtins/echo2.c \
 builtins/new_split.c \
 builtins/echo_utils.c \
+builtins/echo_utils2.c \
+builtins/echo_utils3.c \
 clean_exit/clean_all.c \
+clean_exit/clean_all2.c \
 
 HEADER = ../inc/minishell.h
 LIBFTDIR = includes/LIBFT/libft.a

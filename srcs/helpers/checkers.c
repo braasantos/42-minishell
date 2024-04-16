@@ -6,7 +6,7 @@
 /*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:37 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 12:49:04 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 13:51:15 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,19 +100,4 @@ bool	is_a_file(char *s)
 	if (access(str, F_OK) == -1)
 		return (free(str), false);
 	return (free(str), true);
-}
-
-bool	is_a_option(char *s, t_mini *mini)
-{
-	char	*str;
-
-	if (is_a_pipe(s) || is_a_red(s) || is_a_file(s))
-		return (false);
-	if (!ft_strcmp(s, "-"))
-		return (true);
-	str = ft_add(mini, s);
-	if (access(str, X_OK) == -1)
-		return (free(str), true);
-	else
-		return (free(str), false);
 }

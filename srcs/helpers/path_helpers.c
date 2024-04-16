@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:10 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/13 13:49:06 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/16 13:52:24 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,4 @@ char	**add_option(t_mini *mini, int i, char *temp)
 	}
 	ret = ft_split(result, ' ');
 	return (free(result), ret);
-}
-
-void	delete_path(t_mini *mini)
-{
-	if (mini->path_to_cmd)
-		free(mini->path_to_cmd);
-	if ((mini->exec_args))
-		ft_free_arr(mini->exec_args);
 }

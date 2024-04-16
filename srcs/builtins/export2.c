@@ -6,7 +6,7 @@
 /*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:22:35 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 14:00:31 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,26 +112,4 @@ int	get_export(t_mini *mini)
 	if (!mini->args[1])
 		export_no_option(mini);
 	return (1);
-}
-
-void	delete_replace(t_mini *mini, char **str, int i, int *flag)
-{
-	*flag = 1;
-	export_unset(mini, i);
-	if (count_quotes(mini->new_str) == 0)
-		export_quotes(str, mini, i);
-	else if (count_quotes(mini->new_str) > 0)
-		export_woquotes(str, mini, i);
-}
-
-void	export_quotes(char **newvar, t_mini *mini, int i)
-{
-	char	*var;
-
-	var = ft_strdup(mini->args[i]);
-	newvar = add_var(mini->newenvp, var);
-	ft_free_arr(mini->newenvp);
-	mini->newenvp = get_newenvp(newvar);
-	ft_free_arr(newvar);
-	free(var);
 }

@@ -6,7 +6,7 @@
 /*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:12:43 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 14:32:39 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 extern int	g_signal;
 
-#define MINI_SINTAX_ERROR "Minishell: syntax error near unexpected token `newline'"
+# define STX_ERROR	"Minishell: syntax error near unexpected token `newline'"
 
 typedef enum e_op
 {
@@ -111,11 +111,12 @@ char	**new_split(char *str);
 /* ******************** */
 /* 		echo_utils.c	*/
 /* ******************** */
-// char	**add_option_echo(t_mini *mini, int i, char *temp);
 int		handle_split_args(t_mini *mini, int i);
 void	check_comand(t_mini *mini);
 int		count_dquote_pairs(char *str);
 int		count_squote_pairs(char *str);
+char	**forming_echo_args(char **s, int i);
+int		condition_to_expand(t_mini *mini, int i);
 /* ******************** */
 /* 		echo.c			*/
 /* ******************** */
@@ -192,6 +193,9 @@ bool	is_space(char c);
 void	ft_free_arr(char **str);
 void	free_struct(t_mini *mini);
 void	free_struct_2(t_mini *mini);
+int		arg_number(t_mini *mini);
+int		check_signals(char *arg);
+int		get_exit_number(char *str);
 /* ************************************************************************** */
 /*								execution	    							  */
 /* ************************************************************************** */
@@ -307,6 +311,7 @@ int		bingo(char *s, char c);
 int		parsing(t_mini *mini, char *str);
 void	sigint_on_child(int signal);
 void	get_exit_status(t_mini *mini);
+int		naaaaaaaaaaaa(t_mini *mini);
 /* ************************************************************************** */
 /*								pipes										  */
 /* ************************************************************************** */

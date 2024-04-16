@@ -6,7 +6,7 @@
 /*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:14:33 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 13:52:42 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_parser(t_mini *mini)
 			}
 			else
 			{
-				ft_putendl_fd(MINI_SINTAX_ERROR, 2);
+				ft_putendl_fd(STX_ERROR, 2);
 				return (1);
 			}
 		}
@@ -85,7 +85,7 @@ int	check_parser3(t_mini *mini, int i)
 	else
 	{
 		g_signal = 1;
-		ft_putendl_fd(MINI_SINTAX_ERROR, 2);
+		ft_putendl_fd(STX_ERROR, 2);
 		return (1);
 	}
 	return (0);
@@ -144,16 +144,4 @@ char	*ft_remove_quotes(char *str)
 	}
 	new[j] = '\0';
 	return (new);
-}
-
-int	check_next(t_mini *mini, int i)
-{
-	if (!ft_strcmp(mini->args[i], ">")
-		|| (!ft_strcmp(mini->args[i], "<"))
-		|| is_a_append_here(mini->args[i]))
-	{
-		if (mini->args[i + 1])
-			return (1);
-	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:37:50 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 14:10:28 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,4 @@ void	handle_execve(t_mini *mini, int i)
 		}
 		exit_fork(mini);
 	}
-}
-
-int	null_args(t_mini *mini, int i)
-{
-	if (!ft_strcmp(mini->args[i], "e"))
-		return (1);
-	return (0);
 }
