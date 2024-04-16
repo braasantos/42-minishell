@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   clean_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:44 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 15:46:49 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:13:30 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void ft_free_arr(char **str)
+void	ft_free_arr(char **str)
 {
-	int i;
+	int	i;
 
 	if (!str || !*str)
 		return ;
@@ -71,54 +71,14 @@ int	check_signals(char *arg)
 int	get_exit_number(char *str)
 {
 	int	number;
-	
+
 	number = 0;
 	while (!ft_isdigit(*str))
 		str++;
-	while(ft_isdigit(*str))
+	while (ft_isdigit(*str))
 	{
 		number = number * 10 + *str - 48;
 		str++;
 	}
 	return (number);
-}
-
-int	exit_check(t_mini *mini)
-{
-	if (arg_number(mini) > 2)
-		return (1);
-	if (arg_number(mini) == 2)
-	{
-		if (ft_isalpha(mini->args[1][0]))
-		{
-			g_signal = 2;
-			ft_putstr_fd(" numeric argument required\n", 2);
-			return (1);
-		}
-		if (check_signals(mini->args[1]))
-			return (1);
-		if (is_a_number(mini->args[1]))
-		{
-			g_signal = get_exit_number(mini->args[1]) % 256;
-			return (1);
-		}
-	}
-	return (0);
-}
-
-void free_struct_2(t_mini *mini)
-{
-	if (exit_check(mini))
-		return ;
-	mini->exit_flag = 1;
-	unlink(".heredoc");
-	free(mini->pwd);
-	ft_free_arr(mini->args);
-	if (mini->new_str)
-		free(mini->new_str);
-	if (mini->str)
-		free(mini->str);
-	if (mini->newenvp)
-		ft_free_arr(mini->newenvp);
-	exit(0);
 }

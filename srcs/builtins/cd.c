@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 15:25:51 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:55:25 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	chech_path(char *s)
 void	update_envs(char *cwd, t_mini *mini)
 {
 	char	*env;
+
 	set_env_var("OLDPWD", cwd, mini);
 	env = getcwd(0, 0);
 	set_env_var("PWD", env, mini);
@@ -68,7 +69,6 @@ void	change_dir(char *path, t_mini *mini)
 {
 	char	*cwd;
 	char	buff[4097];
-	
 
 	if (chech_path(path))
 		return ;
@@ -91,56 +91,4 @@ void	change_dir(char *path, t_mini *mini)
 		else
 			ft_putendl_fd(" not a directory: ", 2);
 	}
-}
-
-static int	has_two_args(char **args, t_mini *mini)
-{
-	if (args[1])
-	{
-		if (args[2])
-		{
-			ft_putendl_fd("cd: too many arguments", 2);
-			g_signal = 1;
-			return (1);
-		}
-		if (!ft_strcmp(args[1], "-"))
-			print_pwd(mini);
-		else
-			change_dir(args[1], mini);
-		return (1);
-	}
-	return (0);
-}
-
-int	get_cd(t_mini *mini, int i)
-{
-	char	*home_dir;
-
-	home_dir = get_env("HOME", mini);
-	if ((!mini->args[i + 1]))
-	{
-		change_dir(home_dir, mini);
-		update_pwd(mini);
-		return (1);
-	}
-	else
-	{
-		if (is_a_pipe(mini->args[i + 1]) || is_a_red(mini->args[i + 1])
-			|| is_a_append_here(mini->args[i + 1]))
-				return (1);
-		if (has_two_args(mini->args, mini))
-			return (1);
-	}
-	return (0);
-}
-
-int	ft_strstartswith(char *s1, char *s2)
-{
-	int	i;
-
-	i = -1;
-	while (s2[++i])
-		if (s1[i] != s2[i])
-			return (0);
-	return (1);
 }

@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   new_split.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:40:05 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/12 15:19:59 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:25:57 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static char	*ft_strncpy(char* dest, const char* src, size_t num)
+static char	*ft_strncpy(char *dest, const char *src, size_t num)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (i < num && src[i] != '\0')
@@ -26,9 +26,9 @@ static char	*ft_strncpy(char* dest, const char* src, size_t num)
 	return (dest);
 }
 
-static void init_split(t_split *split, char *str)
+static void	init_split(t_split *split, char *str)
 {
-	int len;
+	int	len;
 
 	split->i = 0;
 	split->start = 0;
@@ -40,12 +40,13 @@ static void init_split(t_split *split, char *str)
 	split->s = (char **)malloc((len + 1) * sizeof(char *));
 }
 
-static char **return_split(t_split *split, char *str)
+static char	**return_split(t_split *split, char *str)
 {
 	split->tokens = split->i - split->start;
 	if (split->tokens > 0)
 	{
-		split->s[split->words] = (char *)malloc((split->tokens + 1) * sizeof(char));
+		split->s[split->words] = (char *)
+			malloc((split->tokens + 1) * sizeof(char));
 		ft_strncpy(split->s[split->words], &str[split->start], split->tokens);
 		split->words++;
 	}
@@ -76,9 +77,10 @@ static void	middle_split(t_split *split, char *str)
 		}
 	}
 }
-char **new_split(char *str)
+
+char	**new_split(char *str)
 {
-	t_split split;
+	t_split	split;
 
 	init_split(&split, str);
 	while (str[split.i])

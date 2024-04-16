@@ -6,19 +6,18 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 16:15:35 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:20:42 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-
 int	check_parser(t_mini *mini)
 {
 	int	i;
 
-	i = 0;
-	while (mini->args[i])
+	i = -1;
+	while (mini->args[++i])
 	{
 		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], ">>"))
 		{
@@ -29,8 +28,7 @@ int	check_parser(t_mini *mini)
 			}
 			else
 			{
-				ft_putstr_fd("Minishell: syntax error near ", 2);
-				ft_putendl_fd("unexpected token `newline'", 2);
+				ft_putendl_fd(STX_ERROR, 2);
 				return (1);
 			}
 		}
@@ -39,7 +37,6 @@ int	check_parser(t_mini *mini)
 				return (1);
 		if (do_redirects(mini, i) == 1)
 			return (1);
-		i++;
 	}
 	return (0);
 }
@@ -47,16 +44,18 @@ int	check_parser(t_mini *mini)
 int	check_parser_full(t_mini *mini)
 {
 	int	i;
-	int fd;
+	int	fd;
 
 	i = 0;
+	fd = 0;
 	while (mini->args[i])
 	{
 		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], ">>"))
 		{
 			if (mini->args[i + 1])
 			{
-				fd = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_TRUNC, 0664);
+				fd = open(mini->args[i + 1],
+						O_WRONLY | O_CREAT | O_TRUNC, 0664);
 				if (access(mini->args[i + 1], W_OK | X_OK) == -1)
 					break ;
 			}
@@ -65,9 +64,8 @@ int	check_parser_full(t_mini *mini)
 			is_a_file(mini->args[i + 1]);
 		i++;
 	}
-	return (0);
+	return (fd);
 }
-
 
 int	check_parser3(t_mini *mini, int i)
 {
@@ -87,7 +85,7 @@ int	check_parser3(t_mini *mini, int i)
 	else
 	{
 		g_signal = 1;
-		ft_putendl_fd("Minishell: syntax error near unexpected token `newline'", 2);
+		ft_putendl_fd(STX_ERROR, 2);
 		return (1);
 	}
 	return (0);
@@ -179,16 +177,4 @@ char	*ft_remove_quotes(char *str)
 	}
 	new[j] = '\0';
 	return (new);
-}
-
-int	check_next(t_mini *mini, int i)
-{
-	if (!ft_strcmp(mini->args[i], ">")
-		|| (!ft_strcmp(mini->args[i], "<"))
-		|| is_a_append_here(mini->args[i]))
-	{
-		if (mini->args[i + 1])
-			return (1);
-	}
-	return (0);
 }

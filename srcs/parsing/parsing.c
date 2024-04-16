@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 16:07:49 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:21:21 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	exit_fork(t_mini *mini)
 {
-	// fprintf(stderr, "%d\n", g_signal);
 	if (mini->echo_split)
 	{
 		ft_free_arr(mini->echo_split);
@@ -33,9 +32,9 @@ void	exit_fork(t_mini *mini)
 	exit(g_signal);
 }
 
-int bingo(char *s, char c)
+int	bingo(char *s, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -76,7 +75,7 @@ int	remove_str(t_mini *mini, int i)
 	return (1);
 }
 
-int	nAAAAAAAAAAAA(t_mini *mini)
+int	naaaaaaaaaaaa(t_mini *mini)
 {
 	int		i ;
 	char	**str;

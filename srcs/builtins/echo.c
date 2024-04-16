@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:54:16 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 17:21:38 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:02:12 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,4 @@ void	ft_print_new_line(int flag_nl)
 {
 	if (flag_nl)
 		ft_printf("\n");
-}
-
-bool	db_quotes(char *str)
-{
-	int	quotes;
-
-	quotes = 0;
-	while (*str)
-		if (*str++ == '\"')
-			quotes++;
-	return (quotes);
 }

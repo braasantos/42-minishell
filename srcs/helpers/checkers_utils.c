@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   checkers_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:10:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/30 16:54:25 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/16 13:15:09 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
 
 char	*do_sum(t_mini *mini, int i)
 {

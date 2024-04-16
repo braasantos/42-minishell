@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:37 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 12:43:10 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:51:15 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,25 +94,10 @@ bool	is_a_file(char *s)
 	char	*str;
 
 	if (count_quotes(s))
-		str =ft_remove_quotes(s);
+		str = ft_remove_quotes(s);
 	else
 		str = ft_strdup(s);
 	if (access(str, F_OK) == -1)
 		return (free(str), false);
 	return (free(str), true);
-}
-
-bool	is_a_option(char *s, t_mini *mini)
-{
-	char	*str;
-
-	if (is_a_pipe(s) || is_a_red(s) || is_a_file(s))
-		return (false);
-	if (!ft_strcmp(s, "-"))
-		return (true);
-	str = ft_add(mini, s);
-	if (access(str, X_OK) == -1)
-		return (free(str), true);
-	else
-		return (free(str), false);
 }

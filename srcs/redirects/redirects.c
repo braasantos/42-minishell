@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:55:18 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:20:44 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	redirect_output(char *s, t_mini *mini)
 {
 	int		file_fd;
 	char	*str;
+
 	(void)mini;
 	if (!s)
 		return (1);
@@ -73,7 +74,7 @@ int	redirect_input(char *s)
 
 int	more_red(t_mini *mini, int i)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (mini->args[++i])
@@ -97,59 +98,18 @@ int	hanlde_redirects(t_mini *mini, char **s, int i, int flag)
 	while (s[i])
 	{
 		if (!ft_strcmp(s[i], ">"))
-			if (redirect_output(s[i + 1], mini))
-			{
-				g_signal = 1;
-				return (g_signal);
-			}
-		if (!ft_strcmp(mini->args[i], "<"))
-			if (redirect_input(s[i + 1]))
-			{
-				g_signal = 1;
-				return (g_signal);
-			}
-		if (handle_red(mini, s[i], s[i + 1], flag))
 		{
-			g_signal = 1;
-			return (g_signal);
+			if (redirect_output(s[i + 1], mini))
+				return (g_signal = 1);
 		}
+		if (!ft_strcmp(mini->args[i], "<"))
+		{
+			if (redirect_input(s[i + 1]))
+				return (g_signal = 1);
+		}
+		if (handle_red(mini, s[i], s[i + 1], flag))
+			return (g_signal = 1);
 		i++;
 	}
-	return (0);
-}
-
-
-void	redirect(t_mini *mini)
-{
-	dup2(mini->stdin_fd, STDIN_FILENO);
-	dup2(mini->stdout_fd, STDOUT_FILENO);
-}
-
-int	file_ok(char *s, int flag)
-{
-	int	fd;
-
-	fd = 0;
-	if (flag == 1)
-	{
-		if (access(s, W_OK) == -1)
-			return (ft_putendl_fd(" Permission denied", 2), 1);
-		fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-		if (fd == -1)
-		{
-			close(fd);
-			return (ft_putendl_fd(" No such file or directory", 2), 1);
-		}
-	}
-	if (flag == 2)
-	{
-		fd = open(s, O_RDONLY);
-		if (fd == -1)
-		{
-			close(fd);
-			return (ft_putendl_fd(" No such file or directory", 2), 1);
-		}
-	}
-	close(fd);
 	return (0);
 }
