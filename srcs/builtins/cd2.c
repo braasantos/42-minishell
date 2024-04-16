@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:54:56 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 13:55:33 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 20:38:35 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	get_cd(t_mini *mini, int i)
 	}
 	else
 	{
-		if (is_a_pipe(mini->args[i + 1]) || is_a_red(mini->args[i + 1])
+		if (is_a_pipe(mini->args[i + 1], 0) || is_a_red(mini->args[i + 1])
 			|| is_a_append_here(mini->args[i + 1]))
 			return (1);
 		if (has_two_args(mini->args, mini))

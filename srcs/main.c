@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 12:47:09 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 19:32:04 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,6 @@ int	main(int ac, char **av)
 	init_all(&mini);
 	mini.newenvp = get_newenvp(environ);
 	parser(&mini);
-}
-
-void	update_pwd(t_mini *mini)
-{
-	int		i;
-
-	if (mini->pwd)
-	{
-		free(mini->pwd);
-		mini->pwd = NULL;
-	}
-	i = -1;
-	while (mini->newenvp[++i])
-	{
-		if (!ft_strncmp(mini->newenvp[i], "PWD", 3))
-			mini->pwd = export_key(mini->newenvp[i]);
-	}
-	if (!mini->pwd)
-	{
-		mini->pwd = getcwd(0, 0);
-		return ;
-	}
 }
 
 void	parser(t_mini *mini)

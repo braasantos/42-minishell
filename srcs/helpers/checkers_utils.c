@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkers_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:10:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:15:09 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 18:25:15 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,31 @@ int	count_dquotes(char *str)
 		i++;
 	}
 	return (count);
+}
+int	check_position_bool(t_mini *mini, char *to_find)
+{
+	int	i;
+
+	i = 0;
+	while (mini->args[i])
+	{
+		if (!ft_strcmp(mini->args[i], to_find))
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+int	check_position(t_mini *mini, int j)
+{
+	int	i;
+
+	i = 0;
+	while (mini->args[i])
+	{
+		if (!ft_strcmp(mini->args[i], mini->args[j]))
+			return (i);
+		i++;
+	}
+	return (0);
 }

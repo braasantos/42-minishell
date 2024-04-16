@@ -3,43 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 16:20:34 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:35:01 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	builtins_check(t_mini *mini, int i)
-{
-	if (!ft_strcmp(mini->args[i], "exit"))
-	{
-		free_struct_2(mini);
-		return (1);
-	}
-	if (!ft_strcmp(mini->args[i], "pwd"))
-		return (print_pwd(mini));
-	if ((!ft_strcmp(mini->args[i], "cd")))
-		return (get_cd(mini, i));
-	if ((!ft_strcmp(mini->args[i], "env")))
-		return (get_envp(mini));
-	if ((!ft_strcmp(mini->args[i], "export"))
-		|| (!ft_strcmp(mini->args[i], "unset")))
-		if (check_env(mini))
-			return (1);
-	if ((!ft_strcmp(mini->args[i], "export")))
-		return (get_export(mini));
-	if ((!ft_strcmp(mini->args[i], "unset")))
-		return (get_unset(mini));
-	if (!ft_strcmp(mini->args[i], "grep"))
-	{
-		if (get_grep(mini, i))
-			return (1);
-	}
-	return (0);
-}
 
 int	execute(t_mini *mini)
 {
@@ -67,35 +38,6 @@ int	execute(t_mini *mini)
 	return (0);
 }
 
-int	pipe_creation(t_mini *mini)
-{
-	int	i;
-	int	n_pipes;
-
-	n_pipes = count_pipes(mini);
-	mini->pipes_fd = malloc(sizeof(int) * (n_pipes * 2));
-	i = 0;
-	while (i < n_pipes)
-	{
-		if (pipe(mini->pipes_fd + (2 * i)) < 0)
-		{
-			ft_putstr_fd("Error while creating pipes", 2);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-bool	is_not_a_cmd(char *s)
-{
-	if (is_a_pipe(s) || is_a_red(s) || ft_strstartswith(s, "-")
-		|| count_quotes(s) > 0 || is_a_append_here(s)
-		|| is_a_file(s) || is_a_number(s))
-		return (false);
-	return (true);
-}
-
 void	create_flow(t_mini *mini)
 {
 	int	i;
@@ -119,4 +61,30 @@ void	create_flow(t_mini *mini)
 			i++;
 	}
 	twenty_six_lines(mini);
+}
+
+int	create_child(t_mini *mini, int i, int flag, int j)
+{
+	mini->exit_flag = 0;
+	if (is_a_builtin(mini, i) == false && is_a_cmd(mini->args[i], mini))
+		update_path(mini, i);
+	if (null_args(mini, i))
+		return (0);
+	mini->newpro[j] = fork();
+	if (!mini->newpro[j])
+	{
+		through_pipes(mini, j, flag);
+		if (ft_strcmp(mini->args[i], "echo"))
+			if (hanlde_redirects(mini, mini->args, i, 1))
+				exit_fork(mini);
+		if (builtins(mini, i))
+			exit_fork(mini);
+		redirect(mini);
+		handle_execve(mini, i);
+	}
+	if (mini->exit_flag != 1 && flag == 0)
+		get_exit_status(mini);
+	if (is_a_builtin(mini, i) == false && is_a_cmd(mini->args[i], mini))
+		delete_path(mini);
+	return (0);
 }

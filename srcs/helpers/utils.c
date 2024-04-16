@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:17:31 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:55:40 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:13:00 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,16 @@ int	redirect_basic_check(char *str)
 	return (1);
 }
 
-bool	check_options(char *s)
+int	remove_str(t_mini *mini, int i)
 {
-	if (is_a_pipe(s) || is_a_red(s) || is_a_append_here(s))
-		return (true);
-	return (false);
+	char	**newvar;
+
+	if (mini->args[i])
+	{
+		newvar = remove_var(mini->args, mini->args[i]);
+		ft_free_arr(mini->args);
+		mini->args = get_newenvp(newvar);
+		ft_free_arr(newvar);
+	}
+	return (1);
 }

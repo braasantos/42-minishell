@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:10 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:52:24 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 20:37:43 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,6 @@ void	update_path(t_mini *mini, int i)
 	mini->exec_args = add_option(mini, i, temp);
 }
 
-int	get_grep(t_mini *mini, int i)
-{
-	i++;
-	i++;
-	if (is_a_red(mini->args[i]))
-		i++;
-	while (mini->args[i])
-	{
-		if (!is_a_file(mini->args[i]))
-		{
-			ft_putendl_fd(" No such file or directory", 2);
-			g_signal = 2;
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 char	*hndl_quotes(t_mini *mini, int i)
 {
 	char	*s;
@@ -48,7 +29,7 @@ char	*hndl_quotes(t_mini *mini, int i)
 
 	s = NULL;
 	temp = NULL;
-	if (count_dquotes(mini->args[i]) > 0 && !is_a_file(mini->args[i]))
+	if (count_dquotes(mini->args[i]) > 0 && !is_a_file(mini->args[i]) && !is_a_pipe(mini->args[i], 0))
 		s = ft_remove_quotes(mini->args[i]);
 	else
 		s = ft_strdup(mini->args[i]);
@@ -59,7 +40,7 @@ char	*hndl_quotes(t_mini *mini, int i)
 
 int	save_lines2(t_mini *mini, char *temp, int i)
 {
-	if (is_a_pipe(mini->args[i]) || is_a_red(mini->args[i]))
+	if (is_a_pipe(mini->args[i], 1) || is_a_red(mini->args[i]))
 	{
 		mini->pipe_or_redirect_found = true;
 		free(temp);
@@ -95,4 +76,12 @@ char	**add_option(t_mini *mini, int i, char *temp)
 	}
 	ret = ft_split(result, ' ');
 	return (free(result), ret);
+}
+
+void	delete_path(t_mini *mini)
+{
+	if (mini->path_to_cmd)
+		free(mini->path_to_cmd);
+	if ((mini->exec_args))
+		ft_free_arr(mini->exec_args);
 }

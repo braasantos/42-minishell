@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 16:20:29 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:48:17 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,26 +68,6 @@ char	**echo_w_red(char **s)
 		}
 	}
 	return (str);
-}
-
-int	have_redi(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (ft_strcmp(s[i], ">") == 0)
-			return (1);
-		if (ft_strcmp(s[i], "<") == 0)
-			return (1);
-		if (ft_strcmp(s[i], ">>") == 0)
-			return (1);
-		if (ft_strcmp(s[i], "<<") == 0)
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 int	echo_len(char **s, int i)

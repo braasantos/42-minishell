@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:17:19 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/03 15:56:02 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 20:13:13 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,70 @@ int	print_error(char *s)
 	{
 		ft_putstr_fd("minishell: syntax error near unexpected token `>'", 2);
 		return (1);
+	}
+	return (0);
+}
+
+int	check_next(t_mini *mini, int i)
+{
+	if (!ft_strcmp(mini->args[i], ">")
+		|| (!ft_strcmp(mini->args[i], "<"))
+		|| is_a_append_here(mini->args[i]))
+	{
+		if (mini->args[i + 1])
+			return (1);
+	}
+	return (0);
+}
+int	count_red_pipe(t_mini *mini)
+{
+	int	i;
+	int	count;
+
+	count = 0;
+	i = 0;
+	while (mini->args[i])
+	{
+		if (!ft_strcmp(mini->args[i], ">"))
+			count++;
+		if (!ft_strcmp(mini->args[i], "<"))
+			count++;
+		if (!ft_strcmp(mini->args[i], ">>"))
+			count++;
+		if (!ft_strcmp(mini->args[i], "|"))
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int	im_done_parser(t_mini *mini)
+{
+	int	i;
+
+	i = 0;
+	while (mini->args[i])
+	{
+		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], "<"))
+		{
+			if (mini->args[i + 1])
+			{
+				if (check_options(mini->args[i + 1]))
+				{
+					g_signal = 2;
+					fprintf(stderr, " syntax error near unexpected token `%s'\n", mini->args[i + 1]);
+					return (1);
+				}
+			}
+			else
+			{
+				g_signal = 2;
+				ft_putendl_fd(" syntax error near unexpected token `newline'", 2);
+				return (1);
+			}
+
+		}
+		i++;
 	}
 	return (0);
 }

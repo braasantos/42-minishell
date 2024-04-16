@@ -3,31 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 16:20:44 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:31:00 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	count_red(t_mini *mini)
+int	file_ok(char *s, int flag)
 {
-	int	i;
-	int	count;
+	int	fd;
 
-	i = 0;
-	count = 0;
-	while (mini->args[i])
+	fd = 0;
+	if (flag == 1)
 	{
-		if (ft_strcmp(mini->args[i], "<") == 0
-			|| ft_strcmp(mini->args[i], ">") == 0
-			|| !ft_strcmp(mini->args[i], ">>"))
-			count++;
-		i++;
+		if (access(s, W_OK) == -1)
+			return (ft_putendl_fd(" Permission denied", 2), 1);
+		fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+		if (fd == -1)
+		{
+			close(fd);
+			return (ft_putendl_fd(" No such file or directory", 2), 1);
+		}
 	}
-	return (count);
+	if (flag == 2)
+	{
+		fd = open(s, O_RDONLY);
+		if (fd == -1)
+		{
+			close(fd);
+			return (ft_putendl_fd(" No such file or directory", 2), 1);
+		}
+	}
+	close(fd);
+	return (0);
 }
 
 int	redirect_output(char *s, t_mini *mini)

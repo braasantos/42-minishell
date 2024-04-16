@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:57:55 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 14:32:05 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 18:47:28 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,3 +78,4 @@ int	condition_to_expand(t_mini *mini, int i)
 		time_to_remove(mini, i);
 	return (0);
 }
+

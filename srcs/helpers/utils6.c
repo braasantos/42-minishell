@@ -3,23 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   utils6.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:04 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 13:53:27 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 18:48:27 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	check_next(t_mini *mini, int i)
+int	have_redi(char **s)
 {
-	if (!ft_strcmp(mini->args[i], ">")
-		|| (!ft_strcmp(mini->args[i], "<"))
-		|| is_a_append_here(mini->args[i]))
+	int	i;
+
+	i = 0;
+	while (s[i])
 	{
-		if (mini->args[i + 1])
+		if (ft_strcmp(s[i], ">") == 0)
 			return (1);
+		if (ft_strcmp(s[i], "<") == 0)
+			return (1);
+		if (ft_strcmp(s[i], ">>") == 0)
+			return (1);
+		if (ft_strcmp(s[i], "<<") == 0)
+			return (1);
+		i++;
 	}
 	return (0);
 }

@@ -2,13 +2,15 @@ NAME = minishell
 SRCS = main.c \
 parsing/parsing.c \
 parsing/parsing2.c \
-parsing/parsing3.c \
 pipes/pipes.c \
 redirects/redirects.c \
-redirects/redirects2.c \
+redirects/redirects_utils.c \
 redirects/append_heredoc.c \
 signals/signal_handlers.c \
+signals/signal_utils.c \
 helpers/utils.c \
+helpers/bool_utils.c \
+helpers/bool.c \
 helpers/utils2.c \
 helpers/utils3.c \
 helpers/utils4.c \
@@ -20,13 +22,10 @@ helpers/checkers.c \
 helpers/checkers2.c \
 helpers/parser_helpers.c \
 helpers/path_helpers.c \
-helpers/path_helpers2.c \
 execution/exec.c \
-execution/exec2.c \
 execution/exec_utils.c \
-execution/exec_utils2.c \
 builtins/builtins.c \
-builtins/builtins2.c \
+builtins/builtins_utils.c \
 builtins/expander.c \
 builtins/expander2.c \
 builtins/expander3.c \
@@ -42,7 +41,6 @@ builtins/cd.c \
 builtins/cd2.c \
 builtins/cd_util.c \
 builtins/echo.c \
-builtins/echo2.c \
 builtins/new_split.c \
 builtins/echo_utils.c \
 builtins/echo_utils2.c \

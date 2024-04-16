@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 15:08:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:53:15 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 18:47:55 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void	twenty_six_lines(t_mini *mini)
-{
-	close_pipes(mini);
-	get_exit_status(mini);
-}
 
 char	*export_var(char *s)
 {
@@ -113,6 +107,19 @@ int	get_qmark(t_mini *mini, int i)
 		}
 		else
 			j++;
+	}
+	return (0);
+}
+int	havehere_doc(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_strcmp(s[i], "<<"))
+			return (i);
+		i++;
 	}
 	return (0);
 }

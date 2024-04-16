@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:56:25 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 14:32:01 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 19:50:23 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-int	havehere_doc(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (!ft_strcmp(s[i], "<<"))
-			return (i);
-		i++;
-	}
-	return (0);
-}
 
 void	heredoc_first(t_mini *mini)
 {
@@ -94,6 +80,27 @@ void	remove_quotes_helper(t_mini *mini, int i)
 	free(temp);
 }
 
+int	check_things(char *s)
+{
+	char *str;
+
+	if (count_quotes(s))
+		str = ft_remove_quotes(s);
+	else
+		str = ft_strdup(s);
+	if (!ft_strcmp(str, ">"))
+		return (free(str), 1);
+	if (!ft_strcmp(str, "<"))
+		return (free(str), 1);
+	if (!ft_strcmp(str, "|"))
+		return (free(str), 1);
+	if (!ft_strcmp(str, ">>"))
+		return (1);
+	if (!ft_strcmp(str, "<<"))
+		return (free(str), 1);
+	return (free(str), 0);
+}
+
 void	check_comand(t_mini *mini)
 {
 	int		i;
@@ -106,7 +113,8 @@ void	check_comand(t_mini *mini)
 	while (mini->args[++i])
 	{
 		if (is_a_cmd(mini->args[i], mini)
-			|| is_a_file(mini->args[i]) || is_a_folder(mini->args[i]))
+			|| is_a_file(mini->args[i]) 
+			|| is_a_folder(mini->args[i]))
 		{
 			if (count_quotes(mini->args[i]) > 0)
 				remove_quotes_helper(mini, i);
