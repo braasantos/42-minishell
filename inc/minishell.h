@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 19:18:00 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:58:55 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <signal.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../includes/LIBFT/libft.h"
@@ -353,11 +354,6 @@ int		check_env(t_mini *mini);
 int		pre_echo(t_mini *mini, int i);
 bool	is_a_quote(char *s);
 void	update_pwd(t_mini *mini);
-// char	**create_export(char **str, char **newarr, int j, int i);
-// char	**create_echo(char **str, char **newarr, int j, int i);
-// char	**coverup(char **str, int flag);
-// void	change_args(t_mini *mini, int flag);
-// void	return_merged(char *s, char **merged_string);
 int		export_len(char **s);
 char	*ft_remove_dquotes(const char *str);
 char	**echo_w_red(char **s);
@@ -369,4 +365,5 @@ char	**new_args(char **s, int k, int k1);
 void	check_echo(t_mini *mini);
 int		count_files(char **s);
 int		check_parser_full(t_mini *mini);
+void	heredoc_first(t_mini *mini);
 #endif

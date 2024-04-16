@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:56 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/13 22:08:25 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/16 14:24:31 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,13 @@ int	handle_append(char *s)
 	{
 		file = open(s, O_WRONLY | O_CREAT | O_APPEND, 0664);
 		if (file_ok(s, 1))
+		{
+			g_signal = 1;
 			return (1);
+		}
 		if (!file)
 		{
+			g_signal = 1;
 			ft_putstr_fd("Minishell: no file specified in redirect '>>'.\n", 2);
 			return (1);
 		}
@@ -46,7 +50,10 @@ int	handle_append(char *s)
 		close(file);
 	}
 	else
+	{
+		g_signal = 1;
 		return (1);
+	}
 	return (0);
 }
 

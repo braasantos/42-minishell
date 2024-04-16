@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 19:08:56 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:15:35 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_parser(t_mini *mini)
 	i = 0;
 	while (mini->args[i])
 	{
-		if (!ft_strcmp(mini->args[i], ">"))
+		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], ">>"))
 		{
 			if (mini->args[i + 1])
 			{
@@ -93,6 +93,38 @@ int	check_parser3(t_mini *mini, int i)
 	return (0);
 }
 
+
+int	new_append(char *s)
+{
+	if (access(s, W_OK) == -1)
+	{
+		g_signal = 1;
+		return (ft_putendl_fd(" Permission denied", 2), 1);
+	}
+	return (0);
+}
+
+
+int	checkrediret(char *s)
+{
+	int file;
+
+	file = open(s, O_WRONLY | O_CREAT | O_APPEND, 0664);
+	if (file_ok(s, 1))
+	{
+		g_signal = 1;
+		return (1);
+	}
+	if (!file)
+	{
+		g_signal = 1;
+		ft_putstr_fd("Minishell: no file specified in redirect '>>'.\n", 2);
+		return (1);
+	}
+	dup2(file, STDOUT_FILENO);
+	close(file);
+	return (0);
+}
 int	do_redirects(t_mini *mini, int i)
 {
 	if (!ft_strcmp(mini->args[i], "<<"))
@@ -111,6 +143,7 @@ int	do_redirects(t_mini *mini, int i)
 	{
 		if (mini->args[i + 1])
 			return (0);
+		else
 		g_signal = 1;
 		ft_putstr_fd("Minishell: syntax error ", 2);
 		ft_putendl_fd("near unexpected token `newline'", 2);

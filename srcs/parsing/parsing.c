@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/15 19:20:12 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 16:07:49 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,12 @@ int	command(t_mini *mini)
 	if (!ft_strcmp(mini->args[0], "grep"))
 		return (1);
 	if (!ft_strcmp(mini->args[0], "cat"))
-		return (1);
+	{
+		if (find_char('<', mini->new_str) && find_char('>', mini->new_str))
+			return (0);
+		else
+			return (1);
+	}
 	return (0);
 }
 
@@ -131,7 +136,10 @@ int	doredirect(t_mini *mini)
 	{
 		str = echo_w_red(mini->args);
 		if (!str)
+		{
+			g_signal = 1;
 			return (1);
+		}
 		ft_free_arr(mini->args);
 		mini->args = get_newenvp(str);
 		ft_free_arr(str);
@@ -170,8 +178,6 @@ int ft_define_error(t_mini *mini)
 	}
 	return (0);
 }
-
-
 
 int parsing(t_mini *mini, char *str)
 {
