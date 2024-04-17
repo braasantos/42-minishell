@@ -6,7 +6,7 @@
 /*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:13:10 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/17 14:46:41 by gamoreir         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:00:01 by gamoreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ int	exit_check(t_mini *mini)
 			g_signal = get_exit_number(mini->args[1]) % 256;
 			return (0);
 		}
+	}
+	else if (arg_number(mini) > 2)
+	{
+		g_signal = 1;
+		ft_putstr_fd(" too many arguments\n", 2);
+		return (1);
 	}
 	return (0);
 }
