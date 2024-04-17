@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_split.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:40:05 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 13:25:57 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/17 11:04:21 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	middle_split(t_split *split, char *str)
 			split->start = split->i + 1;
 		}
 	}
-	if (count_squotes(str) > 1)
+	else if (count_squotes(str) > 1)
 	{
 		if (str[split->i] == '\'')
 			split->quotes = !split->quotes;
