@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:44 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 14:13:30 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/17 14:59:58 by gamoreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,6 @@ int	arg_number(t_mini *mini)
 	i = 0;
 	while (mini->args[i])
 		i++;
-	if (i > 2)
-	{
-		g_signal = 1;
-		ft_putstr_fd(" too many arguments\n", 2);
-	}
 	return (i);
 }
 
