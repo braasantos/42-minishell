@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 17:10:46 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:20:18 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,5 +373,5 @@ void	check_echo(t_mini *mini);
 int		count_files(char **s);
 int		check_parser_full(t_mini *mini);
 void	heredoc_first(t_mini *mini);
-int	check_empty(t_mini *mini);
+int		check_empty(t_mini *mini);
 #endif
