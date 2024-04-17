@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins2.c                                        :+:      :+:    :+:   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:06:11 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 14:06:41 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/17 13:41:03 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int	check_parser2(t_mini *mini, int i)
 	if (check_options(s))
 	{
 		g_signal = 1;
-		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
+		ft_fprintf(2, "Minishell: no file specified in redirect '>'.\n");
 		return (free(s), 1);
 	}
 	file_fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (!file_fd)
 	{
 		g_signal = 1;
-		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
+		ft_fprintf(2, "Minishell: no file specified in redirect '>'.\n");
 		return (free(s), 1);
 	}
 	return (free(s), 0);

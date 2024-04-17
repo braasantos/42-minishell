@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 19:22:19 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/17 13:46:27 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ int	check_parser3(t_mini *mini, int i)
 		if (check_options(mini->args[i + 1]))
 		{
 			g_signal = 2;
-			return (ft_putendl_fd(" syntax error near unexpected token ", 2), 1);
+			return (ft_fprintf(2, " syntax error near unexpected token \n"), 1);
 		}
 		else
 		{
 			g_signal = 1;
-			ft_putendl_fd(" No such file or directory", 2);
+			ft_fprintf(2, " No such file or directory\n");
 			return (1);
 		}
 	}

@@ -2,6 +2,7 @@ NAME = minishell
 SRCS = main.c \
 parsing/parsing.c \
 parsing/parsing2.c \
+error/ft_fprintf.c \
 pipes/pipes.c \
 redirects/redirects.c \
 redirects/redirects_utils.c \
@@ -78,6 +79,7 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c
 $(OBJS_DIR):
 	mkdir -p objs
 	mkdir -p objs/builtins/
+	mkdir -p objs/error/
 	mkdir -p objs/clean_exit/
 	mkdir -p objs/execution/
 	mkdir -p objs/helpers/

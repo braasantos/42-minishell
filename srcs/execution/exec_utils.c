@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 18:42:01 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/17 13:44:09 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	handle_execve(t_mini *mini, int i)
 		{
 			g_signal = 126;
 			ft_putstr_fd(mini->args[i], 2);
-			ft_putendl_fd(": Is a directory", 2);
+			ft_fprintf(2, ": Is a directory\n");
 		}
 		else
 		{
 			g_signal = 127;
 			ft_putstr_fd(mini->args[i], 2);
-			ft_putendl_fd(": command not found", 2);
+			ft_fprintf(2, ": command not found\n");
 		}
 		exit_fork(mini);
 	}

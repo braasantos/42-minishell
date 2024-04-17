@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkers.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:37 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 18:38:40 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/17 16:42:20 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,17 @@ int	bingo(char *s, char c)
 int	get_grep(t_mini *mini, int i)
 {
 	i++;
-	i++;
+	if (mini->args[i])
+		i++;
+	if (!mini->args[i])
+		return (0);
 	if (is_a_red(mini->args[i]))
 		i++;
 	while (mini->args[i])
 	{
 		if (!is_a_file(mini->args[i]))
 		{
-			ft_putendl_fd(" No such file or directory", 2);
+			ft_fprintf(2, " No such file or directory\n");
 			g_signal = 2;
 			return (1);
 		}

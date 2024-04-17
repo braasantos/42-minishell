@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 18:31:00 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/17 13:50:51 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	file_ok(char *s, int flag)
 	if (flag == 1)
 	{
 		if (access(s, W_OK) == -1)
-			return (ft_putendl_fd(" Permission denied", 2), 1);
+			return (ft_fprintf(2, " Permission denied\n"), 1);
 		fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 		if (fd == -1)
 		{
 			close(fd);
-			return (ft_putendl_fd(" No such file or directory", 2), 1);
+			return (ft_fprintf(2, " No such file or directory\n"), 1);
 		}
 	}
 	if (flag == 2)
@@ -34,7 +34,7 @@ int	file_ok(char *s, int flag)
 		if (fd == -1)
 		{
 			close(fd);
-			return (ft_putendl_fd(" No such file or directory", 2), 1);
+			return (ft_fprintf(2, " No such file or directory\n"), 1);
 		}
 	}
 	close(fd);

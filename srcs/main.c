@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/04/17 11:06:12 by braasantos       ###   ########.fr       */
+=======
+/*   Updated: 2024/04/17 17:09:56 by bjorge-m         ###   ########.fr       */
+>>>>>>> refs/remotes/origin/master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +52,7 @@ int	main(int ac, char **av)
 		return (ft_putstr_fd("pls do not use arguments :(\n", 2), 0);
 	init_all(&mini);
 	mini.newenvp = get_newenvp(environ);
+	do_shlvl(&mini);
 	parser(&mini);
 }
 
@@ -61,7 +66,6 @@ void	parser(t_mini *mini)
 			signals(3, mini);
 		mini->new_str = pad_central(mini->str);
 		mini->args = new_split(mini->new_str);
-		// ft_printf("%s\n", mini->new_str);
 		// while_loop(mini->args);
 		if (!mini->args[0])
 		{

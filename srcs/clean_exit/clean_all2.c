@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_all2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:13:10 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 14:13:37 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/17 15:00:01 by gamoreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	exit_check(t_mini *mini)
 {
-	if (arg_number(mini) > 2)
-		return (1);
 	if (arg_number(mini) == 2)
 	{
 		if (ft_isalpha(mini->args[1][0]))
@@ -25,12 +23,18 @@ int	exit_check(t_mini *mini)
 			return (1);
 		}
 		if (check_signals(mini->args[1]))
-			return (1);
+			return (0);
 		if (is_a_number(mini->args[1]))
 		{
 			g_signal = get_exit_number(mini->args[1]) % 256;
-			return (1);
+			return (0);
 		}
+	}
+	else if (arg_number(mini) > 2)
+	{
+		g_signal = 1;
+		ft_putstr_fd(" too many arguments\n", 2);
+		return (1);
 	}
 	return (0);
 }
@@ -49,5 +53,5 @@ void	free_struct_2(t_mini *mini)
 		free(mini->str);
 	if (mini->newenvp)
 		ft_free_arr(mini->newenvp);
-	exit(0);
+	exit(g_signal);
 }

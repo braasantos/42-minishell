@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 18:49:13 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/17 13:56:15 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,39 @@ char	*get_expand(char *s)
 	return (str);
 }
 
-void	remove_d_quotes(int d_quotes, int s_quotes, char *arg, char *s)
+void	remove_d_quotes(int i, t_mini *mini, char *s)
 {
+	int	d_quotes;
+	int	s_quotes;
+
+	d_quotes = count_dquote_pairs(mini->args[i]);
+	s_quotes = count_squote_pairs(mini->args[i]);
 	if (d_quotes > 0 && s_quotes > 0)
 	{
 		if (d_quotes % 2 == 0)
 		{
-			s = ft_remove_squotes(arg);
-			free(arg);
-			arg = ft_strdup(s);
+			s = ft_remove_squotes(mini->args[i]);
+			free(mini->args[i]);
+			mini->args[i] = ft_strdup(s);
 			free(s);
 		}
 	}
 }
 
-void	remove_s_quotes(int d_quotes, int s_quotes, char *arg, char *s)
+void	remove_s_quotes(int i, t_mini *mini, char *s)
 {
+	int	d_quotes;
+	int	s_quotes;
+
+	d_quotes = count_dquote_pairs(mini->args[i]);
+	s_quotes = count_squote_pairs(mini->args[i]);
 	if (d_quotes > 1 && s_quotes > 0)
 	{
 		if (s_quotes % 2 == 0)
 		{
-			s = ft_remove_dquotes(arg);
-			free(arg);
-			arg = ft_strdup(s);
+			s = ft_remove_dquotes(mini->args[i]);
+			free(mini->args[i]);
+			mini->args[i] = ft_strdup(s);
 			free(s);
 		}
 	}
@@ -70,18 +80,15 @@ void	remove_s_quotes(int d_quotes, int s_quotes, char *arg, char *s)
 
 void	time_to_remove(t_mini *mini, int i)
 {
-	int		d_quotes;
 	int		s_quotes;
 	char	*s;
 
 	s = NULL;
-	d_quotes = count_dquote_pairs(mini->args[i]);
-	s_quotes = count_squote_pairs(mini->args[i]);
 	if (ft_strstartswith(mini->args[i], "\""))
-		remove_d_quotes(d_quotes, s_quotes, mini->args[i], s);
+		remove_d_quotes(i, mini, s);
 	s_quotes = count_squote_pairs(mini->args[i]);
 	if (ft_strstartswith(mini->args[i], "\'"))
-		remove_s_quotes(d_quotes, s_quotes, mini->args[i], s);
+		remove_s_quotes(i, mini, s);
 }
 
 void	ohhh_boy(t_mini *mini, int i)
