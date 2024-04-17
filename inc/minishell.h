@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/17 13:20:18 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:21:28 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ int		count_dquotes(char *str);
 /* ******************** */
 /*		checkers.c		*/
 /* ******************** */
-bool	is_a_pipe(char *s);
+bool	is_a_pipe(char *s, int flag);
 bool	is_a_red(char *s);
 bool	is_a_cmd(char *s, t_mini *mini);
 bool	is_a_file(char *s);
@@ -312,7 +312,6 @@ int		bingo(char *s, char c);
 int		parsing(t_mini *mini, char *str);
 void	sigint_on_child(int signal);
 void	get_exit_status(t_mini *mini);
-int		naaaaaaaaaaaa(t_mini *mini);
 /* ************************************************************************** */
 /*								pipes										  */
 /* ************************************************************************** */
@@ -374,4 +373,10 @@ int		count_files(char **s);
 int		check_parser_full(t_mini *mini);
 void	heredoc_first(t_mini *mini);
 int		check_empty(t_mini *mini);
+int		builtins_check(t_mini *mini, int i);
+int		check_here(t_mini *mini);
+int		remove_str(t_mini *mini, int i);
+int		havehere_doc(char **s);
+int		check_pwd(char *s, t_mini *mini);
+int		im_done_parser(t_mini *mini);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 16:20:42 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 19:22:19 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_parser(t_mini *mini)
 			else
 			{
 				ft_putendl_fd(STX_ERROR, 2);
-				return (1);
+				return (g_signal = 2, 1);
 			}
 		}
 		if (!ft_strcmp(mini->args[i], "<"))
@@ -75,6 +75,11 @@ int	check_parser3(t_mini *mini, int i)
 			return (0);
 		if (is_a_file(mini->args[i + 1]))
 			return (0);
+		if (check_options(mini->args[i + 1]))
+		{
+			g_signal = 2;
+			return (ft_putendl_fd(" syntax error near unexpected token ", 2), 1);
+		}
 		else
 		{
 			g_signal = 1;
@@ -84,67 +89,8 @@ int	check_parser3(t_mini *mini, int i)
 	}
 	else
 	{
-		g_signal = 1;
+		g_signal = 2;
 		ft_putendl_fd(STX_ERROR, 2);
-		return (1);
-	}
-	return (0);
-}
-
-
-int	new_append(char *s)
-{
-	if (access(s, W_OK) == -1)
-	{
-		g_signal = 1;
-		return (ft_putendl_fd(" Permission denied", 2), 1);
-	}
-	return (0);
-}
-
-
-int	checkrediret(char *s)
-{
-	int file;
-
-	file = open(s, O_WRONLY | O_CREAT | O_APPEND, 0664);
-	if (file_ok(s, 1))
-	{
-		g_signal = 1;
-		return (1);
-	}
-	if (!file)
-	{
-		g_signal = 1;
-		ft_putstr_fd("Minishell: no file specified in redirect '>>'.\n", 2);
-		return (1);
-	}
-	dup2(file, STDOUT_FILENO);
-	close(file);
-	return (0);
-}
-int	do_redirects(t_mini *mini, int i)
-{
-	if (!ft_strcmp(mini->args[i], "<<"))
-	{
-		if (mini->args[i + 1])
-			return (0);
-		else
-		{
-			g_signal = 1;
-			ft_putstr_fd("Minishell: syntax error ", 2);
-			ft_putendl_fd("near unexpected token `newline'", 2);
-			return (1);
-		}
-	}
-	if (!ft_strcmp(mini->args[i], ">>"))
-	{
-		if (mini->args[i + 1])
-			return (0);
-		else
-		g_signal = 1;
-		ft_putstr_fd("Minishell: syntax error ", 2);
-		ft_putendl_fd("near unexpected token `newline'", 2);
 		return (1);
 	}
 	return (0);
@@ -177,4 +123,15 @@ char	*ft_remove_quotes(char *str)
 	}
 	new[j] = '\0';
 	return (new);
+}
+
+bool	db_quotes(char *str)
+{
+	int	quotes;
+
+	quotes = 0;
+	while (*str)
+		if (*str++ == '\"')
+			quotes++;
+	return (quotes);
 }

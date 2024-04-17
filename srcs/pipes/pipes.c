@@ -3,14 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:27 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/02 16:50:10 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:29:13 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+int	count_pipes(t_mini *mini)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (mini->args[i])
+	{
+		if (ft_strcmp(mini->args[i], "|") == 0)
+			count++;
+		i++;
+	}
+	return (count);
+}
+int	pipe_creation(t_mini *mini)
+{
+	int	i;
+	int	n_pipes;
+
+	n_pipes = count_pipes(mini);
+	mini->pipes_fd = malloc(sizeof(int) * (n_pipes * 2));
+	i = 0;
+	while (i < n_pipes)
+	{
+		if (pipe(mini->pipes_fd + (2 * i)) < 0)
+		{
+			ft_putstr_fd("Error while creating pipes", 2);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
 
 void	through_pipes(t_mini *mini, int i, int flag)
 {
@@ -27,22 +62,6 @@ void	through_pipes(t_mini *mini, int i, int flag)
 		}
 		close_pipes(mini);
 	}
-}
-
-int	count_pipes(t_mini *mini)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (mini->args[i])
-	{
-		if (ft_strcmp(mini->args[i], "|") == 0)
-			count++;
-		i++;
-	}
-	return (count);
 }
 
 void	close_pipes(t_mini *mini)

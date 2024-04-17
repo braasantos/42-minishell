@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:19:23 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 15:06:50 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:15:23 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,25 +91,4 @@ char	**get_newenvp(char **envp)
 	}
 	newenvp[i] = NULL;
 	return (newenvp);
-}
-
-bool	is_a_append_here(char *s)
-{
-	if (!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
-		return (true);
-	return (false);
-}
-
-bool	is_a_number(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (ft_isdigit(s[i]))
-			return (true);
-		i++;
-	}
-	return (false);
 }

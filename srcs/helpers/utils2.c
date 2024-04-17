@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 12:47:38 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/16 18:45:48 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,12 @@ int	ft_strcmp(char *str1, char *str2)
 	return (0);
 }
 
-bool	is_a_folder(char *s)
+int	str_len(char **str)
 {
-	char	*str;
+	int	i;
 
-	if (count_quotes(s))
-		str = ft_remove_quotes(s);
-	else
-		str = ft_strdup(s);
-	if (access(str, F_OK) == -1)
-		return (free(str), false);
-	return (free(str), true);
+	i = 0;
+	while (str[i] != NULL)
+		i++;
+	return (i);
 }

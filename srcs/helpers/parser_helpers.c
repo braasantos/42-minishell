@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:12:30 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/06 17:33:42 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/16 18:24:58 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,32 +66,4 @@ char	*pad_central(char *str)
 	ret = (char *)ft_calloc(1, ft_strlen(str) + extra + 1);
 	pad(str, ret, 0, 0);
 	return (ret);
-}
-
-int	check_position_bool(t_mini *mini, char *to_find)
-{
-	int	i;
-
-	i = 0;
-	while (mini->args[i])
-	{
-		if (!ft_strcmp(mini->args[i], to_find))
-			return (i);
-		i++;
-	}
-	return (0);
-}
-
-int	check_position(t_mini *mini, int j)
-{
-	int	i;
-
-	i = 0;
-	while (mini->args[i])
-	{
-		if (!ft_strcmp(mini->args[i], mini->args[j]))
-			return (i);
-		i++;
-	}
-	return (0);
 }

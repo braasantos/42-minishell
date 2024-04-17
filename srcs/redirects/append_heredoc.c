@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:56 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 14:24:31 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:20:16 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,10 @@ int	handle_heredoc2(char *delimiter)
 	free(input);
 	close(file);
 	return (0);
+}
+
+void	redirect(t_mini *mini)
+{
+	dup2(mini->stdin_fd, STDIN_FILENO);
+	dup2(mini->stdout_fd, STDOUT_FILENO);
 }
