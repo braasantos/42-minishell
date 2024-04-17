@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd2.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:54:56 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 20:38:35 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/17 13:42:51 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	has_two_args(char **args, t_mini *mini)
 	{
 		if (args[2])
 		{
-			ft_putendl_fd("cd: too many arguments", 2);
+			ft_fprintf(2, "cd: too many arguments\n");
 			g_signal = 1;
 			return (1);
 		}

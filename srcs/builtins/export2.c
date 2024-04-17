@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 14:00:31 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/17 14:20:33 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	check_var(char *s)
 	i = 0;
 	if (s[i] == '=')
 	{
-		ft_putendl_fd(" not a valid identifier", 2);
+		ft_fprintf(2," not a valid identifier\n");
 		g_signal = 1;
 		return (1);
 	}
@@ -56,7 +56,7 @@ int	check_var(char *s)
 	{
 		if (is_special(s[i]) == true)
 		{
-			ft_putendl_fd(" not a valid identifier", 2);
+			ft_fprintf(2," not a valid identifier\n");
 			g_signal = 1;
 			return (1);
 		}
@@ -100,14 +100,18 @@ int	get_export(t_mini *mini)
 	{
 		flag = 0;
 		if (check_var(mini->args[i]))
-			return (1);
+		{
+			i++;
+			continue ;
+		}
 		if (var_exists(mini, mini->args[i]))
 			delete_replace(mini, newvar, i, &flag);
 		if (count_quotes(mini->new_str) == 0 && !flag)
 			export_quotes(newvar, mini, i);
 		else if (count_quotes(mini->new_str) > 0 && !flag)
 			export_woquotes(newvar, mini, i);
-		i++;
+		if (mini->args[i])
+			i++;
 	}
 	if (!mini->args[1])
 		export_no_option(mini);

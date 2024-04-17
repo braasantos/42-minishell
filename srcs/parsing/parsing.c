@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:14:28 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 19:34:52 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/17 13:47:24 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	parsing(t_mini *mini, char *str)
 	if (!redirect_basic_check(str))
 	{
 		g_signal = 2;
-		return (ft_putendl_fd(" syntax error near unexpected token `>'", 2), 1);
+		return (ft_fprintf(2, " syntax error near unexpected token `>'\n"), 1);
 	}
 	if (!pipe_check(mini, str) || im_done_parser(mini))
 	{
@@ -60,7 +60,7 @@ int	parsing(t_mini *mini, char *str)
 		return (1);
 	}
 	if (check_empty(mini))
-		return (ft_putendl_fd(" Is a directory", 2), 0);
+		return (ft_fprintf(2, " Is a directory\n"), 0);
 	if (!mini->args[0])
 		return (2);
 	if (doredirect(mini))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:27 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 18:29:13 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/17 13:48:12 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	pipe_creation(t_mini *mini)
 	{
 		if (pipe(mini->pipes_fd + (2 * i)) < 0)
 		{
-			ft_putstr_fd("Error while creating pipes", 2);
+			ft_fprintf(2, "Error while creating pipes\n");
 			return (1);
 		}
 		i++;

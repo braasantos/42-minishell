@@ -9,7 +9,7 @@ void	handle_append2(t_mini *mini, int i)
 		file = open(mini->args[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0664);
 		if (!file)
 		{
-			ft_putstr_fd("Minishell: no file specified in redirect '>>'.\n", 2);
+			ft_fprintf(2, "Minishell: no file specified in redirect '>>'.\n");
 			return ;
 		}
 		close(file);
@@ -42,8 +42,8 @@ int	do_redirects(t_mini *mini, int i)
 		else
 		{
 			g_signal = 2;
-			ft_putstr_fd("Minishell: syntax error ", 2);
-			ft_putendl_fd("near unexpected token `newline'", 2);
+			ft_fprintf(2, "Minishell: syntax error ");
+			ft_fprintf(2, "near unexpected token `newline'\n");
 			return (1);
 		}
 	}
@@ -53,8 +53,8 @@ int	do_redirects(t_mini *mini, int i)
 			return (0);
 		else
 		g_signal = 1;
-		ft_putstr_fd("Minishell: syntax error ", 2);
-		ft_putendl_fd("near unexpected token `newline'", 2);
+		ft_fprintf(2, "Minishell: syntax error ");
+		ft_fprintf(2, "near unexpected token `newline'\n");
 		return (1);
 	}
 	return (0);

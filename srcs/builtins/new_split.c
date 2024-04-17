@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_split.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:40:05 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 13:25:57 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/17 17:13:50 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	init_split(t_split *split, char *str)
 	split->temp = ft_split(str, ' ');
 	len = export_len(split->temp);
 	ft_free_arr(split->temp);
+	split->temp = NULL;
 	split->quotes = false;
 	split->s = (char **)malloc((len + 1) * sizeof(char *));
 }
@@ -56,7 +57,7 @@ static char	**return_split(t_split *split, char *str)
 
 static void	middle_split(t_split *split, char *str)
 {
-	if (count_dquotes(str) > 1)
+	if (count_dquote_pairs(str) > 0)
 	{
 		if (str[split->i] == '\"')
 			split->quotes = !split->quotes;
@@ -66,7 +67,7 @@ static void	middle_split(t_split *split, char *str)
 			split->start = split->i + 1;
 		}
 	}
-	if (count_squotes(str) > 1)
+	else if (count_squote_pairs(str) > 0)
 	{
 		if (str[split->i] == '\'')
 			split->quotes = !split->quotes;

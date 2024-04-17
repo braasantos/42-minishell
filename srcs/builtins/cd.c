@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 13:55:25 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/17 13:42:24 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	check_env(t_mini *mini)
 int	chech_path(char *s)
 {
 	if (!s)
-		return (ft_putendl_fd("Minishell: cd: HOME not set", 2), 1);
+		return (ft_fprintf(2, "Minishell: cd: HOME not set\n"), 1);
 	return (0);
 }
 
@@ -84,11 +84,11 @@ void	change_dir(char *path, t_mini *mini)
 		if (access(path, F_OK) == -1)
 		{
 			g_signal = 1;
-			ft_putendl_fd(" No such file or directory", 2);
+			ft_fprintf(2, " No such file or directory\n");
 		}
 		else if (access(path, R_OK) == -1)
-			ft_putendl_fd(" permission denied: ", 2);
+			ft_fprintf(2, " permission denied: \n");
 		else
-			ft_putendl_fd(" not a directory: ", 2);
+			ft_fprintf(2, " not a directory: \n");
 	}
 }

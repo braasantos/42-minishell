@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/17 13:21:28 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:51:03 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,6 +301,7 @@ int		get_qmark(t_mini *mini, int i);
 /*		utils6.c		*/
 /* ******************** */
 int		have_here_doc(t_mini *mini);
+void	do_shlvl(t_mini *mini);
 /* ************************************************************************** */
 /*								parsing									  */
 /* ************************************************************************** */
@@ -371,7 +372,7 @@ char	**new_args(char **s, int k, int k1);
 void	check_echo(t_mini *mini);
 int		count_files(char **s);
 int		check_parser_full(t_mini *mini);
-void	heredoc_first(t_mini *mini);
+void	heredoc_first(t_mini *mini, char **str, int flag);
 int		check_empty(t_mini *mini);
 int		builtins_check(t_mini *mini, int i);
 int		check_here(t_mini *mini);
@@ -379,4 +380,9 @@ int		remove_str(t_mini *mini, int i);
 int		havehere_doc(char **s);
 int		check_pwd(char *s, t_mini *mini);
 int		im_done_parser(t_mini *mini);
+int		count_dquote_pairs(char *str);
+
+//error
+int	ft_fprintf(int fd, const char *format, ...);
+
 #endif

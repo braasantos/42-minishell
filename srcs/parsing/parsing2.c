@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 18:43:14 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/17 13:47:54 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,21 @@ int ft_define_error(t_mini *mini)
 			if (S_ISDIR(path_stat.st_mode))
 			{
 				g_signal = 126;
-				return ( ft_putendl_fd(" Is a directory", 2), 1);
+				return ( ft_fprintf(2, " Is a directory\n"), 1);
 			}
 			else
 			{
 				if (access(mini->args[0], X_OK | R_OK | W_OK) == -1)
 				{
 					g_signal = 126;
-					return (ft_putendl_fd(" Permission denied", 2), 1);
+					return (ft_fprintf(2, " Permission denied\n"), 1);
 				}
 			}
 		}
 		else
 		{
 			g_signal = 127;
-			return ( ft_putendl_fd(" No such file or directory", 2), 1);
+			return ( ft_fprintf(2, " No such file or directory\n"), 1);
 		}
 	}
 	return (0);
