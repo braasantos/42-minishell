@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 12:45:22 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 15:02:40 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	time_to_remove(t_mini *mini, int i)
 		remove_d_quotes(i, mini, s);
 	if (ft_strstartswith(mini->args[i], "\'"))
 		remove_s_quotes(i, mini, s);
+	(void)s_quotes;
 }
 
 void	ohhh_boy(t_mini *mini, int i)

@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 14:14:46 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 15:02:30 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 		update_path(mini, i);
 	if (null_args(mini, i))
 		return (0);
+	signals_child();
 	mini->newpro[j] = fork();
 	if (!mini->newpro[j])
 	{

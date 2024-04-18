@@ -16,10 +16,18 @@ void	sigint_on_child(int signal)
 		rl_replace_line("", 0);
 	}
 }
-void	signal_default(void)
+
+void	handler_child(int signum)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, sig_quit_handler);
-	signal(SIGINT, back_to_prompt);
-	signal(SIGQUIT, SIG_IGN);
+	if (signum == SIGINT)
+		ft_putstr_fd("\n", 2);
+	else if (signum == SIGQUIT)
+		ft_putstr_fd("Quit: (core dumped)\n", 2);
+	g_signal = 128 + signum;
+}
+
+void	signals_child(void)
+{
+	signal(SIGINT, handler_child);
+	signal(SIGQUIT, handler_child);
 }
