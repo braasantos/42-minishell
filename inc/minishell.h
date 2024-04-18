@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/17 16:51:03 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:27:31 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ char	*ft_remove_squotes(const char *str);
 /* ******************** */
 /* 		export2.c		*/
 /* ******************** */
-int		get_export(t_mini *mini);
+void		get_export(t_mini *mini);
 int		var_exists(t_mini *mini, char *var);
 void	delete_replace(t_mini *mini, char **str, int i, int *flag);
 void	export_quotes(char **newvar, t_mini *mini, int i);
@@ -383,6 +383,7 @@ int		im_done_parser(t_mini *mini);
 int		count_dquote_pairs(char *str);
 
 //error
-int	ft_fprintf(int fd, const char *format, ...);
-
+int		ft_fprintf(int fd, const char *format, ...);
+void	signal_default(void);
+int		pipe_or_append(char *s);
 #endif

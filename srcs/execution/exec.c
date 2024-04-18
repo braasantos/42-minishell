@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/17 15:36:21 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:14:46 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 	mini->newpro[j] = fork();
 	if (!mini->newpro[j])
 	{
+		signal_default();
 		through_pipes(mini, j, flag);
 		if (ft_strcmp(mini->args[i], "echo"))
 			if (hanlde_redirects(mini, mini->args, i, 1))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/17 14:20:33 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:27:17 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,11 @@ int	export_len(char **s)
 		i++;
 		j++;
 	}
+	ft_printf("%d\n", j);
 	return (j);
 }
 
-int	get_export(t_mini *mini)
+void	get_export(t_mini *mini)
 {
 	char	**newvar;
 	int		flag;
@@ -113,7 +114,6 @@ int	get_export(t_mini *mini)
 		if (mini->args[i])
 			i++;
 	}
-	if (!mini->args[1])
+	if (!mini->args[1] || pipe_or_append(mini->args[1]))
 		export_no_option(mini);
-	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:56:25 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/17 16:31:10 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 13:58:48 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	heredoc_first(t_mini *mini, char **str, int flag)
 	i = 0;
 	(void)str;
 	remove_here(mini);
-	if (havehere_doc(mini->args))
+	if (havehere_doc(mini->args) && str_len(mini->args) > 2)
 	{
 		here_pos = havehere_doc(mini->args);
 		delimiter_pos = here_pos + 1;

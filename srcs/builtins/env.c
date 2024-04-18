@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:58:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/11 12:22:50 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:05:12 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	get_envp(t_mini *mini)
 	while (mini->newenvp[++i])
 	{
 		if (bingo(mini->newenvp[i], '='))
-			printf("%s\n", mini->newenvp[i]);
+			ft_printf("%s\n", mini->newenvp[i]);
 	}
 	return (1);
 }

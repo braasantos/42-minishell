@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/17 13:56:15 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 12:45:22 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,11 @@ void	remove_s_quotes(int i, t_mini *mini, char *s)
 
 void	time_to_remove(t_mini *mini, int i)
 {
-	int		s_quotes;
 	char	*s;
 
 	s = NULL;
 	if (ft_strstartswith(mini->args[i], "\""))
 		remove_d_quotes(i, mini, s);
-	s_quotes = count_squote_pairs(mini->args[i]);
 	if (ft_strstartswith(mini->args[i], "\'"))
 		remove_s_quotes(i, mini, s);
 }

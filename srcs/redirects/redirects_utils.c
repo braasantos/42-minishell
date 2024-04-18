@@ -22,12 +22,12 @@ int	check_here(t_mini *mini)
 {
 	if (!ft_strcmp(mini->args[0], "<<"))
 	{
-		handle_heredoc(mini, 0);
+		handle_heredoc(mini, mini->args[1]);
 		return (1);
 	}
 	if (!ft_strcmp(mini->args[0], ">>"))
 	{
-		handle_append2(mini, 0);
+		handle_append2(mini, 1);
 		return (1);
 	}
 	return (0);

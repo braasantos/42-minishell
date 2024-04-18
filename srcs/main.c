@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/04/17 11:06:12 by braasantos       ###   ########.fr       */
-=======
-/*   Updated: 2024/04/17 17:09:56 by bjorge-m         ###   ########.fr       */
->>>>>>> refs/remotes/origin/master
+/*   Updated: 2024/04/18 13:15:32 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

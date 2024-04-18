@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 12:05:54 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/12 14:55:05 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:06:35 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	export_no_option(t_mini *mini)
 		tempv = ft_strjoin(tempk, key);
 		free(tempk);
 		tempk = ft_strjoin(tempv, "\"");
-		printf("%s\n", tempk);
+		ft_printf("%s\n", tempk);
 		free(tempk);
 		free(tempv);
 		free(key);

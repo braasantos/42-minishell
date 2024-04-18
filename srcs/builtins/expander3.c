@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:03:56 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 14:04:35 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/18 13:59:30 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,12 @@ void	free_expand2(t_mini *mini, int flag, int i)
 		free(mini->after);
 	}
 }
-
 int	expand_str(t_mini *mini, int i)
 {
 	char	*s;
 	char	*env;
 
-	if (count_dquotes(mini->new_str) == 0 && count_squotes(mini->new_str) > 0)
+	if (count_squotes(mini->args[i]) > 0)
 		return (ohhh_boy(mini, i), 1);
 	free_expand2(mini, 1, i);
 	if (bingo(mini->args[i], '?') && qmark_and_dollar(mini->args[i]))
