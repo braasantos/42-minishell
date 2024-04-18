@@ -9,3 +9,18 @@ void	sigint_on_child(int signal)
 		rl_replace_line("", 0);
 	}
 }
+
+void	handler_child(int signum)
+{
+	if (signum == SIGINT)
+		ft_putstr_fd("\n", 2);
+	else if (signum == SIGQUIT)
+		ft_putstr_fd("Quit: (core dumped)\n", 2);
+	g_signal = 128 + signum;
+}
+
+void	signals_child(void)
+{
+	signal(SIGINT, handler_child);
+	signal(SIGQUIT, handler_child);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/17 13:56:15 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:01:23 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	time_to_remove(t_mini *mini, int i)
 	s_quotes = count_squote_pairs(mini->args[i]);
 	if (ft_strstartswith(mini->args[i], "\'"))
 		remove_s_quotes(i, mini, s);
+	(void)s_quotes;
 }
 
 void	ohhh_boy(t_mini *mini, int i)
