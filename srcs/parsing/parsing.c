@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:14:28 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/17 13:47:24 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:22:40 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,21 @@ int	doredirect(t_mini *mini)
 {
 	char	**str;
 
-	if (count_files(mini->args) > 1 && command(mini))
+	if (count_pipes(mini) == 0)
 	{
-		str = echo_w_red(mini->args);
-		if (!str)
+		if (count_files(mini->args) > 1 && command(mini))
 		{
-			g_signal = 1;
-			return (1);
+			str = echo_w_red(mini->args);
+			if (!str)
+			{
+				g_signal = 1;
+				return (1);
+			}
+			ft_free_arr(mini->args);
+			mini->args = get_newenvp(str);
+			ft_free_arr(str);
 		}
-		ft_free_arr(mini->args);
-		mini->args = get_newenvp(str);
-		ft_free_arr(str);
+
 	}
 	return (0);
 }

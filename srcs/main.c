@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 13:15:32 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 16:02:49 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ void	parser(t_mini *mini)
 		if (!mini->str)
 			signals(3, mini);
 		mini->new_str = pad_central(mini->str);
-		mini->args = new_split(mini->new_str);
-		// while_loop(mini->args);
+		new_split(mini->new_str, mini);
 		if (!mini->args[0])
 		{
 			free_struct(mini);

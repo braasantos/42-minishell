@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 15:02:40 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 17:48:45 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,17 @@ void	remove_s_quotes(int i, t_mini *mini, char *s)
 
 	d_quotes = count_dquote_pairs(mini->args[i]);
 	s_quotes = count_squote_pairs(mini->args[i]);
-	if (d_quotes > 1 && s_quotes > 0)
+	if (s_quotes >= 2)
+	{
+		if (s_quotes % 2 == 0)
+		{
+			s = ft_remove_squotes(mini->args[i]);
+			free(mini->args[i]);
+			mini->args[i] = ft_strdup(s);
+			free(s);
+		}
+	}
+	else if ((d_quotes > 1 && s_quotes > 0))
 	{
 		if (s_quotes % 2 == 0)
 		{
@@ -87,7 +97,6 @@ void	time_to_remove(t_mini *mini, int i)
 		remove_d_quotes(i, mini, s);
 	if (ft_strstartswith(mini->args[i], "\'"))
 		remove_s_quotes(i, mini, s);
-	(void)s_quotes;
 }
 
 void	ohhh_boy(t_mini *mini, int i)

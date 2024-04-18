@@ -20,6 +20,11 @@ void	handle_append2(t_mini *mini, int i)
 
 int	check_here(t_mini *mini)
 {
+	if (!ft_strcmp(mini->args[0], ">"))
+	{
+		check_parser2(mini, 1);
+		return (1);
+	}
 	if (!ft_strcmp(mini->args[0], "<<"))
 	{
 		handle_heredoc(mini, mini->args[1]);

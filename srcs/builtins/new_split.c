@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:40:05 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/18 13:19:15 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 16:02:22 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	*ft_strncpy(char *dest, const char *src, size_t num)
 	return (dest);
 }
 
-static void	init_split(t_split *split)
+static void	init_split(t_split *split, char *str)
 {
 	int	len;
 
@@ -34,8 +34,27 @@ static void	init_split(t_split *split)
 	split->start = 0;
 	split->words = 0;
 	split->quotes = false;
-	len = 100;
+	split->temp = ft_split(str, ' ');
+	if (count_quotes(str))
+		len = 100;
+	else
+		len = str_len(split->temp);
+	ft_free_arr(split->temp);
 	split->s = (char **)malloc((len + 1) * sizeof(char *));
+}
+
+static char	**last_split(t_split *split, char *str)
+{
+	split->tokens = split->i - split->start;
+	if (split->tokens > 0)
+	{
+		split->s[split->words] = (char *)
+			malloc((split->tokens + 1) * sizeof(char));
+		ft_strncpy(split->s[split->words], &str[split->start], split->tokens);
+		split->words++;
+	}
+	split->s[split->words] = NULL;
+	return (split->s);
 }
 
 static char	**return_split(t_split *split, char *str)
@@ -48,7 +67,6 @@ static char	**return_split(t_split *split, char *str)
 		ft_strncpy(split->s[split->words], &str[split->start], split->tokens);
 		split->words++;
 	}
-	split->s[split->words] = NULL;
 	return (split->s);
 }
 
@@ -76,11 +94,11 @@ static void	middle_split(t_split *split, char *str)
 	}
 }
 
-char	**new_split(char *str)
+void	new_split(char *str, t_mini *mini)
 {
 	t_split	split;
 
-	init_split(&split);
+	init_split(&split, str);
 	while (str[split.i])
 	{
 		if (count_quotes(str) > 0)
@@ -95,5 +113,11 @@ char	**new_split(char *str)
 		}
 		split.i++;
 	}
-	return (return_split(&split, str));
+	last_split(&split, str);
+	mini->args = get_newenvp(split.s);
+	if (split.s)
+	{
+		ft_free_arr(split.s);
+		split.s = NULL;
+	}
 }

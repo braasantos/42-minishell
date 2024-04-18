@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:51:12 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 14:28:03 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 16:29:48 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,10 @@ int	builtins_check(t_mini *mini, int i)
 		return (print_pwd(mini));
 	if ((!ft_strcmp(mini->args[i], "cd")))
 		return (get_cd(mini, i));
-	// if ((!ft_strcmp(mini->args[i], "env")))
-		// return (get_envp(mini));
 	if ((!ft_strcmp(mini->args[i], "export"))
 		|| (!ft_strcmp(mini->args[i], "unset")))
 		if (check_env(mini))
 			return (1);
-	// if ((!ft_strcmp(mini->args[i], "export")))
-		// return (get_export(mini));
 	if ((!ft_strcmp(mini->args[i], "unset")))
 		return (get_unset(mini));
 	if (!ft_strcmp(mini->args[i], "grep"))

@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:56 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 15:02:46 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 16:18:21 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,11 @@
 
 int	handle_red(t_mini *mini, char *s, char *ss, int flag)
 {
+	(void)flag;
+	(void)mini;
 	if (!ft_strcmp(s, ">>"))
 		if (handle_append(ss))
 			return (1);
-	if (flag)
-	{
-		if (!ft_strcmp(s, "<<"))
-		{
-			if (handle_heredoc(mini, ss))
-				return (1);
-		}
-	}
 	return (0);
 }
 
@@ -35,7 +29,7 @@ int	handle_append(char *s)
 	if (s)
 	{
 		file = open(s, O_WRONLY | O_CREAT | O_APPEND, 0664);
-		if (file_ok(s, 1))
+		if (file_ok(s, 2))
 		{
 			g_signal = 1;
 			return (1);
