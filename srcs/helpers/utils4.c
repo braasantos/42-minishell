@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:17:19 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/17 13:46:48 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 20:43:49 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,58 +72,6 @@ int	check_next(t_mini *mini, int i)
 	{
 		if (mini->args[i + 1])
 			return (1);
-	}
-	return (0);
-}
-int	count_red_pipe(t_mini *mini)
-{
-	int	i;
-	int	count;
-
-	count = 0;
-	i = 0;
-	while (mini->args[i])
-	{
-		if (!ft_strcmp(mini->args[i], ">"))
-			count++;
-		if (!ft_strcmp(mini->args[i], "<"))
-			count++;
-		if (!ft_strcmp(mini->args[i], ">>"))
-			count++;
-		if (!ft_strcmp(mini->args[i], "|"))
-			count++;
-		i++;
-	}
-	return (count);
-}
-
-int	im_done_parser(t_mini *mini)
-{
-	int	i;
-
-	i = 0;
-	while (mini->args[i])
-	{
-		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], "<"))
-		{
-			if (mini->args[i + 1])
-			{
-				if (check_options(mini->args[i + 1]))
-				{
-					g_signal = 2;
-					ft_fprintf(2, " syntax error near unexpected token `%s'\n", mini->args[i + 1]);
-					return (1);
-				}
-			}
-			else
-			{
-				g_signal = 2;
-				ft_fprintf(2, " syntax error near unexpected token `newline'\n");
-				return (1);
-			}
-
-		}
-		i++;
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 18:03:55 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 21:42:05 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,9 @@ int	which_first(t_mini *mini, int i, int j, int flag)
 			if (hanlde_redirects(mini, mini->args, i, 1))
 				return (1);
 	}
-	else
+	else if (count_red(mini) == 0)
+		through_pipes(mini, j, flag);
+	else if (red_out(mini))
 	{
 		if (ft_strcmp(mini->args[i], "echo"))
 			if (hanlde_redirects(mini, mini->args, i, 1))
@@ -97,7 +99,6 @@ int	which_first(t_mini *mini, int i, int j, int flag)
 	return (0);
 }
 
-
 int	create_child(t_mini *mini, int i, int flag, int j)
 {
 	mini->exit_flag = 0;
@@ -106,9 +107,9 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 	if (null_args(mini, i))
 		return (0);
 	mini->newpro[j] = fork();
+		signals_child();
 	if (!mini->newpro[j])
 	{
-		signals_child();
 		if (which_first(mini, i, j, flag))
 			exit_fork(mini);
 		if (builtins(mini, i))

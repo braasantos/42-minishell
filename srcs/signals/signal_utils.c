@@ -32,20 +32,8 @@ void	handler_child(int signum)
 	g_signal = 128 + signum;
 }
 
-void	sigpipe_handler(int signum)
-{
-	(void)signum;
-    printf("Child process received SIGPIPE signal\n");
-    exit(EXIT_FAILURE); // Exit with failure status
-}
 void	signals_child(void)
 {
-	struct sigaction sa;
-
-    sa.sa_handler = sigpipe_handler;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    sigaction(SIGPIPE, &sa, NULL);
 	signal(SIGINT, handler_child);
 	signal(SIGQUIT, handler_child);
 }

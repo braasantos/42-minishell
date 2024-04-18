@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 15:58:28 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 20:58:28 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -386,5 +386,10 @@ int		count_dquote_pairs(char *str);
 int		ft_fprintf(int fd, const char *format, ...);
 int		pipe_or_append(char *s);
 void	signals_child(void);
-void	setup_signal_handlers();
+int		check_things(char *s);
+int		last_to_find(char **s, char *to_find);
+int		count_here(char **str, char *to_find);
+char	*ft_strncpy(char *dest, const char *src, size_t num);
+void	take_care(t_mini *mini, int flag, char **s);
+int		red_out(t_mini *mini);
 #endif

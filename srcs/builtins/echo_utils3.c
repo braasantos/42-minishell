@@ -6,7 +6,7 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:57:55 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/18 12:41:43 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 20:51:54 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,3 +79,45 @@ int	condition_to_expand(t_mini *mini, int i)
 	return (0);
 }
 
+int	check_things(char *s)
+{
+	char *str;
+
+	if (count_quotes(s))
+		str = ft_remove_quotes(s);
+	else
+		str = ft_strdup(s);
+	if (!ft_strcmp(str, ">"))
+		return (free(str), 1);
+	if (!ft_strcmp(str, "<"))
+		return (free(str), 1);
+	if (!ft_strcmp(str, "|"))
+		return (free(str), 1);
+	if (!ft_strcmp(str, ">>"))
+		return (1);
+	if (!ft_strcmp(str, "<<"))
+		return (free(str), 1);
+	return (free(str), 0);
+}
+
+void	take_care(t_mini *mini, int flag, char **s)
+{
+	if (flag)
+	{
+		if (mini->echo_split)
+		{
+			ft_free_arr(mini->echo_split);
+			mini->echo_split = NULL;
+		}
+		mini->echo_split = get_newenvp(s);
+	}
+	if (!flag)
+	{
+		if (mini->args)
+		{
+			ft_free_arr(mini->args);
+			mini->args = NULL;
+		}
+		mini->args = get_newenvp(s);
+	}
+}

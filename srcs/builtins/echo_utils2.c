@@ -6,65 +6,12 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:56:25 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/18 13:58:48 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 20:37:38 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-void	take_care(t_mini *mini, int flag, char **s)
-{
-	if (flag)
-	{
-		if (mini->echo_split)
-		{
-			ft_free_arr(mini->echo_split);
-			mini->echo_split = NULL;
-		}
-		mini->echo_split = get_newenvp(s);
-	}
-	if (!flag)
-	{
-		if (mini->args)
-		{
-			ft_free_arr(mini->args);
-			mini->args = NULL;
-		}
-		mini->args = get_newenvp(s);
-	}
-}
-
-int	count_here(char **str, char *to_find)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (!ft_strcmp(str[i], to_find))
-			count++;
-		i++;
-	}
-	return (count);
-}
-
-int	last_to_find(char **s, char *to_find)
-{
-	int	last_here;
-	int	i;
-
-	i = 0;
-	last_here = 0;
-	while (s[i])
-	{
-		if (!ft_strcmp(s[i], to_find))
-			last_here = i;
-		i++;
-	}
-	return (last_here);
-}
 void	remove_here(t_mini *mini)
 {
 	int	i;
@@ -93,7 +40,6 @@ void	remove_here(t_mini *mini)
 		ft_free_arr(s);
 	}
 }
-
 
 void	heredoc_first(t_mini *mini, char **str, int flag)
 {
@@ -158,27 +104,6 @@ void	remove_quotes_helper(t_mini *mini, int i)
 	free(mini->args[i]);
 	mini->args[i] = ft_remove_quotes(temp);
 	free(temp);
-}
-
-int	check_things(char *s)
-{
-	char *str;
-
-	if (count_quotes(s))
-		str = ft_remove_quotes(s);
-	else
-		str = ft_strdup(s);
-	if (!ft_strcmp(str, ">"))
-		return (free(str), 1);
-	if (!ft_strcmp(str, "<"))
-		return (free(str), 1);
-	if (!ft_strcmp(str, "|"))
-		return (free(str), 1);
-	if (!ft_strcmp(str, ">>"))
-		return (1);
-	if (!ft_strcmp(str, "<<"))
-		return (free(str), 1);
-	return (free(str), 0);
 }
 
 void	check_comand(t_mini *mini)

@@ -6,25 +6,11 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:40:05 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/18 16:02:22 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 20:39:15 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-static char	*ft_strncpy(char *dest, const char *src, size_t num)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < num && src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
 
 static void	init_split(t_split *split, char *str)
 {

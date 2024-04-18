@@ -6,13 +6,11 @@
 /*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 18:06:07 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/18 20:49:27 by braasantos       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-// || !ft_strcmp(mini->args[i], ">>")
 
 int	check_parser(t_mini *mini)
 {

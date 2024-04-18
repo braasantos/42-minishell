@@ -17,6 +17,7 @@ helpers/utils3.c \
 helpers/utils4.c \
 helpers/utils5.c \
 helpers/utils6.c \
+helpers/utils7.c \
 helpers/checkers_utils.c \
 helpers/utils_commands.c \
 helpers/checkers.c \
