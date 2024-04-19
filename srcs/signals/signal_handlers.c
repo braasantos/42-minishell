@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 13:54:36 by pabernar          #+#    #+#             */
-/*   Updated: 2024/04/18 13:53:12 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 16:07:28 by gamoreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ void	signals(int sig, t_mini *mini)
 		free_eof(mini);
 		exit(0);
 	}
+	(void)mini;
 }

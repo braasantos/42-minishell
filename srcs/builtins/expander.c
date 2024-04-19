@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 12:35:21 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/19 17:07:55 by gamoreir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	*get_expand(char *s)
+char	*get_expand(char *s, t_mini *mini)
 {
 	int		i;
 	char	*str;
@@ -31,10 +31,11 @@ char	*get_expand(char *s)
 			i++;
 		else
 			str[j++] = s[i++];
-		if (s[i] == '\'' || s[i] == ' ')
+		if (!(ft_isalnum(s[i])))
 			break ;
 	}
 	str[j] = '\0';
+	mini->after = ft_after_expand(str, mini);
 	if (is_a_quote(str))
 		return (free(str), NULL);
 	return (str);
