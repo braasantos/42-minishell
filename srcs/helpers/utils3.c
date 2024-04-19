@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 14:32:54 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:11:47 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,14 @@ int	check_parser_full(t_mini *mini)
 	{
 		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], ">>"))
 		{
+			if (!mini->args[i + 1])
+				return (ft_fprintf(1, "Minishell: syntax error near unexpected token `newline'\n"), 1);
 			if (mini->args[i + 1]  && !ft_strcmp(mini->args[i], ">"))
 			{
 				fd = open(mini->args[i + 1],
 						O_WRONLY | O_CREAT | O_TRUNC, 0664);
 			}
-				if (access(mini->args[i + 1], W_OK | X_OK) == -1)
+			if (access(mini->args[i + 1], W_OK | X_OK) == -1)
 					break ;
 		}
 		if (!ft_strcmp(mini->args[i], "<"))

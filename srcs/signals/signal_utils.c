@@ -1,12 +1,5 @@
 #include "../../inc/minishell.h"
 
-void sig_quit_handler(int sig)
-{
-	ft_fprintf(2, "quit (core dumped)\n");
-	(void)sig;
-	g_signal = 131;
-}
-
 void	sigint_on_child(int signal)
 {
 	if (signal == SIGINT)

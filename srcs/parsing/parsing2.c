@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:22:11 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:51 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 16:42:46 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ int	check_empty(t_mini *mini)
 	while (str[i])
 	{
 		if (check_pwd(str[0], mini))
-		{
-			ft_free_arr(str);
-			return (1);
-		}
+			return (ft_free_arr(str), 1);
 		if (!ft_strcmp(str[i], "1801"))
 			remove_str(mini, i);
 		i++;

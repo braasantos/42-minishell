@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:56:25 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/19 12:14:42 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/19 17:05:08 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,38 @@ void	remove_here(t_mini *mini)
 	}
 }
 
-int	heredoc_first(t_mini *mini, char **str, int flag)
+int	here_doc_ver(t_mini *mini, int i)
+{
+	if (!ft_strcmp(mini->args[i], "<<"))
+	{
+		if (!mini->args[i + 1])
+			return (ft_fprintf(2, "Minishell: syntax error near unexpected token `newline'\n"), 1);
+		else
+			return (0);
+	}
+	return (0);
+}
+
+int rem_heredoc(t_mini *mini)
+{
+	int i;
+
+	i = 0;
+	while (mini->args[i])
+	{
+		if (!ft_strcmp(mini->args[i], "<<"))
+		{
+			if (here_doc_ver(mini, i))
+				return (1);
+		}
+		i++;
+	}
+	remove_here(mini);
+	heredoc_first(mini, 0);
+	return (0);
+}
+
+int	heredoc_first(t_mini *mini, int flag)
 {
 	char	**s;
 	int		here_pos;
@@ -49,8 +80,7 @@ int	heredoc_first(t_mini *mini, char **str, int flag)
 	int		i;
 
 	i = 0;
-	(void)str;
-	remove_here(mini);
+	// (void)flag;
 	if (havehere_doc(mini->args) && str_len(mini->args) > 2)
 	{
 		here_pos = havehere_doc(mini->args);
@@ -82,7 +112,6 @@ int	handle_split_args(t_mini *mini, int i)
 	mini->echo_split = forming_echo_args(mini->args, i);
 	if (have_redi(mini->echo_split))
 	{
-		heredoc_first(mini, mini->echo_split, 1);
 		if (hanlde_redirects(mini, mini->echo_split, 0, 0))
 			return (1);
 		s = echo_w_red(mini->echo_split);

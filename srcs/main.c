@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:27:03 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 13:54:31 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:20:43 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,14 @@ static void	init_all(t_mini *mini)
 	mini->pwd = NULL;
 }
 
-int	main(int ac, char **av)
+int	main(int ac, char **av, char **envp)
 {
 	t_mini		mini;
-	extern char	**environ;
 
 	if (ac >= 2 && av)
 		return (ft_putstr_fd("pls do not use arguments :(\n", 2), 0);
 	init_all(&mini);
-	mini.newenvp = get_newenvp(environ);
+	mini.newenvp = get_newenvp(envp);
 	do_shlvl(&mini);
 	parser(&mini);
 }

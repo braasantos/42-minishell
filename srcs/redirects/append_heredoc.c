@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:56 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 12:11:53 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:31:14 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,19 @@ int	handle_heredoc(t_mini *mini, char *s)
 {
 	if (check_options(s))
 		return (ft_fprintf(1, "syntax error near unexpected token `newline'\n"));
-	if (handle_heredoc2(s))
+	if (handle_heredoc2(s, mini))
 	{
-		unlink(".heredoc");
-		return (1);
-	}
-	mini->stdin_fd = open(".heredoc", O_RDONLY);
-	if (mini->stdin_fd < 0)
-	{
-		ft_fprintf(2, "Minishell: no file specified in redirect '<<'.\n");
 		unlink(".heredoc");
 		return (1);
 	}
 	return (0);
 }
 
-int	handle_heredoc2(char *delimiter)
+int	handle_heredoc2(char *delimiter, t_mini *mini)
 {
 	int		file;
 	char	*input;
+	pid_t	forq;
 
 	file = open(".heredoc", O_CREAT | O_WRONLY | O_TRUNC, S_IWUSR | S_IRUSR);
 	if (file < 0)
@@ -81,19 +75,25 @@ int	handle_heredoc2(char *delimiter)
 		ft_fprintf(2, "Minishell: could not open .heredoc file\n");
 		return (1);
 	}
-	while (1)
+	forq = fork();
+	if (forq == 0)
 	{
-		input = readline("> ");
-		if (!input)
-			return (ft_fprintf(2, "Minishell: heredoc interrupted\n"), 1);
-		if (!ft_strcmp(input, delimiter))
-			break ;
-		ft_putstr_fd(input, file);
-		ft_putchar_fd('\n', file);
+		// ft_doc_signals();
+		while (1)
+		{
+			input = readline("> ");
+			if (!input)
+				return (ft_fprintf(2, "Minishell: heredoc interrupted\n"), 1);
+			if (!ft_strcmp(input, delimiter))
+				exit_fork_here_doc(mini);
+			ft_putstr_fd(input, file);
+			ft_putchar_fd('\n', file);
+			free(input);
+		}
 		free(input);
 	}
-	free(input);
 	close(file);
+	wait(&forq);
 	return (0);
 }
 

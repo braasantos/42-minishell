@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 13:53:47 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:57:00 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,6 @@ int		create_child(t_mini *mini, int i, int flag, int j);
 /* ******************** */
 /*	checkers_tuils.c	*/
 /* ******************** */
-
 char	*do_sum(t_mini *mini, int i);
 int		count_quotes(char *str);
 int		count_dquotes(char *str);
@@ -331,7 +330,8 @@ void	close_pipes(t_mini *mini);
 int		handle_red(t_mini *mini, char *s, char *ss, int flag);
 int		handle_append(char *s);
 int		handle_heredoc(t_mini *mini, char *s);
-int		handle_heredoc2(char *delimiter);
+int		handle_heredoc2(char *delimiter, t_mini *mini);
+
 /* ******************** */
 /*		redirects.c	    */
 /* ******************** */
@@ -372,7 +372,7 @@ char	**new_args(char **s, int k, int k1);
 void	check_echo(t_mini *mini);
 int		count_files(char **s);
 int		check_parser_full(t_mini *mini);
-int	heredoc_first(t_mini *mini, char **str, int flag);
+int		heredoc_first(t_mini *mini, int flag);
 int		check_empty(t_mini *mini);
 int		builtins_check(t_mini *mini, int i);
 int		check_here(t_mini *mini);
@@ -394,5 +394,11 @@ void	take_care(t_mini *mini, int flag, char **s);
 int		red_out(t_mini *mini);
 int		remove_quotes_exp(t_mini *mini, int i);
 void	free_expand2(t_mini *mini, int flag, int i);
+void	ft_init_signals(void);
+void	ft_doc_signals(void);
+void	ft_ignore_signals(void);
+void	exit_fork_here_doc(t_mini *mini);
+int		here_doc_ver(t_mini *mini, int i);
+int		rem_heredoc(t_mini *mini);
 
 #endif

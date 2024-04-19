@@ -6,7 +6,7 @@
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 12:13:32 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/19 16:57:23 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	execute(t_mini *mini)
 	int	n_pipes;
 
 	n_pipes = count_pipes(mini);
-	if (heredoc_first(mini, mini->args, 0))
+	if (rem_heredoc(mini))
 		return (1);
 	if (n_pipes == 0)
 	{
@@ -108,7 +108,8 @@ int	create_child(t_mini *mini, int i, int flag, int j)
 	if (null_args(mini, i))
 		return (0);
 	mini->newpro[j] = fork();
-		signals_child();
+	// ft_init_signals();
+	signals_child();
 	if (!mini->newpro[j])
 	{
 		if (which_first(mini, i, j, flag))

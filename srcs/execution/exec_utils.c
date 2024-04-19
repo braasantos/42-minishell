@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:09:09 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 20:50:51 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 16:31:29 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	get_exit_status(t_mini *mini)
 			g_signal = 128 + WTERMSIG(status);
 		i++;
 	}
+	ft_init_signals();
 }
 
 int	null_args(t_mini *mini, int i)
@@ -86,5 +87,24 @@ void	exit_fork(t_mini *mini)
 	if (mini->newenvp)
 		ft_free_arr(mini->newenvp);
 	free(mini->newpro);
+	exit(g_signal);
+}
+
+void	exit_fork_here_doc(t_mini *mini)
+{
+	if (mini->echo_split)
+	{
+		ft_free_arr(mini->echo_split);
+		mini->echo_split = NULL;
+	}
+	unlink(".heredoc");
+	free(mini->pwd);
+	ft_free_arr(mini->args);
+	if (mini->new_str)
+		free(mini->new_str);
+	if (mini->str)
+		free(mini->str);
+	if (mini->newenvp)
+		ft_free_arr(mini->newenvp);
 	exit(g_signal);
 }
