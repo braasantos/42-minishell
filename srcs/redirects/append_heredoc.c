@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   append_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:23:56 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 20:45:45 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 12:11:53 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	handle_append(char *s)
 
 int	handle_heredoc(t_mini *mini, char *s)
 {
+	if (check_options(s))
+		return (ft_fprintf(1, "syntax error near unexpected token `newline'\n"));
 	if (handle_heredoc2(s))
 	{
 		unlink(".heredoc");

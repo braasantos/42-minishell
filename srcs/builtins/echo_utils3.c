@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:57:55 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/18 20:51:54 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 11:30:49 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	condition_to_expand(t_mini *mini, int i)
 				return (1);
 		}
 	}
-	if (bingo(mini->args[i], '\''))
+	if (bingo(mini->args[i], '\'') && !bingo(mini->args[i], '$'))
 		time_to_remove(mini, i);
 	return (0);
 }

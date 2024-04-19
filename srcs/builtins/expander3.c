@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:03:56 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/18 13:59:30 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 12:53:58 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,27 +40,23 @@ int	qmark_and_dollar(char *str)
 	}
 	return (0);
 }
-
-void	free_expand2(t_mini *mini, int flag, int i)
+int	check_expand_quotes(t_mini *mini, int i)
 {
-	if (flag)
+	if (count_squotes(mini->args[i]) > 0)
 	{
-		mini->before = ft_before(mini->args[i]);
-		mini->after = ft_after(mini->args[i]);
+		if (remove_quotes_exp(mini, i))
+			return (1);
 	}
-	else
-	{
-		free(mini->before);
-		free(mini->after);
-	}
+	return (0);
 }
+
 int	expand_str(t_mini *mini, int i)
 {
 	char	*s;
 	char	*env;
 
-	if (count_squotes(mini->args[i]) > 0)
-		return (ohhh_boy(mini, i), 1);
+	if (check_expand_quotes(mini, i))
+		return (1);
 	free_expand2(mini, 1, i);
 	if (bingo(mini->args[i], '?') && qmark_and_dollar(mini->args[i]))
 		get_qmark(mini, i);

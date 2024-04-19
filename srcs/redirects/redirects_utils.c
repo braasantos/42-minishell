@@ -38,25 +38,30 @@ int	check_here(t_mini *mini)
 	return (0);
 }
 
+void	printf_errror()
+{
+	ft_fprintf(2, "Minishell: Permission denied\n");
+}
+
 int	do_redirects(t_mini *mini, int i)
 {
-	if (!ft_strcmp(mini->args[i], "<<"))
-	{
-		if (mini->args[i + 1])
-			return (0);
-		else
-		{
-			g_signal = 2;
-			ft_fprintf(2, "Minishell: syntax error ");
-			ft_fprintf(2, "near unexpected token `newline'\n");
-			return (1);
-		}
-	}
+	char	*s;
+	int		file;
+
 	if (!ft_strcmp(mini->args[i], ">>"))
 	{
 		if (mini->args[i + 1])
-			return (0);
-		else
+		{
+			if (count_quotes(mini->args[i + 1]))
+				s = ft_remove_quotes(mini->args[i + 1]);
+			else
+				s = ft_strdup(mini->args[i + 1]);
+			file = open(s, O_WRONLY | O_CREAT | O_APPEND, 0664);
+			if (access(s, W_OK) == -1)
+				return (close(file), free(s), printf_errror(), 1);
+			else
+				return (close(file), free(s), 0);
+		}
 		g_signal = 1;
 		ft_fprintf(2, "Minishell: syntax error ");
 		ft_fprintf(2, "near unexpected token `newline'\n");

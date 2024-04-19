@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:56:25 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/18 20:37:38 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 12:14:42 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	remove_here(t_mini *mini)
 	}
 }
 
-void	heredoc_first(t_mini *mini, char **str, int flag)
+int	heredoc_first(t_mini *mini, char **str, int flag)
 {
 	char	**s;
 	int		here_pos;
@@ -58,13 +58,15 @@ void	heredoc_first(t_mini *mini, char **str, int flag)
 		while (mini->args[i])
 		{
 			if (!ft_strcmp(mini->args[i], "<<"))
-				handle_heredoc(mini, (mini->args[i + 1]));
+				if (handle_heredoc(mini, (mini->args[i + 1])))
+					return (1);
 			i++;
 		}
 		s = new_args(mini->args, here_pos, delimiter_pos);
 		take_care(mini, flag, s);
 		ft_free_arr(s);
 	}
+	return (0);
 }
 
 int	handle_split_args(t_mini *mini, int i)

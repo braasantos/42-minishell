@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:05:13 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 21:42:05 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 12:13:32 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	execute(t_mini *mini)
 	int	n_pipes;
 
 	n_pipes = count_pipes(mini);
-	heredoc_first(mini, mini->args, 0);
+	if (heredoc_first(mini, mini->args, 0))
+		return (1);
 	if (n_pipes == 0)
 	{
 		if (check_parser(mini) == 1 || check_here(mini) == 1)

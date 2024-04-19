@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:04:44 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 14:09:35 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 13:39:38 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	free_struct(t_mini *mini)
 	free(mini->pwd);
 	mini->pwd = NULL;
 	ft_free_arr(mini->args);
+	mini->args = NULL;
 	free(mini->new_str);
 	free(mini->str);
 }

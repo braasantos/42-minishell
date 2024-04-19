@@ -3,16 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   new_split.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:40:05 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/18 20:39:15 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 13:53:04 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-static void	init_split(t_split *split, char *str)
+int	ft_is_space(char *s)
+{
+	int	i;
+	size_t count;
+
+	i = 0;
+	count = 0;
+	while(s[i])
+	{
+		if (s[i] == 9 || s[i] == 10 || s[i] == 32)
+			count++;
+		i++;
+	}
+	if (count == ft_strlen(s))
+		return (1);
+	return (0);
+}
+
+static int	init_split(t_split *split, char *str)
 {
 	int	len;
 
@@ -20,6 +38,8 @@ static void	init_split(t_split *split, char *str)
 	split->start = 0;
 	split->words = 0;
 	split->quotes = false;
+	if (ft_is_space(str))
+		return (1);
 	split->temp = ft_split(str, ' ');
 	if (count_quotes(str))
 		len = 100;
@@ -27,9 +47,10 @@ static void	init_split(t_split *split, char *str)
 		len = str_len(split->temp);
 	ft_free_arr(split->temp);
 	split->s = (char **)malloc((len + 1) * sizeof(char *));
+	return (0);
 }
 
-static char	**last_split(t_split *split, char *str)
+static void	last_split(t_split *split, char *str)
 {
 	split->tokens = split->i - split->start;
 	if (split->tokens > 0)
@@ -40,10 +61,10 @@ static char	**last_split(t_split *split, char *str)
 		split->words++;
 	}
 	split->s[split->words] = NULL;
-	return (split->s);
+
 }
 
-static char	**return_split(t_split *split, char *str)
+static void	return_split(t_split *split, char *str)
 {
 	split->tokens = split->i - split->start;
 	if (split->tokens > 0)
@@ -53,7 +74,6 @@ static char	**return_split(t_split *split, char *str)
 		ft_strncpy(split->s[split->words], &str[split->start], split->tokens);
 		split->words++;
 	}
-	return (split->s);
 }
 
 static void	middle_split(t_split *split, char *str)
@@ -80,18 +100,19 @@ static void	middle_split(t_split *split, char *str)
 	}
 }
 
-void	new_split(char *str, t_mini *mini)
+int	new_split(char *str, t_mini *mini)
 {
 	t_split	split;
 
-	init_split(&split, str);
+	if (init_split(&split, str))
+		return (1);
 	while (str[split.i])
 	{
 		if (count_quotes(str) > 0)
 			middle_split(&split, str);
 		else
 		{
-			if (str[split.i] == ' ')
+			if (str[split.i] == ' ' || str[split.i] == 9 || str[split.i] == 10)
 			{
 				return_split(&split, str);
 				split.start = split.i + 1;
@@ -100,10 +121,10 @@ void	new_split(char *str, t_mini *mini)
 		split.i++;
 	}
 	last_split(&split, str);
+	if (mini->args)
+		ft_free_arr(mini->args);
 	mini->args = get_newenvp(split.s);
 	if (split.s)
-	{
 		ft_free_arr(split.s);
-		split.s = NULL;
-	}
+	return (0);
 }

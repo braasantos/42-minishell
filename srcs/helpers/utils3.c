@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 20:49:27 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 14:32:54 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_parser(t_mini *mini)
 			if (check_parser3(mini, i))
 				return (1);
 		if (do_redirects(mini, i) == 1)
-			return (1);
+			return (g_signal = 1, 1);
 	}
 	return (0);
 }

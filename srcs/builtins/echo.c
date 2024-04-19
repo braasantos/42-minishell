@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:54:16 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 14:02:12 by gabe             ###   ########.fr       */
+/*   Updated: 2024/04/19 13:56:45 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,26 @@ void	check_echo(t_mini *mini)
 	}
 }
 
+int	check_flag(char *s)
+{
+	int	i;
+	int	count;
+
+	i = 1;
+	count = 0;
+	if (s[0] == '-')
+	{
+		while (s[i] == 'n' && s[i])
+		{
+			count++;
+			i++;
+		}
+		if (s[i] != 'n' && s[i])
+			return (0);
+	}
+	return (count);
+}
+
 int	echo_cmd(char **tokens, t_mini *mini)
 {
 	int	flag_nl;
@@ -94,7 +114,7 @@ int	echo_cmd(char **tokens, t_mini *mini)
 	mini->echo_flag = 0;
 	while (tokens[i])
 	{
-		if (!ft_strcmp(tokens[i], "-n") && option)
+		if (check_flag(tokens[i]) && option)
 		{
 			flag_nl = 0;
 			i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:14:28 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/18 17:22:40 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 10:35:50 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	command(t_mini *mini)
 	if (!ft_strcmp(mini->args[0], "cat"))
 	{
 		if (find_char('<', mini->new_str) && find_char('>', mini->new_str))
+			return (0);
+		else if (!find_char('<', mini->new_str) && find_char('>', mini->new_str))
 			return (0);
 		else
 			return (1);
@@ -44,7 +46,6 @@ int	doredirect(t_mini *mini)
 			mini->args = get_newenvp(str);
 			ft_free_arr(str);
 		}
-
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:06:11 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/18 15:14:47 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 14:17:43 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	check_parser2(t_mini *mini, int i)
 	else
 		s = ft_strdup(mini->args[i]);
 	file_fd = 0;
-	if (access(s, W_OK) == -1 || !ft_strcmp(mini->args[i], ">>"))
+	if (access(s, W_OK) == -1)
 		return (free(s), 1);
 	if (check_options(s))
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 20:58:28 by braasantos       ###   ########.fr       */
+/*   Updated: 2024/04/19 13:53:47 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int		ft_strstartswith(char *s1, char *s2);
 /* ******************** */
 /* 		new_split.c		*/
 /* ******************** */
-void	new_split(char *str, t_mini *mini);
+int		new_split(char *str, t_mini *mini);
 /* ******************** */
 /* 		echo_utils.c	*/
 /* ******************** */
@@ -372,7 +372,7 @@ char	**new_args(char **s, int k, int k1);
 void	check_echo(t_mini *mini);
 int		count_files(char **s);
 int		check_parser_full(t_mini *mini);
-void	heredoc_first(t_mini *mini, char **str, int flag);
+int	heredoc_first(t_mini *mini, char **str, int flag);
 int		check_empty(t_mini *mini);
 int		builtins_check(t_mini *mini, int i);
 int		check_here(t_mini *mini);
@@ -392,4 +392,7 @@ int		count_here(char **str, char *to_find);
 char	*ft_strncpy(char *dest, const char *src, size_t num);
 void	take_care(t_mini *mini, int flag, char **s);
 int		red_out(t_mini *mini);
+int		remove_quotes_exp(t_mini *mini, int i);
+void	free_expand2(t_mini *mini, int flag, int i);
+
 #endif
