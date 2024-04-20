@@ -6,8 +6,8 @@
         "type": "cppdbg",
         "request": "launch",
         "args": [],
-        "cwd": "/home/gamoreir/42-projects/minishell",
-        "program": "/home/gamoreir/42-projects/minishell/minishell",
+        "cwd": "/home/gabe/repos/minishell",
+        "program": "/home/gabe/repos/minishell/minishell",
         "setupCommands": [
                 {"text": "-gdb-set follow-fork-mode child"}
             ]

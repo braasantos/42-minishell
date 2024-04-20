@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 14:03:56 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/19 12:53:58 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/19 21:44:42 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	expand_str(t_mini *mini, int i)
 	while (bingo(mini->args[i], '$'))
 	{
 		free_expand2(mini, 1, i);
-		s = get_expand(mini->args[i]);
+		s = get_expand(mini->args[i], mini);
 		if (exit_expand(s, mini))
 			return (1);
 		env = get_env(s, mini);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 12:07:24 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 13:53:47 by bjorge-m         ###   ########.fr       */
+/*   Updated: 2024/04/19 21:43:21 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int		get_envp(t_mini *mini);
 /* ******************** */
 /* 		expander.c		*/
 /* ******************** */
-char	*get_expand(char *s);
+char	*get_expand(char *s, t_mini *mini);
 void	time_to_remove(t_mini *mini, int i);
 void	ohhh_boy(t_mini *mini, int i);
 int		expand_str(t_mini *mini, int i);

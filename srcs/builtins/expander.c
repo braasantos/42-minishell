@@ -3,14 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gamoreir <gamoreir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 17:07:55 by gamoreir         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:28:27 by gabe             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
+
+/*
+	if there is something after the str in mini->str
+	join it
+	if there is nothing
+	return NULL
+*/
+
+void	after_expand(char *var, char *str, int i, t_mini *mini)
+{
+	char	*after;
+	int		j;
+	int		size_var;
+	int		size_str;
+	int		size;
+	
+	size_var = ft_strlen(var);
+	size_str = ft_strlen(str);
+	j = 0;
+	if (size_var != size_str - 1)
+	{
+		free(mini->after);
+		size = (ft_strlen(str) - ft_strlen(var));
+		after = malloc(sizeof(char *) * size);
+		while (str[i])
+			after[j++] = str[i++];
+		after[j] = '\0';
+		mini->after = ft_strdup(after);
+		free(after);
+	}
+}
 
 char	*get_expand(char *s, t_mini *mini)
 {
@@ -35,7 +66,7 @@ char	*get_expand(char *s, t_mini *mini)
 			break ;
 	}
 	str[j] = '\0';
-	mini->after = ft_after_expand(str, mini);
+	after_expand(str, s, i, mini);
 	if (is_a_quote(str))
 		return (free(str), NULL);
 	return (str);
