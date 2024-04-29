@@ -3,71 +3,77 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 13:04:04 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 16:38:47 by bjorge-m         ###   ########.fr       */
+/*   Created: 2024/04/26 10:24:11 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:24:12 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	**remove_var(char **newenvp, char *var_name)
+char	*return_var(char *s)
 {
-	int		num_vars;
-	int		i;
-	int		j;
-	char	**newenvp_new;
+	char	*tmp;
+	char	*var_name;
 
-	num_vars = 0;
-	while (newenvp[num_vars])
-		num_vars++;
-	num_vars -= 1;
-	newenvp_new = (char **)malloc((num_vars + 1) * sizeof(char *));
-	if (newenvp_new == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (i < num_vars)
+	tmp = ft_strdup(s);
+	if (find_char('=', s))
+		var_name = ft_strjoin(tmp, "=");
+	else
+		var_name = ft_strdup(tmp);
+	free(tmp);
+	return (var_name);
+}
+
+static void	free_unset(char **arr, char *str, int flag)
+{
+	if (flag)
 	{
-		if (ft_strncmp(newenvp[i], var_name, ft_strlen(var_name)) != 0)
+		if (arr)
 		{
-			newenvp_new[j] = ft_strdup(newenvp[i]);
-			j++;
+			ft_free_arr(arr);
+			arr = NULL;
 		}
-		i++;
 	}
-	newenvp_new[j] = NULL;
-	return (newenvp_new);
+	if (!flag)
+	{
+		free(str);
+		str = NULL;
+	}
+}
+
+static void	free_all_exit(t_mini *mini, char **arr, char *str)
+{
+	free_unset(arr, NULL, 1);
+	free_unset(mini->envp, NULL, 1);
+	free_unset(NULL, str, 0);
 }
 
 int	get_unset(t_mini *mini)
 {
 	char	*var_name;
 	char	**newvar;
-	char	*temp;
 	int		i;
 
 	i = 1;
+	newvar = NULL;
 	while (mini->args[i])
 	{
-		temp = ft_strdup(mini->args[i]);
-		if (find_char('=', mini->args[i]))
-			var_name = ft_strjoin(temp, "=");
-		else
-			var_name = ft_strdup(temp);
-		free(temp);
-		newvar = remove_var(mini->newenvp, var_name);
-		ft_free_arr(mini->newenvp);
-		mini->newenvp = get_newenvp(newvar);
-		ft_free_arr(newvar);
-		free(var_name);
+		if (var_exists(mini, mini->args[i]))
+		{
+			var_name = return_var(mini->args[i]);
+			free_unset(newvar, NULL, 1);
+			newvar = remove_var(mini->envp, var_name);
+			if (*newvar == NULL)
+				return (free_all_exit(mini, newvar, var_name), 1);
+			ft_free_arr(mini->envp);
+			mini->envp = NULL;
+			mini->envp = ft_arrcpy(newvar);
+			free_unset(newvar, var_name, 0);
+		}
 		i++;
 	}
+	free_unset(newvar, NULL, 1);
 	return (1);
-}
-
-bool	is_space(char c)
-{
-	return ((c >= 9 && c <= 13) || c == 32);
 }

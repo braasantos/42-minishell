@@ -3,49 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 12:51:59 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/17 13:42:24 by bjorge-m         ###   ########.fr       */
+/*   Created: 2024/04/26 10:22:05 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:22:07 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-char	*get_env(char *var, t_mini *mini)
-{
-	int		i;
-	char	*tmp;
-	char	*str;
-
-	i = -1;
-	if (!var)
-		return (NULL);
-	str = ft_remove_quotes(var);
-	tmp = ft_strjoin(str, "=");
-	free(str);
-	if (check_env(mini))
-		return (NULL);
-	while (mini->newenvp[++i])
-	{
-		if (ft_strstartswith(mini->newenvp[i], tmp))
-		{
-			free(tmp);
-			return (ft_strchr(mini->newenvp[i], '=') + 1);
-		}
-	}
-	free(tmp);
-	if (is_a_quote(var))
-		return (NULL);
-	return (NULL);
-}
-
-int	check_env(t_mini *mini)
-{
-	if (!mini->newenvp)
-		return (1);
-	return (0);
-}
 
 int	chech_path(char *s)
 {
@@ -91,4 +56,47 @@ void	change_dir(char *path, t_mini *mini)
 		else
 			ft_fprintf(2, " not a directory: \n");
 	}
+}
+
+char	*export_key(char *s)
+{
+	char	*str;
+	int		i;
+	int		j;
+
+	i = export_key_util(s);
+	str = malloc(sizeof(char) * i + 1);
+	i = 0;
+	while (s[i] && s[i] != '=')
+		i++;
+	if (s[i] == '=')
+		i++;
+	j = 0;
+	while (s[i])
+	{
+		str[j] = s[i];
+		i++;
+		j++;
+	}
+	str[j] = '\0';
+	return (str);
+}
+
+int	export_key_util(char *s)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (s[i] && s[i] != '=')
+		i++;
+	if (s[i] == '=')
+		i++;
+	while (s[i])
+	{
+		j++;
+		i++;
+	}
+	return (j);
 }

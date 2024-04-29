@@ -3,107 +3,124 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabe <gabe@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 13:00:21 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/16 14:00:58 by gabe             ###   ########.fr       */
+/*   Created: 2024/03/21 12:59:57 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:23:47 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	**add_var(char **newenvp, char *new_var)
-{
-	int		num_vars;
-	int		i;
-	char	**newenvp_new;
-
-	num_vars = str_len(newenvp);
-	i = 0;
-	newenvp_new = malloc((num_vars + 2) * sizeof(char *));
-	if (newenvp_new == NULL)
-		return (NULL);
-	while (i < num_vars)
-	{
-		newenvp_new[i] = malloc((ft_strlen(newenvp[i]) + 1) * sizeof(char));
-		ft_strcpy(newenvp_new[i], newenvp[i]);
-		i++;
-	}
-	newenvp_new[num_vars] = malloc((ft_strlen(new_var) + 1) * sizeof(char));
-	ft_strcpy(newenvp_new[num_vars], new_var);
-	newenvp_new[num_vars + 1] = NULL;
-	return (newenvp_new);
-}
-
-char	*get_var(char *s)
+int	var_exists(t_mini *mini, char *var)
 {
 	int		i;
-	char	*str;
+	char	*new_var;
 
 	i = 0;
-	while (s[i] && s[i] != '=')
+	new_var = get_var(var);
+	if (!mini->envp)
+		return (0);
+	while (mini->envp[i])
+	{
+		if (!ft_strncmp(mini->envp[i], new_var, ft_strlen(new_var)))
+		{
+			free(new_var);
+			return (1);
+		}
 		i++;
-	str = malloc(sizeof(char) * (i + 1));
+	}
+	free(new_var);
+	return (0);
+}
+
+static bool	is_special(char s)
+{
+	if (s == '_' || s == '\'' || s == '\"')
+		return (false);
+	if (ft_isdigit(s))
+	{
+		return (false);
+	}
+	if (!((s >= 65 && s <= 90) || (s >= 97 && s <= 122)))
+		return (true);
+	return (false);
+}
+
+int	check_var(char *s)
+{
+	int	i;
+
 	i = 0;
+	if (s[i] == '=' || ft_isdigit(s[i])
+		|| s[i] == '_' || s[i] == '\'' || s[i] == '\"')
+	{
+		ft_fprintf(2, "Minishell: not a valid identifier\n");
+		g_signal = 1;
+		return (1);
+	}
 	while (s[i] && s[i] != '=')
 	{
-		str[i] = s[i];
+		if (is_special(s[i]) == true)
+		{
+			ft_fprintf(2, "Minishell: not a valid identifier\n");
+			g_signal = 1;
+			return (1);
+		}
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	return (0);
 }
 
-int	export_unset(t_mini *mini, int i)
+int	export_len(char **s)
 {
-	char	*var_name;
-	char	**newvar;
-
-	if (mini->args[i])
-	{
-		var_name = get_var(mini->args[i]);
-		newvar = remove_var(mini->newenvp, var_name);
-		ft_free_arr(mini->newenvp);
-		mini->newenvp = get_newenvp(newvar);
-		ft_free_arr(newvar);
-		free(var_name);
-	}
-	return (1);
-}
-
-void	export_woquotes(char **newvar, t_mini *mini, int i)
-{
-	char	*tmp;
-
-	tmp = ft_remove_quotes(mini->args[i]);
-	newvar = add_var(mini->newenvp, tmp);
-	free(tmp);
-	ft_free_arr(mini->newenvp);
-	mini->newenvp = get_newenvp(newvar);
-	ft_free_arr(newvar);
-}
-
-char	*ft_remove_squotes(const char *str)
-{
-	char	*new_str;
-	size_t	len;
-	size_t	j;
-	size_t	i;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
-	len = strlen(str);
-	new_str = (char *)malloc(len + 1);
-	if (!str)
-		return (NULL);
-	if (new_str == NULL)
-		return (NULL);
-	while (i < len)
+	while (s[i])
 	{
-		if (str[i] != '\'')
-			new_str[j++] = str[i];
+		if (count_dquotes(s[i]) == 1 || count_squotes(s[i]) == 1)
+		{
+			while (s[i + 1] && (count_dquotes(s[i + 1]) != 1
+					&& count_squotes(s[i + 1]) != 1))
+				i++;
+			if (s[i + 1])
+				i++;
+		}
 		i++;
+		j++;
 	}
-	new_str[j] = '\0';
-	return (new_str);
+	ft_printf("%d\n", j);
+	return (j);
+}
+
+void	get_export(t_mini *mini)
+{
+	char	**newvar;
+	int		flag;
+	int		i;
+
+	newvar = NULL;
+	i = 1;
+	while (mini->args[i] && !check_options(mini->args[i]))
+	{
+		flag = 0;
+		if (check_var(mini->args[i]))
+		{
+			i++;
+			continue ;
+		}
+		if (var_exists(mini, mini->args[i]))
+			delete_replace(mini, newvar, i, &flag);
+		if (count_quotes(mini->new_str) == 0 && !flag)
+			export_quotes(newvar, mini, i);
+		else if (count_quotes(mini->new_str) > 0 && !flag)
+			export_woquotes(newvar, mini, i);
+		if (mini->args[i])
+			i++;
+	}
+	if (!mini->args[1] || pipe_or_append(mini->args[1]))
+		export_no_option(mini);
 }

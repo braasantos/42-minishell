@@ -3,111 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 13:13:45 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/18 20:49:34 by braasantos       ###   ########.fr       */
+/*   Created: 2024/04/26 10:27:19 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:27:20 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	ft_check_open_quotes(char *str)
-{
-	char	quote;
-	int		state;
-
-	state = 0;
-	while (*str)
-	{
-		if (!state && (*str == '\'' || *str == '\"'))
-		{
-			state = 1;
-			quote = *str;
-		}
-		else if (state && *str == quote)
-			state = 0;
-		str++;
-	}
-	if (state && write(2, "Error: Open quotes\n", 19))
-	{
-		g_signal = 2;
-		return (0);
-	}
-	return (1);
-}
-
-int	print(t_op op, char *ag)
-{
-	if (op == COMMAND_NOT_FOUND)
-	{
-		g_signal = 127;
-		ft_putstr_fd(ag, 2);
-		ft_fprintf(2, ": command not found\n");
-	}
-	else if (op == NO_SUCH_FILE_OR_DIR)
-	{
-		g_signal = 127;
-		ft_putstr_fd(ag, 2);
-		ft_fprintf(2, ": No such file or directory\n");
-	}
-	else if (op == NO_PERMISSION)
-	{
-		g_signal = 126;
-		ft_putstr_fd(ag, 2);
-		ft_fprintf(2, ": Permission denied\n");
-	}
-	else if (op == IS_DIR)
-	{
-		g_signal = 127;
-		ft_putstr_fd(ag, 2);
-		ft_fprintf(2, ": Is a directory\n");
-	}
-	return (1);
-}
-
-int	check_args(char *str)
+int	red_out(t_mini *mini)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
-	while (str[i])
+	while (mini->args[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
-			j++;
+		if (!ft_strcmp(mini->args[i], ">"))
+			return (1);
+		if (!ft_strcmp(mini->args[i], ">>"))
+			return (1);
 		i++;
-	}
-	if (j >= 1)
-		return (1);
-	else
-		return (0);
-}
-
-int	ft_strcmp(char *str1, char *str2)
-{
-	int	i;
-
-	i = 0;
-	if (!str1[i] || !str2[i])
-		return (1);
-	while (str1[i] || str2[i])
-	{
-		if (str1[i] == str2[i])
-			i++;
-		else
-			return (str1[i] - str2[i]);
 	}
 	return (0);
 }
 
-int	str_len(char **str)
+int	red_in(t_mini *mini)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != NULL)
+	while (mini->args[i])
+	{
+		if (!ft_strcmp(mini->args[i], "<"))
+			return (1);
 		i++;
-	return (i);
+	}
+	return (0);
+}
+
+void	handler_child(int signum)
+{
+	if (signum == SIGINT)
+		ft_putstr_fd("\n", 2);
+	else if (signum == SIGQUIT)
+		ft_putstr_fd("Quit: (core dumped)\n", 2);
+	g_signal = 128 + signum;
+}
+
+void	signals_child(void)
+{
+	signal(SIGINT, handler_child);
+	signal(SIGQUIT, handler_child);
+}
+
+int	check_pos_str(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (!ft_strcmp(s[i], ">"))
+			return (i);
+		if (!ft_strcmp(s[i], "<"))
+			return (i);
+		if (!ft_strcmp(s[i], ">>"))
+			return (i);
+		if (!ft_strcmp(s[i], "<<"))
+			return (i);
+		i++;
+	}
+	return (0);
 }

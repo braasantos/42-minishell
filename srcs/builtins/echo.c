@@ -3,104 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 12:54:16 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 13:56:45 by bjorge-m         ###   ########.fr       */
+/*   Created: 2024/04/26 10:23:06 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:23:07 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
-
-void	print_arg(char *str, int current, int flag, char **args)
-{
-	int	i;
-	int	total;
-
-	i = 0;
-	total = str_len(args);
-	while (str[i])
-	{
-		if (ft_strstartswith(str, "\"") || ft_strendswith(str, "\""))
-		{
-			if (str[i] != '\"')
-				write(1, &str[i], 1);
-		}
-		else if (ft_strstartswith(str, "\'") || ft_strendswith(str, "\'"))
-		{
-			if (str[i] != '\'')
-				write(1, &str[i], 1);
-		}
-		else
-			if (str[i] != '\"' && str[i] != '\'')
-				write(1, &str[i], 1);
-		i++;
-	}
-	if (flag == 0)
-		if (total - 1 > current)
-			write(1, " ", 1);
-}
-
-int	check_pos_str(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (!ft_strcmp(s[i], ">"))
-			return (i);
-		if (!ft_strcmp(s[i], "<"))
-			return (i);
-		if (!ft_strcmp(s[i], ">>"))
-			return (i);
-		if (!ft_strcmp(s[i], "<<"))
-			return (i);
-		i++;
-	}
-	return (0);
-}
-
-void	check_echo(t_mini *mini)
-{
-	char	**s;
-	int		pos_red;
-	int		pos_file;
-
-	s = NULL;
-	while (have_redi(mini->echo_split))
-	{
-		pos_red = check_pos_str(mini->echo_split);
-		pos_file = pos_red + 1;
-		s = new_args(mini->echo_split, pos_red, pos_file);
-		if (mini->echo_split)
-		{
-			ft_free_arr(mini->echo_split);
-		}
-		mini->echo_split = get_newenvp(s);
-		ft_free_arr(s);
-	}
-}
-
-int	check_flag(char *s)
-{
-	int	i;
-	int	count;
-
-	i = 1;
-	count = 0;
-	if (s[0] == '-')
-	{
-		while (s[i] == 'n' && s[i])
-		{
-			count++;
-			i++;
-		}
-		if (s[i] != 'n' && s[i])
-			return (0);
-	}
-	return (count);
-}
 
 int	echo_cmd(char **tokens, t_mini *mini)
 {
@@ -112,6 +22,7 @@ int	echo_cmd(char **tokens, t_mini *mini)
 	flag_nl = 1;
 	option = 1;
 	mini->echo_flag = 0;
+	g_signal = 0;
 	while (tokens[i])
 	{
 		if (check_flag(tokens[i]) && option)
@@ -134,4 +45,79 @@ void	ft_print_new_line(int flag_nl)
 {
 	if (flag_nl)
 		ft_printf("\n");
+}
+
+int	check_flag(char *s)
+{
+	int		i;
+	int		count;
+	char	*str;
+
+	i = 1;
+	if (count_quotes(s))
+		str = ft_remove_quotes(s);
+	else
+		str = ft_strdup(s);
+	count = 0;
+	if (str[0] == '-')
+	{
+		while (str[i] == 'n' && str[i])
+		{
+			count++;
+			i++;
+		}
+		if (str[i] != 'n' && str[i])
+			return (free(str), 0);
+	}
+	return (free(str), count);
+}
+
+void	print_arg(char *str, int current, int flag, char **args)
+{
+	int	i;
+	int	total;
+
+	i = 0;
+	total = arr_len(args) - 1;
+	while (str[i])
+	{
+		if (ft_strstartswith(str, "\"") || ft_strendswith(str, "\""))
+		{
+			if (str[i] != '\"')
+				write(1, &str[i], 1);
+		}
+		else if (ft_strstartswith(str, "\'") || ft_strendswith(str, "\'"))
+		{
+			if (str[i] != '\'')
+				write(1, &str[i], 1);
+		}
+		else
+			if (str[i] != '\"' && str[i] != '\'')
+				write(1, &str[i], 1);
+		i++;
+	}
+	if (flag == 0)
+		if (total > current)
+			write(1, " ", 1);
+}
+
+int	hanlde_redirects(t_mini *mini, char **s, int i)
+{
+	while (s[i])
+	{
+		if (!ft_strcmp(s[i], ">"))
+		{
+			if (redirect_output(s[i + 1]))
+				return (g_signal = 1, 1);
+		}
+		if (!ft_strcmp(mini->args[i], "<"))
+		{
+			if (redirect_input(s[i + 1]))
+				return (g_signal = 1, 1);
+		}
+		if (deal_append(s[i], s[i + 1]))
+			return (g_signal = 1, 1);
+		i++;
+	}
+	return (0);
 }

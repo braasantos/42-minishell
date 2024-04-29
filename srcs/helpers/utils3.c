@@ -3,137 +3,94 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 13:14:00 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 16:11:47 by bjorge-m         ###   ########.fr       */
+/*   Created: 2024/04/26 13:04:16 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 13:04:19 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	check_parser(t_mini *mini)
+int	check_done(char **str, int i)
 {
-	int	i;
-
-	i = -1;
-	while (mini->args[++i])
+	if (!ft_strcmp(str[i], ">") || !ft_strcmp(str[i], ">>"))
 	{
-		if (!ft_strcmp(mini->args[i], ">"))
+		if (!ft_strcmp(str[0], ">") || !ft_strcmp(str[0], ">>"))
 		{
-			if (mini->args[i + 1])
+			if (str[i + 1])
 			{
-				if (check_parser2(mini, (i + 1)))
-					break ;
-			}
-			else
-			{
-				ft_putendl_fd(STX_ERROR, 2);
-				return (g_signal = 2, 1);
+				if (!check_options(str[i + 1]))
+				{
+					if (create_and_exit(str[i + 1]))
+						return (2);
+				}
 			}
 		}
-		if (!ft_strcmp(mini->args[i], "<"))
-			if (check_parser3(mini, i))
-				return (1);
-		if (do_redirects(mini, i) == 1)
-			return (g_signal = 1, 1);
-	}
-	return (0);
-}
-
-int	check_parser_full(t_mini *mini)
-{
-	int	i;
-	int	fd;
-
-	i = 0;
-	fd = 0;
-	while (mini->args[i])
-	{
-		if (!ft_strcmp(mini->args[i], ">") || !ft_strcmp(mini->args[i], ">>"))
+		if (str[i + 1])
 		{
-			if (!mini->args[i + 1])
-				return (ft_fprintf(1, "Minishell: syntax error near unexpected token `newline'\n"), 1);
-			if (mini->args[i + 1]  && !ft_strcmp(mini->args[i], ">"))
-			{
-				fd = open(mini->args[i + 1],
-						O_WRONLY | O_CREAT | O_TRUNC, 0664);
-			}
-			if (access(mini->args[i + 1], W_OK | X_OK) == -1)
-					break ;
-		}
-		if (!ft_strcmp(mini->args[i], "<"))
-			is_a_file(mini->args[i + 1]);
-		i++;
-	}
-	return (fd);
-}
-
-int	check_parser3(t_mini *mini, int i)
-{
-	if (mini->args[i + 1])
-	{
-		if (!ft_strcmp(mini->args[i + 1], ">"))
-			return (0);
-		if (is_a_file(mini->args[i + 1]))
-			return (0);
-		if (check_options(mini->args[i + 1]))
-		{
-			g_signal = 2;
-			return (ft_fprintf(2, " syntax error near unexpected token \n"), 1);
+			if (check_options(str[i + 1]))
+				return (print_error(1, str[i]), 2);
 		}
 		else
-		{
-			g_signal = 1;
-			ft_fprintf(2, " No such file or directory\n");
-			return (1);
-		}
-	}
-	else
-	{
-		g_signal = 2;
-		ft_putendl_fd(STX_ERROR, 2);
-		return (1);
+			return (print_error(2, str[i]), 2);
 	}
 	return (0);
 }
 
-char	*ft_remove_quotes(char *str)
+int	exit_check(t_mini *mini, int i)
 {
-	char	*new;
-	int		count;
-	int		i;
-	int		j;
+	char	**s;
 
-	if (!str)
-		return (NULL);
-	count = count_quotes(str);
-	i = ft_strlen(str) - count;
-	new = (char *)malloc(sizeof(char) * (i + 1));
-	if (new == NULL)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (str[i])
+	s = NULL;
+	if (s)
 	{
-		if (str[i] != '\'' && str[i] != '\"')
-		{
-			new[j] = str[i];
-			j++;
-		}
-		i++;
+		ft_free_arr(s);
+		s = NULL;
 	}
-	new[j] = '\0';
-	return (new);
+	s = forming_echo_args(mini->args, i);
+	if (arr_len(s) == 2)
+	{
+		if (!check_exit_arguments(s))
+			return (0);
+	}
+	else if (arr_len(s) > 2)
+	{
+		g_signal = 1;
+		ft_fprintf(2, "Minishell: %s: too many arguments\n", s[i]);
+		if (ft_arrayisnum(mini->args))
+			return (ft_free_arr(s), 0);
+		else
+			return (ft_free_arr(s), 1);
+	}
+	return (ft_free_arr(s), 0);
 }
 
-bool	db_quotes(char *str)
+int	create_and_exit(char *str)
 {
-	int	quotes;
+	int		file_fd;
+	char	*s;
 
-	quotes = 0;
-	while (*str)
-		if (*str++ == '\"')
-			quotes++;
-	return (quotes);
+	if (count_quotes(str))
+		s = ft_remove_quotes(str);
+	else
+		s = ft_strdup(str);
+	file_fd = 0;
+	if (is_a_file(str))
+	{
+		if (access(s, W_OK) == -1)
+		{
+			print_error(3, s);
+			return (free(s), 1);
+		}
+	}
+	file_fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (file_fd == -1)
+	{
+		g_signal = 1;
+		ft_fprintf(2, "Minishell: no file specified in redirect '>'.\n");
+		return (free(s), 1);
+	}
+	close(file_fd);
+	return (free(s), 1);
 }

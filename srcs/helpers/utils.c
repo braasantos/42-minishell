@@ -5,114 +5,104 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 13:17:31 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 16:40:41 by bjorge-m         ###   ########.fr       */
+/*   Created: 2024/04/26 10:27:24 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:28:09 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	find_char(char c, char *find)
+int	check_pwd(char *s, t_mini *mini)
 {
-	int	i;
-
-	i = -1;
-	while (find[++i])
-		if (find[i] == c)
-			return (1);
-	return (0);
-}
-
-int	quotes_open(char *str, int target_index)
-{
-	int		open;
-	char	wanted_quote;
+	char	*key;
 	int		i;
 
-	open = 0;
-	i = 0;
-	wanted_quote = -1;
-	while (str[i])
+	i = -1;
+	while (mini->envp[++i])
 	{
-		if (find_char(str[i], "\"\'") && !open)
+		key = export_key(mini->envp[i]);
+		if (!ft_strcmp(s, key))
 		{
-			open = 1;
-			wanted_quote = str[i++];
+			if (ft_strchr(s, '/'))
+			{
+				ft_fprintf(2, "%s: Is a directory\n", s);
+				return (free(key), g_signal = 126, 1);
+			}
 		}
-		if (str[i] && open && str[i] == wanted_quote)
-			open = 0;
-		if (i == target_index)
-			return (open);
-		i++;
+		free(key);
 	}
 	return (0);
 }
 
-int	pipe_check(t_mini *mini, char *str)
+int	check_env(t_mini *mini)
 {
-	int	i;
-
-	i = -1;
-	while (mini->args[++i])
-	{
-		if (!ft_strcmp(mini->args[i], "|") && !quotes_open(str, i))
-		{
-			if (i == 0)
-			{
-				ft_fprintf(2, "Minishell: syntax error");
-				ft_fprintf(2, " near unexpected token `|'\n");
-				return (0);
-			}
-			if (!mini->args[i + 1])
-			{
-				ft_fprintf(2, "Minishell: syntax error");
-				ft_fprintf(2, " near unexpected token `|'\n");
-				return (0);
-			}
-		}
-	}
-	return (1);
+	if (!mini->envp)
+		return (1);
+	return (0);
 }
 
-int	redirect_basic_check(char *str)
+char	*get_env(char *var, t_mini *mini)
 {
-	int	i;
-	int	count;
+	int		i;
+	char	*tmp;
+	char	*str;
 
 	i = -1;
-	while (str[++i])
+	if (!var)
+		return (NULL);
+	str = ft_remove_quotes(var);
+	tmp = ft_strjoin(str, "=");
+	free(str);
+	if (check_env(mini))
+		return (NULL);
+	while (mini->envp[++i])
 	{
-		count = 0;
-		if (find_char(str[i], "><") && !quotes_open(str, i))
+		if (ft_strstartswith(mini->envp[i], tmp))
 		{
-			while (str[i] && find_char(str[i], "><"))
-			{
-				if (find_char(str[i + 1], "><") && str[i + 1] != str[i])
-					return (0);
-				count++;
-				i++;
-			}
+			free(tmp);
+			return (ft_strchr(mini->envp[i], '=') + 1);
 		}
-		if (count > 2)
+	}
+	free(tmp);
+	if (is_a_quote(var))
+		return (NULL);
+	return (NULL);
+}
+
+int	ft_strstartswith(char *s1, char *s2)
+{
+	int	i;
+
+	i = -1;
+	while (s2[++i])
+		if (s1[i] != s2[i])
 			return (0);
-	}
 	return (1);
 }
 
-int	remove_str(t_mini *mini, int i)
+char	**remove_var(char **newenvp, char *var_name)
 {
-	char	**newvar;
+	int		num_vars;
+	int		i;
+	int		j;
+	char	**newenvp_new;
 
-	newvar = NULL;
-	if (mini->args[i])
+	newenvp_new = NULL;
+	num_vars = arr_len(newenvp);
+	newenvp_new = ft_calloc((num_vars), sizeof(char *));
+	if (newenvp_new == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (i < num_vars)
 	{
-		if (newvar)
-			ft_free_arr(newvar);
-		newvar = remove_var(mini->args, mini->args[i]);
-		ft_free_arr(mini->args);
-		mini->args = get_newenvp(newvar);
-		ft_free_arr(newvar);
-		newvar = NULL;
+		if (ft_strncmp(newenvp[i], var_name, ft_strlen(var_name)) != 0)
+		{
+			newenvp_new[j] = ft_strdup(newenvp[i]);
+			j++;
+		}
+		i++;
 	}
-	return (1);
+	newenvp_new[j] = NULL;
+	return (newenvp_new);
 }

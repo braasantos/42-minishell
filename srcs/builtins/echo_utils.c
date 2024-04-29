@@ -3,67 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   echo_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/08 12:31:07 by gabe              #+#    #+#             */
-/*   Updated: 2024/04/16 18:48:17 by braasantos       ###   ########.fr       */
+/*   Created: 2024/04/26 10:23:14 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:23:16 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	**new_args(char **s, int k, int k1)
-{
-	char	**newenvp;
-	int		i;
-	int		j;
-	int		len;
-	int		new_index;
-
-	len = str_len(s);
-	newenvp = (char **)malloc((len + 1) * sizeof(char *));
-	i = 0;
-	new_index = 0;
-	while (i < len)
-	{
-		if (i != k && i != k1)
-		{
-			j = ft_strlen(s[i]);
-			newenvp[new_index] = (char *)malloc((j + 1) * sizeof(char));
-			if (newenvp[new_index] == NULL)
-				return (free(newenvp), NULL);
-			ft_strcpy(newenvp[new_index], s[i]);
-			new_index++;
-		}
-		i++;
-	}
-	newenvp[new_index] = NULL;
-	return (newenvp);
-}
-
 char	**echo_w_red(char **s)
 {
 	int		i;
-	int		k1;
+	int		j;
 	char	**str;
 
 	i = -1;
 	str = NULL;
 	while (s[++i])
 	{
-		if (is_a_red(s[i]))
+		if (!ft_strcmp(s[i], ">>")
+			|| !ft_strcmp(s[i], ">") || !ft_strcmp(s[i], "<"))
 		{
-			k1 = i + 1;
-			if (s[k1])
-			{
-				if (!ft_strcmp(s[i], ">") || !ft_strcmp(s[i], ">>"))
-					if (file_ok(s[k1], 1))
-						return (NULL);
-				if (!ft_strcmp(s[i], "<") || !ft_strcmp(s[i], "<<"))
-					if (file_ok(s[k1], 2))
-						return (NULL);
-			}
-			str = new_args(s, i, k1);
+			j = i + 1;
+			str = new_args(s, i, j);
 			return (str);
 		}
 	}
@@ -81,13 +44,41 @@ int	echo_len(char **s, int i)
 	return (i);
 }
 
+int	handle_split_args(t_mini *mini, int i)
+{
+	char	**s;
+
+	mini->free_flag = 0;
+	if (mini->echo_split)
+	{
+		ft_free_arr(mini->echo_split);
+		mini->echo_split = NULL;
+	}
+	mini->echo_split = forming_echo_args(mini->args, i);
+	if (have_redi(mini->echo_split))
+	{
+		if (hanlde_redirects(mini, mini->echo_split, 0))
+			return (1);
+		s = echo_w_red(mini->echo_split);
+		if (!ft_strcmp(s[0], "NULL"))
+			return (g_signal = 1, 1);
+		ft_free_arr(mini->echo_split);
+		mini->echo_split = NULL;
+		mini->echo_split = ft_arrcpy(s);
+		mini->echo_flag = 1;
+		ft_free_arr(s);
+		return (0);
+	}
+	return (0);
+}
+
 char	**forming_echo_args(char **s, int i)
 {
 	char	**new_args;
 	char	**str;
 	int		j;
 
-	str = get_newenvp(s);
+	str = ft_arrcpy(s);
 	j = 0;
 	new_args = (char **)malloc(sizeof(char *) * (echo_len(s, i) + 1));
 	while (str[i])
@@ -108,4 +99,30 @@ char	**forming_echo_args(char **s, int i)
 	new_args[j] = NULL;
 	ft_free_arr(str);
 	return (new_args);
+}
+
+void	check_echo(t_mini *mini)
+{
+	char	**s;
+	int		pos_red;
+	int		pos_file;
+
+	s = NULL;
+	while (have_redi(mini->echo_split))
+	{
+		pos_red = check_pos_str(mini->echo_split);
+		pos_file = pos_red + 1;
+		if (s)
+		{
+			ft_free_arr(s);
+			s = NULL;
+		}
+		s = new_args(mini->echo_split, pos_red, pos_file);
+		if (mini->echo_split)
+		{
+			ft_free_arr(mini->echo_split);
+		}
+		mini->echo_split = ft_arrcpy(s);
+		ft_free_arr(s);
+	}
 }

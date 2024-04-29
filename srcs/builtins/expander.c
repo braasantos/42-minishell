@@ -3,164 +3,130 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 12:59:08 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/19 12:35:21 by bjorge-m         ###   ########.fr       */
+/*   Created: 2024/04/26 10:23:27 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:25:29 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	*get_expand(char *s)
+void	free_expand2(t_mini *mini, int flag, int i, char **s)
 {
-	int		i;
-	char	*str;
-	int		len;
-	int		j;
-
-	i = 0;
-	j = 0;
-	len = ft_strlen(s) - 1;
-	str = malloc(sizeof(char) * (len + 2));
-	while (s[i] != '$')
-		i++;
-	while (s[i])
-	{
-		if (s[i] == '$')
-			i++;
-		else
-			str[j++] = s[i++];
-		if (s[i] == '\'' || s[i] == ' ')
-			break ;
-	}
-	str[j] = '\0';
-	if (is_a_quote(str))
-		return (free(str), NULL);
-	return (str);
-}
-
-void	remove_d_quotes(int i, t_mini *mini, char *s)
-{
-	int	d_quotes;
-	int	s_quotes;
-
-	d_quotes = count_dquote_pairs(mini->args[i]);
-	s_quotes = count_squote_pairs(mini->args[i]);
-	if (d_quotes > 0 && s_quotes > 0)
-	{
-		if (d_quotes % 2 == 0)
-		{
-			s = ft_remove_squotes(mini->args[i]);
-			free(mini->args[i]);
-			mini->args[i] = ft_strdup(s);
-			free(s);
-		}
-	}
-}
-
-void	remove_s_quotes(int i, t_mini *mini, char *s)
-{
-	int	d_quotes;
-	int	s_quotes;
-
-	d_quotes = count_dquote_pairs(mini->args[i]);
-	s_quotes = count_squote_pairs(mini->args[i]);
-	if (s_quotes >= 2)
-	{
-		if (s_quotes % 2 == 0)
-		{
-			s = ft_remove_squotes(mini->args[i]);
-			free(mini->args[i]);
-			mini->args[i] = ft_strdup(s);
-			free(s);
-		}
-	}
-	else if ((d_quotes > 1 && s_quotes > 0))
-	{
-		if (s_quotes % 2 == 0)
-		{
-			s = ft_remove_dquotes(mini->args[i]);
-			free(mini->args[i]);
-			mini->args[i] = ft_strdup(s);
-			free(s);
-		}
-	}
-}
-
-void	time_to_remove(t_mini *mini, int i)
-{
-	char	*s;
-
-	s = NULL;
-	if (ft_strstartswith(mini->args[i], "\""))
-		remove_d_quotes(i, mini, s);
-	if (ft_strstartswith(mini->args[i], "\'"))
-		remove_s_quotes(i, mini, s);
-}
-
-void	ohhh_boy(t_mini *mini, int i)
-{
-	char	*s;
-
-	s = ft_strdup(mini->args[i]);
-	free(mini->args[i]);
-	mini->args[i] = ft_remove_squotes(s);
-	free(s);
-}
-void	helper(t_mini *mini, int i, char *s, int flag)
-{
-	char	*antes;
-	char	*depois;
-
 	if (flag)
 	{
-		s = ft_remove_dquotes(mini->args[i]);
-		antes = ft_strjoin("\"", s);
-		depois = ft_strjoin(antes, "\"");
+		mini->before = ft_before(s[i]);
+		mini->after = ft_after(s[i]);
 	}
 	else
 	{
-		s = ft_remove_squotes(mini->args[i]);
-		antes = ft_strjoin("\'", s);
-		depois = ft_strjoin(antes, "\'");
+		free(mini->before);
+		free(mini->after);
 	}
-	free(mini->args[i]);
-	mini->args[i] = ft_strdup(depois);
-	free(antes);
-	free(depois);
-	free(s);
 }
 
-int	remove_quotes_exp(t_mini *mini, int i)
+int	get_qmark(t_mini *mini, int i, char **str)
 {
-	int		d_quotes;
-	int		s_quotes;
-	char	*s;
+	int		j;
+	char	*before;
+	char	*after;
+	char	*temp;
 
-	s = NULL;
-	d_quotes = count_dquote_pairs(mini->args[i]);
-	s_quotes = count_squote_pairs(mini->args[i]);
-	if (d_quotes > 0 && s_quotes > 0)
+	j = 0;
+	while (str[i])
 	{
-		if (ft_strstartswith(mini->args[i], "\""))
+		if (str[i][j] == '?')
 		{
-			if (d_quotes % 2 != 0)
-				helper(mini, i, s, 1);
-			else
-				return (ohhh_boy(mini, i), 1);
-		}
-		else if (ft_strstartswith(mini->args[i], "\'"))
-		{
-			if (s_quotes % 2 != 0)
-				helper(mini, i, s, 0);
-			else
-				return (ohhh_boy(mini, i), 1);
+			free(str[i]);
+			temp = ft_itoa(g_signal);
+			before = ft_strjoin(mini->before, temp);
+			after = ft_strjoin(before, mini->after);
+			str[i] = ft_strdup(after);
+			free(before);
+			free(after);
+			free(temp);
+			return (1);
 		}
 		else
-			return (ohhh_boy(mini, i), 1);
+			j++;
 	}
-	else if ( s_quotes > 0 && d_quotes == 0 )
-		return (ohhh_boy(mini, i), 1);
 	return (0);
+}
+
+void	do_all(t_mini *mini, int i, char *env, char **s)
+{
+	char	*str;
+	char	*temp;
+
+	if (mini->before)
+		str = ft_strjoin(mini->before, env);
+	else
+		str = ft_strdup(env);
+	if (mini->after)
+		temp = ft_strjoin(str, mini->after);
+	else
+		temp = ft_strdup(env);
+	s[i] = ft_strdup(temp);
+	if (str)
+		free(str);
+	if (temp)
+		free(temp);
+}
+
+int	expand_str(t_mini *mini, int i, char **str)
+{
+	char	*s;
+	char	*env;
+
+	if (ft_strstartswith(str[i], "\'"))
+		return (ohhh_boy(str, i), 1);
+	free_expand2(mini, 1, i, str);
+	if (bingo(str[i], '?') && qmark_and_dollar(str[i]))
+		get_qmark(mini, i, str);
+	free_expand2(mini, 0, i, str);
+	while (bingo(str[i], '$') && !quote_after_exp(str[i]))
+	{
+		free_expand2(mini, 1, i, str);
+		s = get_expand(str[i]);
+		if (exit_expand(s, mini))
+			return (1);
+		env = get_env(s, mini);
+		free(s);
+		free(str[i]);
+		if (env)
+			do_all(mini, i, env, str);
+		else
+			str[i] = ft_strjoin(mini->before, " ");
+		free_expand2(mini, 0, i, str);
+	}
+	return (1);
+}
+
+void	check_comand(char **s, t_mini *mini)
+{
+	int	i;
+	int	flag;
+
+	i = -1;
+	flag = 1;
+	if (!s)
+		return ;
+	if (check_env(mini))
+		return ;
+	while (s[++i])
+	{
+		if (is_a_cmd(s[i], mini) || is_a_file(s[i]) || is_a_folder(s[i]))
+		{
+			if (count_quotes(s[i]) > 0)
+				remove_quotes_helper(s, i);
+		}
+		if (condition_to_expand(i, s))
+			flag = 0;
+		if (bingo(s[i], '$') && ft_strlen(s[i]) > 1 && flag)
+		{
+			flag = 1;
+			expand_str(mini, i, s);
+		}
+	}
 }

@@ -5,122 +5,144 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bjorge-m <bjorge-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 13:24:39 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/04/17 13:50:51 by bjorge-m         ###   ########.fr       */
+/*   Created: 2024/04/26 10:30:06 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 13:01:45 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-int	file_ok(char *s, int flag)
-{
-	int	fd;
-
-	fd = 0;
-	if (flag == 1)
-	{
-		if (access(s, W_OK) == -1)
-			return (ft_fprintf(2, " Permission denied\n"), 1);
-		fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-		if (fd == -1)
-		{
-			close(fd);
-			return (ft_fprintf(2, " No such file or directory\n"), 1);
-		}
-	}
-	if (flag == 2)
-	{
-		fd = open(s, O_RDONLY);
-		if (fd == -1)
-		{
-			close(fd);
-			return (ft_fprintf(2, " No such file or directory\n"), 1);
-		}
-	}
-	close(fd);
-	return (0);
-}
-
-int	redirect_output(char *s, t_mini *mini)
+int	red_append(char **s, int i)
 {
 	int		file_fd;
 	char	*str;
 
-	(void)mini;
-	if (!s)
-		return (1);
-	if (count_quotes(s))
-		str = ft_remove_quotes(s);
+	if (count_quotes(s[i]))
+		str = ft_remove_quotes(s[i]);
 	else
-		str = ft_strdup(s);
-	file_fd = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (file_ok(str, 1))
-		return (free(str), 1);
-	if (!file_fd)
+		str = ft_strdup(s[i]);
+	file_fd = 0;
+	if (is_a_file(str))
 	{
-		ft_putstr_fd("Minishell: no file specified in redirect '>'.\n", 2);
+		if (access(str, W_OK) == -1)
+			return (free(str), 1);
+	}
+	file_fd = open(str, O_WRONLY | O_CREAT | O_APPEND, 0664);
+	if (file_fd == -1)
+	{
+		g_signal = 1;
+		ft_fprintf(2, "Minishell: no file specified in redirect '>>'.\n");
 		return (free(str), 1);
 	}
-	dup2(file_fd, STDOUT_FILENO);
 	close(file_fd);
 	return (free(str), 0);
 }
 
-int	redirect_input(char *s)
+static int	redirect_out(char **str, int i)
 {
-	int	file_fd;
+	int		file_fd;
+	char	*s;
 
-	file_fd = open(s, O_RDONLY);
-	if (file_ok(s, 2))
-		return (1);
-	if (!file_fd)
+	if (count_quotes(str[i]))
+		s = ft_remove_quotes(str[i]);
+	else
+		s = ft_strdup(str[i]);
+	file_fd = 0;
+	if (is_a_file(str[i]))
 	{
-		ft_putstr_fd("Minishell: no file specified in redirect '<'.\n", 2);
-		return (1);
+		if (access(s, W_OK) == -1)
+			return (free(s), 1);
 	}
-	dup2(file_fd, STDIN_FILENO);
+	file_fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (file_fd == -1)
+	{
+		g_signal = 1;
+		ft_fprintf(2, "Minishell: no file specified in redirect '>'.\n");
+		return (free(s), 1);
+	}
 	close(file_fd);
+	return (free(s), 0);
+}
+
+static int	redirect_in(char **str, int i)
+{
+	int		file_fd;
+	char	*s;
+
+	if (count_quotes(str[i]))
+		s = ft_remove_quotes(str[i]);
+	else
+		s = ft_strdup(str[i]);
+	file_fd = open(s, O_RDONLY);
+	if (is_a_file(str[i]))
+	{
+		if (access(s, W_OK) == -1)
+			return (free(s), print_error(3, str[i + 1]), 1);
+	}
+	if (file_fd == -1)
+	{
+		g_signal = 1;
+		free(s);
+		return (ft_fprintf(2, "Minishell: No such file or directory\n"), 1);
+	}
+	close(file_fd);
+	return (free(s), 0);
+}
+
+static int	check_all_red_utils(char **str, int i, int flag)
+{
+	if (flag == 1)
+	{
+		if (str[i])
+		{
+			if (check_options(str[i]))
+				return (print_error(1, str[i]), 1);
+			if (redirect_out(str, i))
+				return (print_error(3, str[i]), 1);
+		}
+		else
+			return (print_error(2, str[i]), 1);
+	}
+	else
+	{
+		if (str[i])
+		{
+			if (check_options(str[i]))
+				return (print_error(1, str[i]), 1);
+			if (redirect_in(str, i))
+				return (1);
+		}
+		else
+			return (print_error(2, str[i]), 2);
+	}
 	return (0);
 }
 
-int	more_red(t_mini *mini, int i)
+int	check_all_redirects(char **str)
 {
-	int	count;
+	int	i;
 
-	count = 0;
-	while (mini->args[++i])
+	i = -1;
+	while (str[++i])
 	{
-		if (!ft_strcmp(mini->args[i], ">"))
+		if (check_done(str, i) == 2)
+			return (2);
+		if (!ft_strcmp(str[i], ">"))
+			if (check_all_red_utils(str, (i + 1), 1))
+				return (1);
+		if (!ft_strcmp(str[i], "<"))
 		{
-			redirect_output(mini->args[i + 1], mini);
-			count++;
+			if (check_all_red_utils(str, (i + 1), 0))
+				return (1);
 		}
-		if (!ft_strcmp(mini->args[i], "<"))
+		if (!ft_strcmp(str[i], "|"))
+			if (check_pipe(str, i))
+				return (2);
+		if (!ft_strcmp(str[i], "<<") || !ft_strcmp(str[i], ">>"))
 		{
-			redirect_output(mini->args[i + 1], mini);
-			count++;
+			if (check_heredoc(str, i))
+				return (1);
 		}
-	}
-	return (count);
-}
-
-int	hanlde_redirects(t_mini *mini, char **s, int i, int flag)
-{
-	while (s[i])
-	{
-		if (!ft_strcmp(s[i], ">"))
-		{
-			if (redirect_output(s[i + 1], mini))
-				return (g_signal = 1);
-		}
-		if (!ft_strcmp(mini->args[i], "<"))
-		{
-			if (redirect_input(s[i + 1]))
-				return (g_signal = 1);
-		}
-		if (handle_red(mini, s[i], s[i + 1], flag))
-			return (g_signal = 1);
-		i++;
 	}
 	return (0);
 }

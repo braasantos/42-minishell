@@ -1,62 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bool_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/26 10:26:38 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:26:40 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
-
-bool	is_a_pipe(char *s, int flag)
-{
-	int	i;
-
-	i = 0;
-	if (flag)
-	{
-		if (!ft_strcmp(s, "|"))
-			return (true);
-		else
-			return (false);
-	}
-	else
-	{
-		while (s[i])
-		{
-			if (s[i] == '|')
-				return (true);
-			i++;
-		}
-	}
-	return (false);
-}
-
-bool	is_a_red(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
-		return (true);
-	while (s[i])
-	{
-		if (s[i] == '>' || s[i] == '<')
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
-bool	is_a_quote(char *s)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (s[i] == '\'' || s[i] == '\"')
-			count++;
-		i++;
-	}
-	if (count == i)
-		return (true);
-	return (false);
-}
 
 bool	is_a_cmd(char *s, t_mini *mini)
 {
@@ -98,4 +52,42 @@ bool	is_a_file(char *s)
 	if (access(str, F_OK) == -1)
 		return (free(str), false);
 	return (free(str), true);
+}
+
+bool	is_a_folder(char *s)
+{
+	char	*str;
+
+	if (count_quotes(s))
+		str = ft_remove_quotes(s);
+	else
+		str = ft_strdup(s);
+	if (access(str, F_OK) == -1)
+		return (free(str), false);
+	return (free(str), true);
+}
+
+bool	is_a_quote(char *s)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (s[i])
+	{
+		if (s[i] == '\'' || s[i] == '\"')
+			count++;
+		i++;
+	}
+	if (count == i)
+		return (true);
+	return (false);
+}
+
+bool	check_options(char *s)
+{
+	if (is_a_pipe(s) || is_a_red(s) || is_a_append_here(s))
+		return (true);
+	return (false);
 }

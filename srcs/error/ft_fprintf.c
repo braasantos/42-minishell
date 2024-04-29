@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_fprintf.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/26 10:25:54 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:25:55 by bjorge-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/minishell.h"
 
 static void	fputstr(char *str, int *count, int fd)
@@ -14,6 +26,7 @@ static void	fputstr(char *str, int *count, int fd)
 		str++;
 	}
 }
+
 static void	fcheckformat(va_list args, const char *format, int *count, int fd)
 {
 	if (*format == 's')

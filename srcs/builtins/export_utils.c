@@ -3,82 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: braasantos <braasantos@student.42.fr>      +#+  +:+       +#+        */
+/*   By: bjorge-m <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/21 13:03:18 by bjorge-m          #+#    #+#             */
-/*   Updated: 2024/03/29 15:18:43 by braasantos       ###   ########.fr       */
+/*   Created: 2024/04/26 10:24:00 by bjorge-m          #+#    #+#             */
+/*   Updated: 2024/04/26 10:24:01 by bjorge-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/minishell.h"
 
-char	*ft_strcpy(char *dest, const char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-int	fore(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] && s[i] != ' ')
-		i++;
-	if (s[i] == ' ')
-		i++;
-	return (i);
-}
-
-int	afta(char *s)
-{
-	int	j;
-	int	i;
-
-	j = 0;
-	i = fore(s);
-	while (s[i++] && s[i] != '=')
-		j++;
-	if (s[i++] == '=')
-		j++;
-	return (j);
-}
-
-char	*help(char *str)
+char	*get_var(char *s)
 {
 	int		i;
-	int		j;
-	int		k;
-	char	*s;
+	char	*str;
 
-	j = afta(str);
-	s = malloc(sizeof(char) * (j + 2));
-	k = fore(str);
 	i = 0;
-	while (str[k])
+	while (s[i] && s[i] != '=')
+		i++;
+	str = malloc(sizeof(char) * (i + 1));
+	i = 0;
+	while (s[i] && s[i] != '=')
 	{
-		s[i++] = str[k];
-		k++;
+		str[i] = s[i];
+		i++;
 	}
-	s[j] = '=';
-	s[j + 1] = '\0';
-	return (s);
+	str[i] = '\0';
+	return (str);
 }
 
-int	ft_before_exp(char *str)
+void	delete_replace(t_mini *mini, char **str, int i, int *flag)
 {
-	int	i;
+	*flag = 1;
+	export_unset(mini, i);
+	if (count_quotes(mini->new_str) == 0)
+		export_quotes(str, mini, i);
+	else if (count_quotes(mini->new_str) > 0)
+		export_woquotes(str, mini, i);
+}
 
-	i = 0;
-	while (str[i] && str[i] != '$')
-		i++;
-	return (i);
+void	export_quotes(char **newvar, t_mini *mini, int i)
+{
+	char	*var;
+
+	var = ft_strdup(mini->args[i]);
+	newvar = add_var(mini->envp, var);
+	ft_free_arr(mini->envp);
+	mini->envp = ft_arrcpy(newvar);
+	ft_free_arr(newvar);
+	free(var);
+}
+
+void	export_woquotes(char **newvar, t_mini *mini, int i)
+{
+	char	*tmp;
+
+	tmp = ft_remove_quotes(mini->args[i]);
+	newvar = add_var(mini->envp, tmp);
+	free(tmp);
+	ft_free_arr(mini->envp);
+	mini->envp = ft_arrcpy(newvar);
+	ft_free_arr(newvar);
+}
+
+char	*export_no_option_util(char *s)
+{
+	char	*value;
+	char	*tempv;
+
+	value = export_var(s);
+	tempv = ft_strjoin("declare -x ", value);
+	free(value);
+	return (tempv);
 }
